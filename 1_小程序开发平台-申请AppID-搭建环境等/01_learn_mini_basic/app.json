@@ -1,7 +1,7 @@
 {
     "pages": [
-        "pages/index/index",
         "pages/favor/favor",
+        "pages/index/index",
         "pages/order/order"
     ],
     "window": {

@@ -1,2 +1,3 @@
 <!--pages/favor/favor.wxml-->
-<text>pages/favor/favor.wxml</text>
+<!-- 1.显示普通文本 -->
+<text class="title">我是普通的文本</text>

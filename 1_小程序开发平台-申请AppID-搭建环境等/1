@@ -99,6 +99,7 @@
   app.json 
     {
       //所有页面都要在pages这里注册
+      //优先加载第一个页面
       "pages":[
         "pages/index/index"
         "pages/logs/logs"
@@ -113,5 +114,10 @@
     }
 
 五.小程序的开发体验
+  1.数据绑定
+  2.列表渲染
+  3.事件监听
+
+  小程序优先加载第一个app.json中pages第一个页面，然后加载这个页面的html css ， js 通过双线程加载，html和css通过一个线程，js通过一个线程
 
 六.小程序MVVM架构
