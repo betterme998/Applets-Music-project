@@ -79,7 +79,38 @@
     4.注册账号-申请AppId
       .接入流程：https://mp.weixin.qq.com/cgi-bin/wx
 
+    5.下载小程序开发工具
+      .微信开发者工具：官方提供的开发工具，必须下载安装
+        .下载地址：https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html
+      .VSCode:很多人比较习惯使用VSCode来编写代码
+        .安装插件，wechat-snippet，小程序开发助手，WXML-Language Service
+
 四.小程序目录的结构
+  pages                             页面 
+  utils                             工具
+  .eslintrc.js                      规范
+  app.js                            项目逻辑      
+  app.json                          配置项
+  app.wxss                          整个项目的css
+  project.config.json               项目配置
+  project.private.cofig.json 
+  sitemap.json                      搜索的时候的配置文件
+------------------------------------
+  app.json 
+    {
+      //所有页面都要在pages这里注册
+      "pages":[
+        "pages/index/index"
+        "pages/logs/logs"
+      ]
+      //窗口,小程序的一些配置如导航栏颜色等
+      "window":{
+        "backgroundTextStyle":"light",
+        "navigationBackgroundColor":"#f00",
+        "navigationBarTitleText":"betterme998"
+        "navigationBarTextStyle":"white"
+      }
+    }
 
 五.小程序的开发体验
 
