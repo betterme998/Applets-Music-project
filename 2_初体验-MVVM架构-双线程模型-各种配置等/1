@@ -1,1 +1,65 @@
-1
+1.小程序MVVM框架
+  .Vue的MVVM和小程序MVVM对比
+  vue:
+    view  viewModel  model 
+    dom     vue        javascript objects
+  小程序：
+    view  ViewModel Model 
+    视图层 MINA框架 逻辑层AppService
+    和vue逻辑一样
+
+  .mvvm为什么好用？
+    dom listeners：ViewModel层可以将DOM的监听绑定到Model层
+    Data Bindings: ViewModel层可以将数据变量，响应式的反应到view层
+  .mvvm架构将我们从命令式编程转移到声明式编程
+
+一.小程序的双线程模型
+  1.小程序的架构模型
+    .谁是小程序的宿主环境呢？（小程序到底运行在什么环境上的） 微信客户端
+      就是要下载微信，然后在微信上下载小程序，最终一个一个小程序都是运行在微信上面的
+      .宿主环境为了执行小程序的各种文件：wxml文件，wxss文件，js文件
+
+      那么微信怎么帮我们执行这些东西呢？
+      .当小程序基于WebView环境下时，WebView的js逻辑，DOM树创建，CSS解析，样式计算，Layout,Paint(Composite)都发送在同一线程，在WebView上执行过多的js
+      逻辑可能堵塞渲染，导致界面卡顿.
+      
+      web：div/p/h2 -> 元素            //在web端 这些标签被称为元素
+      mini：view/text/button -> 组件   //在小程序中被称为组件
+      原生：button/imageView/view/webview //在原生中被称为控件
+
+      微信是原生app，可以通过webview来编译wxml，wxss，js文件
+      webview可以理解为手机端的浏览器，引擎为JSCore
+
+    .执行过多的js逻辑肯能会卡顿所以小程序为了考虑性能与安全，采用了目前称为[双线程模型]的架构
+
+    .双线程模型：
+      .WXML模块和WXSS样式运行于渲染层，渲染层使用WebView线程渲染（一个程序有多个页面，会使用多个WebView的线程）
+      .JS脚本（app.js/home.js等）运行于逻辑层，逻辑层使用JsCore运行JS脚本
+      .这两个线程都会经由微信客户端（Native）进行中转交互
+    .渲染提出了新的概念，看微信官方文档
+
+二.不同配置文件的区分
+  1.小程序的配置文件
+    .小程序的很多开发需求被规定在了配置文件中.
+    .为什么这样做？
+      .这样做可以更有利于我们的开发效率；
+      .并且可以保证开发出来的小程序的某些风格是比较一致的
+      .比如导航栏-顶部tabbar，以及页面路由等等
+    
+    .常见的配置文件有哪些呢？
+      .project.config.json :项目配置文件，比如项目名称，appid等；
+        https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html
+      
+      .sitemap.json :小程序搜索相关的；
+        https://developers.weixin.qq.com/miniprogram/dev/framework/sitemap.html
+      
+      .app.json :全局配置 
+      .page.json :页面配置
+
+三.全局配置文件app.json
+
+四.页面配置文件page.json
+
+五.注册App实例的操作
+
+六.注册Page实例操作
