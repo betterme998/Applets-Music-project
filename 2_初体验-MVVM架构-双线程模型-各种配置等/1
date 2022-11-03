@@ -57,8 +57,23 @@
       .page.json :页面配置
 
 三.全局配置文件app.json
+  https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html
+  重要的：
+    属性    类型      必填  描述
+    pages  String[]  是     页面路径列表
+    window Object    否     全局的默认窗口表现
+    tabBar Object    否     底部tab栏的表现
 
+    pages页面路径列表
+      .用于指定小程序由哪些页面组成，每一项都对应一个页面的 路径（含文件名）信息。
+      。小程序中所有的页面都是必须在pages中进行注册的
+    window：全局的默认窗口展示
+      。用户指定窗口如何展示，其中还包含了很多其他的属性
+    tabBar：底层tab栏的展示
+      。
 四.页面配置文件page.json
+  .每个小程序页面可以使用.json文件来对页面的窗口表现进行配置。
+    。页面中配置项在当前页面会覆盖app.json的window中相同的配置项。
 
 五.注册App实例的操作
 
