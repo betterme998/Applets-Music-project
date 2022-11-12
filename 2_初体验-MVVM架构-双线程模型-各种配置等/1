@@ -78,3 +78,74 @@
 五.注册App实例的操作
 
 六.注册Page实例操作
+
+内容回顾
+一.邂逅小程序开发
+1.1.认识小程序开发
+.小程序的介绍
+.各个平台小程序介绍
+.为什么各个平台都有推出自己的小程序？
+
+1.2.小程序开发技术选择
+.原生小程序开发
+.小程序开发框架
+  .mpvue
+  .wepv
+.跨平台框架
+  .uniapp
+  .taro
+
+1.3.小程序学习的前提
+.WXML:html
+.WXSS:CSS 
+.javascript+wxs:javascript 
+
+1.4.小程序的准备工作
+.AppID
+.小程序开发工具
+
+1.5.创建项目-界面-目录结构
+
+1.6.VSCode开发小程序
+
+1.7.小程序开发体验
+  .数据绑定
+  .列表展示
+  .计数器案例
+
+1.8.小程序的MVVM框架思想
+
+二.小程序的架构和配置
+2.1.小程序的双线程模型
+  .webview 
+  .jscore 
+skyline
+  .coderwhy
+
+2.2.常见的配置文件
+.project.config.json
+  .project.private.config.json -> gitignore
+
+.sitemap 
+
+2.3.app.json配置文件
+  .应用程序配置
+    .pages 
+    .window 
+    .tabBar 
+
+2.4.page.json配置文件
+  ..覆盖全局的配置
+  .下来刷新/上拉加载更多
+    .page({onReachBottom,onPullDownRefresh})
+
+  .功能展示
+
+作业
+一1.小程序包括那些？以及都有哪些开发模式
+
+二.学习阅读小程序官方文档，学习通过官方文档查找API
+
+三.说说你对小程序双线程框架的理解
+
+四.小程序有哪些配置文件，分别用来进行什么配置
