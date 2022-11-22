@@ -1,1 +1,19 @@
-1
+1注册小程序-App函数
+  .每个小程序都需要在app.js中调用App函数注册小程序实例
+    .在注册时，可以绑定对应的生命周期函数
+    .在生命周期函数中，执行对应的代码
+    .https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html
+  
+  .我们来思考：注册App时，我们一般会做什么呢？
+    .1 判断小程序的进入场景
+    .2 监听生命周期函数：在生命周期中执行对应的业务逻辑，比如在某个生命周期函数中进行登录操作或者请求网络数据；
+    .3 因为App()实例只有一个，并且是全局共享的（单例对象），所以我们可以将一些共享数据放在这里
+
+  作用一：判断打开场景
+    .小程序的打开场景较多：
+      .常见的打开场景：群聊会话中打开，小程序列表中打开，微信扫一扫打开，另一个小程序打开
+      .https://developers.weixin.qq.com/miniprogram/dev/reference/scene-list.html
+    .如何确定场景？
+      在onLaunch和Show生命周期回调函数中，会有options参数，其中有scene值来判断
+  
+  作用二：定义全局App的数据
