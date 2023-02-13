@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    listCount:30
   },
 
   /**
@@ -47,14 +47,30 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh() {
-
+    console.log('下拉刷新');
+    this.setData({listCount:30})
+    // 模拟网络请求：定时器
+    setTimeout(()=>{
+      // API：停止下拉刷新
+      wx.stopPullDownRefresh({
+        success: (res) => {
+          console.log('成功停止',res);
+        },
+        fail:(err) => {
+          console.log('失败',err);
+        }
+      })
+    },1000)
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom() {
-
+    console.log("底部加载");
+    this.setData({
+      listCount:this.data.listCount + 30
+    })
   },
 
   /**

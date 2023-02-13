@@ -6,7 +6,7 @@
         "pages/profile/profile"
     ],
     "window": {
-        "backgroundTextStyle": "light",
+        "backgroundTextStyle": "dark",
         "navigationBarBackgroundColor": "#ff5457",
         "navigationBarTitleText": "betterme998",
         "navigationBarTextStyle": "white"
