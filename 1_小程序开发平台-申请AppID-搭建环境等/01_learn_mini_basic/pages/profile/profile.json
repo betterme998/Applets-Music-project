@@ -2,6 +2,6 @@
   "usingComponents": {},
   "navigationBarTitleText": "个人信息",
   "navigationBackgroundColor":"#f00",
-  "enablePullDownRefresh":true,
-  "onReachBottomDistance": 200
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 100
 }

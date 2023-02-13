@@ -1,9 +1,11 @@
 {
     "pages": [
-        "pages/favor/favor",
-        "pages/index/index",
-        "pages/order/order",
-        "pages/profile/profile"
+      "pages/index/index",
+      "pages/favor/favor",
+      "pages/order/order",
+      "pages/profile/profile",
+      "pages/01_register_page/index",
+      "pages/02_common_cpns/index"
     ],
     "window": {
         "backgroundTextStyle": "dark",

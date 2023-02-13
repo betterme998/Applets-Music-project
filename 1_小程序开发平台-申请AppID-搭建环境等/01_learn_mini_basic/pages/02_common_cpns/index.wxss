@@ -1,0 +1,8 @@
+/* pages/02_common_cpns/index.wxss */
+.btn{
+  background-color: orange;
+  color: #ffffff;
+}
+.active{
+  background-color: skyblue;
+}

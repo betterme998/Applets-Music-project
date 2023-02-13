@@ -1,0 +1,60 @@
+<!--pages/02_common_cpns/index.wxml-->
+<view>----------------Image组件-----------------</view>
+<!-- 根目录: / 表示根目录 -->
+<!-- image元素有固定宽度和高度：320x240 -->
+<!-- 1.图片的基本使用 -->
+<!-- <image src="/assets/zznh.png"/>
+<image src="https://t7.baidu.com/it/u=2168645659,3174029352&fm=193&f=GIF"/> -->
+
+<!-- 2.图片重要的属性:mode -->
+<image src="/assets/zznh.png" mode="widthFix"/>
+
+<!-- 3.选择本地图片：将本地图片使用image展示出来 -->
+<button bindtap="choose">选择图片</button>
+<image/>
+
+<view>----------------View组件-----------------</view>
+<view bindtap="onViewClick" hover-class="active">我是View组件</view>
+<view>哈哈哈哈</view>
+
+<view>----------------button组件-----------------</view>
+<!-- 1.基本使用 -->
+<button>按钮</button>
+<button size="mini">按钮size</button>
+
+<button size="mini" type="primary">type属性primary</button>
+<button size="mini" type="warn">type属性warn</button>
+<button size="mini" class="btn">自定义属性</button>
+
+<button size="mini" plain>plain属性</button>
+<button size="mini" disabled>disabled属性</button>
+<button size="mini" loading class="btn">loading属性</button>
+<button size="mini" hover-class="active">hover效果</button>
+<view></view>
+
+<!-- 2.open-type属性 -->
+<button open-type="contact" size="mini" type="primary">打开会话</button>
+<button 
+  open-type="getUserInfo" 
+  bindgetuserinfo="getUserInfo"
+  size="mini" 
+  type="primary"
+>
+  用户信息
+</button>
+<button size="mini" type="primary" bindtap="getUserInfo">用户信息2</button>
+<button 
+  size="mini" 
+  type="primary"
+  open-type="getPhoneNumber"  
+  bindgetphonenumber="getPhoneNumber"
+>
+  手机号码
+</button>
+
+
+
+<!-- text组件 -->
+<view>----------------text组件-----------------</view>
+<text user-select>Hello World - {{message}}</text>
+
