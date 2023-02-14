@@ -7,7 +7,8 @@
       "pages/01_register_page/index",
       "pages/02_common_cpns/index",
       "pages/03_learn_wxss/index",
-      "pages/04_learn_wxml/index"
+      "pages/04_learn_wxml/index",
+      "pages/05_learn_wxs/index"
     ],
     "window": {
         "backgroundTextStyle": "dark",

@@ -1,0 +1,11 @@
+/* pages/05_learn_wxs/index.wxss */
+.count{
+  font-size: 40rpx;
+  color: red;
+  font-weight: 700;
+}
+.time{
+  font-size: 40rpx;
+  font-weight: 700;
+  color: blue;
+}
