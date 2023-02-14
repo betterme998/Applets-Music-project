@@ -8,3 +8,9 @@
 4.Image图片组件
 5.ScrollView滚动组件
 6.组件的共同属性
+id
+class
+style
+hidden
+data-*  自定义属性   组件上触发的事件时，会发送给事件处理函数
+bind*/catch*  组件的事件    绑定事件/捕获事件

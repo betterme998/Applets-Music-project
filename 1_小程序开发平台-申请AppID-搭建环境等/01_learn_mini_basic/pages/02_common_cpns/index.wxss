@@ -6,3 +6,29 @@
 .active{
   background-color: skyblue;
 }
+/* scroll-view  */
+.container {
+  background-color: orange;
+  height: 150px;
+}
+
+
+
+.scroll-x{
+  display: flex;
+  overflow: hidden;
+}
+
+.item {
+  width: 100px;
+  height: 100px;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+/* input组件 */
+input {
+  width: 200px;
+  height: 30px;
+  border: 1px solid orange;
+}

@@ -1,4 +1,40 @@
 <!--pages/02_common_cpns/index.wxml-->
+<view>-------------input组件--------------</view>
+<input type="text" model:value="{{message}}"/>
+
+<view>-------------scroll-view组件--------------</view>
+<!-- 上下滚动 -->
+<!-- <scroll-view class="container scroll-y" scroll-y>
+  <block wx:for="{{viewColors}}" wx:key="*this">
+    <view class="item" style="background: {{item}};">{{item}}</view>
+  </block>
+</scroll-view> -->
+
+<!-- 左右滚动 -->
+<!-- <scroll-view 
+  class="container scroll-x" 
+  scroll-x
+  enable-flex
+>
+  <block wx:for="{{viewColors}}" wx:key="*this">
+    <view class="item" style="background: {{item}};">{{item}}</view>
+  </block>
+</scroll-view> -->
+
+<!-- 监听事件 -->
+<scroll-view 
+  class="container scroll-x" 
+  scroll-x
+  enable-flex
+  bindscrolltoupper="onScrollToUpper"
+  bindscrolltolower="onScrollToLower"
+  bindscroll="onScroll"
+>
+  <block wx:for="{{viewColors}}" wx:key="*this">
+    <view class="item" style="background: {{item}};">{{item}}</view>
+  </block>
+</scroll-view>
+
 <view>----------------Image组件-----------------</view>
 <!-- 根目录: / 表示根目录 -->
 <!-- image元素有固定宽度和高度：320x240 -->
@@ -10,8 +46,8 @@
 <image src="/assets/zznh.png" mode="widthFix"/>
 
 <!-- 3.选择本地图片：将本地图片使用image展示出来 -->
-<button bindtap="choose">选择图片</button>
-<image/>
+<button bindtap="onChooseImage">选择图片</button>
+<image src="{{chooseImageUrl}}" mode="widthFix"/>
 
 <view>----------------View组件-----------------</view>
 <view bindtap="onViewClick" hover-class="active">我是View组件</view>
