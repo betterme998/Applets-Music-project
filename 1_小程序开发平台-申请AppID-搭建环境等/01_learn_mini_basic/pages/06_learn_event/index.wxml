@@ -1,0 +1,24 @@
+<!--pages/06_learn_event/index.wxml-->
+<!-- 1.事件的基本使用 -->
+<button bindtap="onBtnClick">按钮</button>
+
+<!-- 2.event中target和currentTarget区别
+    // 1.target触发事件元素
+    // 2.currentTarget处理事件的元素
+    拿自定义数据时尽量通过currentTarget拿
+ -->
+<view id="outer" class="outer" data-name="better" bindtap="onOuterViewTap">
+  <view id="inner" class="inner"></view>
+</view>
+
+<!-- 3.event中touches和changedTouches区别
+touches:当前屏幕手指集合
+changedTouches:当前屏幕状态改变集合
+ -->
+<view 
+  bindtap="onTouchTap" 
+  bindlongpress="onLongPress"
+  bindtouchend="onTouchEnd"
+>
+  多指触摸
+</view>
