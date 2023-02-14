@@ -1,1 +1,21 @@
-1
+小程序的样式写法
+  .页面样式的三种写法
+    .行内样式，页面样式，全局样式
+    .三种样式都可以用作页面的组件
+  .如果有相同的样式：
+    .优先级依次是：行内样式》页面样式》全局样式
+
+WXSS支持的选择器
+  .class
+  #id
+  element,element
+  ::after
+  ::before
+
+WXSS优先级与CSS类似，权重如图
+  ！important  》  style=""  >  #id  >   .class  >  element
+
+wxss的扩展-尺寸单位
+  .尺寸单位
+    .rpx (responsive pixel):可以根据屏幕宽度进行自适应，规定屏幕宽度为750rpx。
+    .如果在iPhon6上，屏幕宽度为375px，共有750个物理像素，1rpx = 0.5px = 1物理像素.
