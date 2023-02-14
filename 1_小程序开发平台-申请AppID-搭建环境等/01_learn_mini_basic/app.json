@@ -6,7 +6,8 @@
       "pages/profile/profile",
       "pages/01_register_page/index",
       "pages/02_common_cpns/index",
-      "pages/03_learn_wxss/index"
+      "pages/03_learn_wxss/index",
+      "pages/04_learn_wxml/index"
     ],
     "window": {
         "backgroundTextStyle": "dark",

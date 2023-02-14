@@ -19,3 +19,26 @@ wxss的扩展-尺寸单位
   .尺寸单位
     .rpx (responsive pixel):可以根据屏幕宽度进行自适应，规定屏幕宽度为750rpx。
     .如果在iPhon6上，屏幕宽度为375px，共有750个物理像素，1rpx = 0.5px = 1物理像素.
+
+WXML语法
+  Mustache语法
+    .WXML基本格式：
+      .类似于HTML代码：比如可以写成单标签，也可以写成双标签
+      .必须有严格的闭合：没有闭合会导致编译错误
+      .大小写敏感：class和Class是不同的属性
+
+  逻辑判断wx:if-wx:elif-wx:else
+
+  hidden属性
+    .hidden是所有组件都默认拥有的属性
+    .当hidden属性为true时，组件会隐藏
+    .当hidden属性为false时，组件会显示出来
+
+  列表渲染-wx:for基础
+    
+  block标签
+    .什么是block标签
+      .某些情况下，我们需要使用wx:if或wx:for时，可能需要包裹一组组件标签
+      .我们希望对这一组组件标签进行整体的操作，这个时候怎么办？
+    
+  列表渲染 -item/index名称 
