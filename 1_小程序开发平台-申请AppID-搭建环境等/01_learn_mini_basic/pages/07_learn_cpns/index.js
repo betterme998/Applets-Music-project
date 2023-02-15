@@ -14,5 +14,12 @@ Page({
   onTabIndexChange2(event) {
     const index = event.detail
     console.log("点击了",this.data.styleTitles[index]);
+  },
+  onEcecTCMthod(){
+    // 1.获取对应的组件实例对象
+    const tabControl = this.selectComponent(".tab-control")
+
+    // 2.调用组件实例的方法
+    tabControl.test(1)
   }
 })

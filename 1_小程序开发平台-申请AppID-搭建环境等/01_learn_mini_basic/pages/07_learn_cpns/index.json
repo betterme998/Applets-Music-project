@@ -2,6 +2,7 @@
   "usingComponents": {
     "section-info":"/components/section-info/section-info.wxml",
     "test-style":"/components/test-style/test-style",
-    "tab-control":"/components/tab-control/tab-control"
+    "tab-control":"/components/tab-control/tab-control",
+    "tab-control2":"/components/my-slot/my-slot"
   }
 }

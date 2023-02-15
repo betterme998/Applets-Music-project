@@ -16,5 +16,11 @@
 <view class="title">页面的title</view>
 
 <!-- 4.tab-control -->
-<tab-control bind:indexchange="onTabIndexChange" titles="{{digitalTitles}}"/>
+<tab-control 
+class="tab-control"
+  bind:indexchange="onTabIndexChange" 
+  titles="{{digitalTitles}}"
+/>
+<button bindtap="onEcecTCMthod">调用tab-control的Test方法</button>
+
 <tab-control bind:indexchange="onTabIndexChange2" titles="{{styleTitles}}"/>

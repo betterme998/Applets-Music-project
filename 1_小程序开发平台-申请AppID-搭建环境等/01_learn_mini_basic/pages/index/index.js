@@ -11,7 +11,8 @@ Page({
       {name:"04_学习WXML",path:"/pages/04_learn_wxml/index"},
       {name:"05_学习WXS",path:"/pages/05_learn_wxs/index"},
       {name:"06_学习event",path:"/pages/06_learn_event/index"},
-      {name:"07_学习组件化",path:"/pages/07_learn_cpns/index"}
+      {name:"07_学习组件化",path:"/pages/07_learn_cpns/index"},
+      {name:"08_学习插槽",path:"/pages/08_learn_slot/index"}
 
     ]
   },

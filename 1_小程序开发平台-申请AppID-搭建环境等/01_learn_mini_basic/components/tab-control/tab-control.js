@@ -14,6 +14,12 @@ Component({
 
       // 自定义事件
       this.triggerEvent("indexchange",currentIndex)
+    },
+    test(index){
+      console.log("tab control test function exec");
+      this.setData({
+        currentIndex:index
+      })
     }
   }
 })
