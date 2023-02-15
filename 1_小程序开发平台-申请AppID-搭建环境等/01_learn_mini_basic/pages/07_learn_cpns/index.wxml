@@ -1,0 +1,20 @@
+<!--pages/07_learn_cpns/index.wxml-->
+<!-- 1.内置组件 -->
+<text>pages/07_learn_cpns/index.wxml</text>
+
+<!-- 2.自定义组件 -->
+<section-info
+ info="abc" 
+ title="哈哈哈1" 
+ content="要是有些事我没有说，别以为是我忘记了"
+ bind:titleclick="onSectionInfoTitleClick"
+ />
+<section-info title="黄金时代" content="黄金时代无敌"/>
+
+<!-- 3.测试组件样式 -->
+<test-style/>
+<view class="title">页面的title</view>
+
+<!-- 4.tab-control -->
+<tab-control bind:indexchange="onTabIndexChange" titles="{{digitalTitles}}"/>
+<tab-control bind:indexchange="onTabIndexChange2" titles="{{styleTitles}}"/>

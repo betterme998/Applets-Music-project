@@ -19,4 +19,36 @@
       .获取：e.currentTarget.dataset
   5.事件传递案例练习
   6.冒泡和捕获的区别
-    
+
+小程序组件化开发
+  1.小程序组件化思想
+  2.自定义组件的过程
+    .细节
+      .自定义组件可以引入自定义组件
+      .不能以前缀为wx-开头
+      .如果在app.json 的usingComponents声明某个组件，那么所有页面和组件可以直接使用组件
+  3.组件样式实现细节
+    1.组件内的样式对外部样式的影响
+      结论一：组件内的class，只对组件wxml内的节点生效，对于引用组件的Page页面不生效。
+      结论二：组件内不能使用id选择器，属性选择器，标签选择器
+    2.外部样式对组件内样式的影响
+      结论一：外部使用class的样式，只对外部wxml的class生效，对组件不生效
+      结论二：外部使用了id选择器，属性选择器不会对组件内产生影响
+      结论三：外部使用了标签选择器，会对组件内产生影响
+    3.如何让class相互影响
+      .在Component对象中，可以传入一个options属性，其中options属性中有一个stylesolation（隔离）属性
+      .stylelsolation有三个取值
+        .isolated：表示启动样式隔离，class指定样式互不影响
+        .apply-shared表示页面wxss样式将影响到自定义组件，表示页面影响组件，组件不影响页面
+        .shared表示组件和页面相互影响
+  4.组件使用过程通信
+    .向组件传递数据-properties
+    .支持类型
+      String,Number,Boolean,Object,Array,null(不限制类型)
+
+    .向组件传递样式-externalClasses
+      1.在Component对象中，定义externalClasses
+      2.在组件内的wxml中使用externalClasses属性中的class
+      3.在页面中传入对应的class
+  5.组件插槽定义使用
+  6.Component构造函数

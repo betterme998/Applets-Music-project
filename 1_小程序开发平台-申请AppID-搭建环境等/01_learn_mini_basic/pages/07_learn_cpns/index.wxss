@@ -1,0 +1,8 @@
+/* pages/07_learn_cpns/index.wxss */
+.title{
+  background-color: orange;
+}
+
+.abc{
+  background-color: #0f0;
+}
