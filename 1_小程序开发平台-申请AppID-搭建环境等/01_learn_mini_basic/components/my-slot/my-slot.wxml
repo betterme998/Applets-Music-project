@@ -1,2 +1,9 @@
 <!--components/my-slot/my-slot.wxml-->
-<text>components/my-slot/my-slot.wxml</text>
+<view class="my-slot">
+  <view class="header">header</view>
+  <view class="content">
+    <slot></slot>
+  </view>
+  <view class="default">哈哈哈</view>
+  <view class="footer">footer</view>
+</view>
