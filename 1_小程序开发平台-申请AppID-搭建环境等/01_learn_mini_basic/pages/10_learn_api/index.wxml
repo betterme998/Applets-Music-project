@@ -1,0 +1,11 @@
+<!--pages/10_learn_api/index.wxml-->
+<text>pages/10_learn_api/index.wxml</text>
+
+<!-- 1.展示弹窗 -->
+<view>
+  <button size="mini" bindtap="onShowToast">shwToast</button>
+  <button size="mini" bindtap="onShowModal">shwModal</button>
+  <button size="mini" bindtap="onShowActionSheet">shwAction</button>
+</view>
+
+<!--  -->
