@@ -11,7 +11,8 @@
       "pages/05_learn_wxs/index",
       "pages/06_learn_event/index",
       "pages/07_learn_cpns/index",
-      "pages/08_learn_slot/index"
+      "pages/08_learn_slot/index",
+      "pages/09_learn_api/index"
     ],
     "window": {
         "backgroundTextStyle": "dark",
