@@ -13,7 +13,7 @@ Page({
       {name:"06_学习event",path:"/pages/06_learn_event/index"},
       {name:"07_学习组件化",path:"/pages/07_learn_cpns/index"},
       {name:"08_学习插槽",path:"/pages/08_learn_slot/index"},
-      {name:"08_学习系统API",path:"/pages/09_learn_api/index"}
+      {name:"08_学习网络请求",path:"/pages/09_learn_network/index"}
 
     ]
   },
