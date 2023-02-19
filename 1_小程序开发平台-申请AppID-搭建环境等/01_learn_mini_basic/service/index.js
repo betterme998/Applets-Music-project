@@ -28,7 +28,9 @@ class HYRequest {
         success: (res) => {
           resolve(res)
         },
-        fail:reject
+        fail:(err) => {
+          console.log(err);
+        }
       })
     })
   }
@@ -41,3 +43,4 @@ class HYRequest {
 }
 
 export const hyReqInstance = new HYRequest("http://123.207.32.32:1888/api")
+export const hyLoginReqInstance = new HYRequest("http://123.207.32.32:3000")

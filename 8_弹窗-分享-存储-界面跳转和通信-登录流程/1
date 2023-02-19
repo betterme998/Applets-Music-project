@@ -12,5 +12,36 @@
         .此事件处理函数需要return一个Object，用于生成自定义转发内容
   3.设备信息和位置信息
   4.小程序Storage存储
+    .在开发中一部分数据存储在本地：比如token，用户信息等
+    .同步存取数据方法
+      .wx.setStorageSync(string key,any data)
+      .wx.getStorageSync(string key)
+      .wx.removeStorageSync(string key)
+      .wx.clearStorageSync()
+    .异步存取数据方法
+    .wx.setStorage(string key,any data)
+    .wx.getStorage(string key)
+    .wx.removeStorage(string key)
+    .wx.clearStorage()
   5.页面跳转和数据传递
+    .界面的跳转有两种方式：通过navigator组件和通过wx的API跳转
+    .页面跳转-navigateTo
+      .保留当前页面，跳转到应用内的某个页面；
+      .但是不能跳到tabbar页面
+    .页面返回-navigateBack
+      .wx.navigateBack
+        .关闭当前页面，返回上一页面或多级页面
+    .页面跳转传递数据
+      .首页-》详情页：使用URL中query字段
+      .详情页-》首页：在详情页内部拿到首页的页面对象，直接修改数据
   6.小程序登录流程演练
+    .如何识别一个小程序用户身份？
+      .认识小程序登录流程
+        .
+      .openid和unionid
+      .获取code
+      .换取authToken
+    
+    .用户身份多平台共享
+      .账号绑定
+      .手机号绑定

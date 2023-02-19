@@ -15,12 +15,12 @@ App({
     const userInfo = wx.getStorageSync('userInfo')
 
     // 1.进行登录操作（判断逻辑）
-    if (!token || !userInfo) {
-      console.log("登录操作");
-      // 登录成功的数据，保存到storage
-      wx.setStorageSync('token', "betterme")
-      wx.setStorageSync('userInfo', {nickname: "kobe",level:100}) 
-    }
+    // if (!token || !userInfo) {
+    //   console.log("登录操作");
+    //   // 登录成功的数据，保存到storage
+    //   wx.setStorageSync('token', "betterme")
+    //   wx.setStorageSync('userInfo', {nickname: "kobe",level:100}) 
+    // }
 
     // 2.将获取到数据保存到globalData中
     this.globalData.token = token
