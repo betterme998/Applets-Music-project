@@ -20,11 +20,11 @@ class HYRequest {
     })
   }
   get(options) {
-    return this.request({ ...options,method:"get" })
+    return this.request({ ...options, method:"get" })
   }
   post(options) {
     return this.request({ ...options, method:"post" })
   }
 }
 
-export const hyRequest = new HYRequest("http://codercba.com:9002/")
+export const hyRequest = new HYRequest("http://codercba.com:9002")

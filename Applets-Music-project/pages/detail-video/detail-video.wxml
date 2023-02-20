@@ -1,0 +1,9 @@
+<!--pages/detail-video/detail-video.wxml-->
+<!-- 1.video组件播放视频 -->
+<text>{{id}}</text>
+<video
+ wx:if="{{mvUrl.length > 0}}" 
+ src="{{mvUrl}}" 
+ autoplay
+ class="video"
+/>

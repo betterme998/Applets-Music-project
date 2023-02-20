@@ -1,0 +1,38 @@
+
+// 必须定义module  要用es5的写法写js代码
+  
+  // 对count进行格式化
+  function formatCount(count) {
+    var numCount = parseInt(count)
+    if (numCount>=100000000) {
+      return (numCount/100000000).toFixed(1)+"亿"
+    }else if (numCount>=10000){
+      return (numCount/10000).toFixed(1)+"万"
+    }else {
+      return numCount
+    }
+  }
+  
+  
+  function padLeft(time) {
+    time = time + ""
+    return ("00" + time).slice(time.length)
+  }
+  
+  // 对time进行格式化
+  // 100->01:40
+  function formatTime(time) {
+    //   0.将毫秒转成秒
+      time = time/1000
+    // 1.获取时间
+    var minute = Math.floor(time / 60)
+    var second = Math.floor(time) % 60
+  
+    // 2.拼接字符串
+    return padLeft(minute) + ":" + padLeft(second)
+  }
+  module.exports = {
+    formatCount:formatCount,
+    formatTime:formatTime
+  }
+  

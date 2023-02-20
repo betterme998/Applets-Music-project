@@ -1,10 +1,11 @@
 {
     "pages": [
         "pages/main-music/main-music",
-        "pages/main-video/main-video"
+        "pages/main-video/main-video",
+        "pages/detail-video/detail-video"
     ],
     "window": {
-        "backgroundTextStyle": "light",
+        "backgroundTextStyle": "dark",
         "navigationBarBackgroundColor": "#fff",
         "navigationBarTitleText": "Applets-Music-project",
         "navigationBarTextStyle": "black"
