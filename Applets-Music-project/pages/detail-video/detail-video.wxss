@@ -1,4 +1,37 @@
 /* pages/detail-video/detail-video.wxss */
+page{
+    height: 100vh;
+}
+
 .video {
     width: 100%;
+}
+.info {
+    padding: 30rpx;
+}
+.info .title {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+}
+.info .describe {
+    font-size: 30rpx;
+    width: 95%;
+    padding: 20rpx 10rpx 0;
+}
+
+.info .desc, .info .other {
+    font-size: 24rpx;
+    margin-top: 10rpx;
+    color: #666;
+}
+.publish-time{
+    padding-left: 15rpx;
+}
+.content {
+    height: calc(100% - 225px);
+}
+
+.recommend{
+    padding: 30rpx;
 }

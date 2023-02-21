@@ -12,8 +12,6 @@
       return numCount
     }
   }
-  
-  
   function padLeft(time) {
     time = time + ""
     return ("00" + time).slice(time.length)
@@ -31,6 +29,7 @@
     // 2.拼接字符串
     return padLeft(minute) + ":" + padLeft(second)
   }
+
   module.exports = {
     formatCount:formatCount,
     formatTime:formatTime

@@ -30,3 +30,13 @@ export function getMVInfo(mvid) {
         }
     })
 }
+
+// 请求剩余关联函数
+export function getMVRelate(id) {
+    return hyRequest.get({
+        url:"/related/allvideo",
+        data:{
+            id
+        }
+    })
+}

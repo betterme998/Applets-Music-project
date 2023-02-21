@@ -1,9 +1,39 @@
 <!--pages/detail-video/detail-video.wxml-->
+<wxs src="../../utils/format.wxs" module="format"></wxs>
 <!-- 1.video组件播放视频 -->
-<text>{{id}}</text>
 <video
  wx:if="{{mvUrl.length > 0}}" 
  src="{{mvUrl}}" 
  autoplay
  class="video"
+ referrer-policy="origin"
 />
+
+<scroll-view class="content" scroll-y>
+    <view class="info">
+        <!-- <view class="title">
+            <text class="publish-time">{{ mvInfos.name }}</text>
+            <van-icon wx:if="{{mvInfos.desc}}" bindtap="stateChange" size="40rpx" name="{{stateValue}}"/>
+        </view> -->
+        <van-collapse accordion value="{{ activeName }}" bind:change="onChange">
+            <van-collapse-item title="标题" name="1">
+                代码是写出来给人看的，附带能在机器上运行
+            </van-collapse-item>
+        </van-collapse>
+        <view class="describe">{{mvInfos.desc}}</view>
+        <view class="desc">{{ mvInfos.name }} - {{ mvInfos.artistName }}</view>
+        <view class="other">
+            <text class="play-count">{{format.formatCount(mvInfos.playCount)}}次播放</text>
+            <text class="publish-time">{{mvInfos.publishTime}}</text>
+        </view>
+    </view>
+    <!-- 相关视频 -->
+    <view class="recommend">
+        <view class="title">推荐视频</view>
+        <view class="related-video">
+            <block wx:for="{{relatedVideo}}" wx:key="vid">
+                <video-list-time itemInfo="{{item}}"></video-list-time>
+            </block>
+        </view>
+    </view>
+</scroll-view>
