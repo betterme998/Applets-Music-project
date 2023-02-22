@@ -1,6 +1,33 @@
 <!--pages/main-music/main-music.wxml-->
-<van-button type="default">默认按钮</van-button>
-<van-button type="primary">主要按钮</van-button>
-<van-button type="info">信息按钮</van-button>
-<van-button type="warning">警告按钮</van-button>
-<van-button type="danger">危险按钮</van-button> 
+<!-- 1.搜索框 -->
+<van-search
+  value="{{searchValue}}"
+  shape="round"
+  background="#fafafa"
+  placeholder="请输入搜索关键词"
+  bind:click-input="onSearchClick"
+/>
+<!-- 2.轮播图展示 -->
+<swiper
+ class="banner"
+ circular
+ indicator-dots
+ style="height: {{bannerHeight}}px;"
+ >
+    <block wx:for="{{banners}}" wx:key="targetId">
+        <swiper-item class="item">
+            <image
+             class=banner-image" 
+             src="{{item.imageUrl}}" 
+             mode="widthFix"
+             bindload="onBannerImageLoad"
+             >
+            </image>
+        </swiper-item>
+    </block>
+</swiper>
+
+<!-- 3.推荐歌曲的展示 -->
+<view class="recommend">
+    <area-header></area-header>
+</view>
