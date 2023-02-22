@@ -7,22 +7,26 @@ page{
     width: 100%;
 }
 .info {
-    padding: 30rpx;
+    padding: 0rpx 30rpx;
 }
-.info .title {
-    display: flex;
-    justify-content: space-between;
-    font-weight: 700;
+.customcont .customcont1 .van-collapse-item__title .van-cell{
+    padding: 20rpx 10rpx 10rpx;
+    border: none;
+
+}
+.customcont .customcont2 {
+    font-size: 30rpx;
+    /* color: #000; */
+    padding: 0;
+
 }
 .info .describe {
     font-size: 30rpx;
     width: 95%;
-    padding: 20rpx 10rpx 0;
 }
 
 .info .desc, .info .other {
     font-size: 24rpx;
-    margin-top: 10rpx;
     color: #666;
 }
 .publish-time{

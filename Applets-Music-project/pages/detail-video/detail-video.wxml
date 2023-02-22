@@ -11,16 +11,11 @@
 
 <scroll-view class="content" scroll-y>
     <view class="info">
-        <!-- <view class="title">
-            <text class="publish-time">{{ mvInfos.name }}</text>
-            <van-icon wx:if="{{mvInfos.desc}}" bindtap="stateChange" size="40rpx" name="{{stateValue}}"/>
-        </view> -->
-        <van-collapse accordion value="{{ activeName }}" bind:change="onChange">
-            <van-collapse-item title="标题" name="1">
-                代码是写出来给人看的，附带能在机器上运行
+        <van-collapse border="{{false}}" custom-class="customcont" accordion value="{{ activeName }}" bind:change="onChange">
+            <van-collapse-item border="{{false}}" custom-class="customcont1" content-class="customcont2" title="{{mvInfos.name}}" name="1">
+                <view class="describe">{{mvInfos.desc}}</view>
             </van-collapse-item>
         </van-collapse>
-        <view class="describe">{{mvInfos.desc}}</view>
         <view class="desc">{{ mvInfos.name }} - {{ mvInfos.artistName }}</view>
         <view class="other">
             <text class="play-count">{{format.formatCount(mvInfos.playCount)}}次播放</text>
