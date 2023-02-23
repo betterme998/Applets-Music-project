@@ -1,25 +1,48 @@
 // pages/main-music/main-music.js
-import { getMusicBanner } from "../../services/music"
+import { getMusicBanner, getSongMenuList } from "../../services/music"
+import recommendStore from "../../store/recommendStore"
 import querySelect from "../../utils/query_select.js"
 // 自己写的节流,可以用第三方库
 import throttle from "../../utils/throttle"
 
 // 进行节流
 const querySelectThrottle = throttle(querySelect)
+const app = getApp()
 Page({
     data: {
         searchValue: "",
         banners:[],
-        bannerHeight:150
+        bannerHeight:150,
+        recommendSongs:[],
+        screenWidth:375,
+        // 歌单数据
+        hotMenuList:[]
     },
     onLoad() {
         this.fetchMusicBanner()
+        this.fetchSongMenuList()
+
+        // 监听数据变化，改变视图
+        recommendStore.onState("recommendSongs",(value)=>{
+            this.setData({ recommendSongs:value.slice(0, 6) })
+        })
+        // 发起action
+        recommendStore.dispatch("fetchRecommendSongsAction")
+
+        // 获取屏幕尺寸
+        this.setData({screenWidth: app.globalData.screenWidth})
     },
     // 网络请求方法
     async fetchMusicBanner() {
          const res = await getMusicBanner()
          this.setData({  banners: res.data.banners })
     },
+    async fetchSongMenuList() {
+        const res = await getSongMenuList()
+        console.log(res);
+        this.setData({hotMenuList:res.data.playlists})
+    },
+
 
     // 界面事件监听方法
     // 跳转搜索页面
@@ -31,6 +54,11 @@ Page({
         const res = await querySelectThrottle(".banner-image")
         console.log(res);
         this.setData({ bannerHeight: res[0].height })
+    },
+    onRecommendMoreClick(){
+        wx.navigateTo({
+          url: '/pages/detail-song/detail-song',
+        })
     }
 })
 /*
@@ -42,4 +70,8 @@ Page({
                     2.图片不止一张，会多次执行获取操作
             优化：1.封装获取图片高度的方法，通过回调函数返回promise实现。
                  2.使用节流函数，进行节流
+    
+    小程序两个不同页面共享数据
+    使用第三方库hy-event-store 来完成
+
 */ 

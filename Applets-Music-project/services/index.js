@@ -1,4 +1,6 @@
 // 封装成类 -> 实例
+import { baseURL } from "./config"
+
 class HYRequest {
   constructor(baseURL) {
     this.baseURL = baseURL
@@ -27,4 +29,4 @@ class HYRequest {
   }
 }
 
-export const hyRequest = new HYRequest("http://codercba.com:9002")
+export const hyRequest = new HYRequest(baseURL)
