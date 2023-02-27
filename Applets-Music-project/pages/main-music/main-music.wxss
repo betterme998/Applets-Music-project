@@ -19,13 +19,3 @@ page {
     width: 100%;
 }
 
-/* 歌单样式 */
-.list {
-    display: flex;
-    margin-left: -24rpx;
-}
-.list .item {
-    width: 220rpx;
-    flex-shrink: 0;
-    margin-right: 20rpx;
-}

@@ -9,7 +9,8 @@ App({
         wx.getSystemInfo({
           success: (res) => {
               this.globalData.screeWidth = res.screenWidth
-              this.globalData.screeHeight = res.screeHeight
+              this.globalData.screeHeight = res.screenHeight
+              console.log(this.globalData.screeWidth);
           },
         })
     }

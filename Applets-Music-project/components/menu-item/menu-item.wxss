@@ -9,6 +9,7 @@
 .top .image {
     width: 100%;
     border-radius: 12rpx;
+    
     background-size: cover;
 }
 .top .count {
@@ -27,7 +28,8 @@
     font-size: 26rpx;
 
     /* 显示两行 */
-    /* white-space: normal; */
+    /*white-space: normal; 是因为父元素也设置该该元素，不想继承父元素  */
+    white-space: normal;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;

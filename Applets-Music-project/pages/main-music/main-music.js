@@ -1,6 +1,7 @@
 // pages/main-music/main-music.js
 import { getMusicBanner, getSongMenuList } from "../../services/music"
 import recommendStore from "../../store/recommendStore"
+import rankingStore from "../../store/rankingStore"
 import querySelect from "../../utils/query_select.js"
 // 自己写的节流,可以用第三方库
 import throttle from "../../utils/throttle"
@@ -16,7 +17,8 @@ Page({
         recommendSongs:[],
         screenWidth:375,
         // 歌单数据
-        hotMenuList:[]
+        hotMenuList:[],
+        recMenuList:[]
     },
     onLoad() {
         this.fetchMusicBanner()
@@ -28,9 +30,10 @@ Page({
         })
         // 发起action
         recommendStore.dispatch("fetchRecommendSongsAction")
+        rankingStore.dispatch("fetchRankingDataAction")
 
         // 获取屏幕尺寸
-        this.setData({screenWidth: app.globalData.screenWidth})
+        this.setData({screenWidth: app.globalData.screeWidth})
     },
     // 网络请求方法
     async fetchMusicBanner() {
@@ -38,9 +41,12 @@ Page({
          this.setData({  banners: res.data.banners })
     },
     async fetchSongMenuList() {
-        const res = await getSongMenuList()
-        console.log(res);
-        this.setData({hotMenuList:res.data.playlists})
+        getSongMenuList().then(res =>{
+            this.setData({hotMenuList:res.data.playlists})
+        })
+        getSongMenuList("华语").then(res =>{
+            this.setData({recMenuList:res.data.playlists})
+        })
     },
 
 
