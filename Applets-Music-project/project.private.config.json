@@ -28,6 +28,20 @@
                     "query": "",
                     "launchMode": "default",
                     "scene": null
+                },
+                {
+                    "name": "歌曲详情",
+                    "pathName": "pages/detail-song/detail-song",
+                    "query": "type=ranking&key=newRanking",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "歌曲详情-menu",
+                    "pathName": "pages/detail-song/detail-song",
+                    "query": "type=menu&id=8151959831",
+                    "launchMode": "default",
+                    "scene": null
                 }
             ]
         }

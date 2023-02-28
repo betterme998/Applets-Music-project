@@ -1,7 +1,12 @@
 import { HYEventStore } from "hy-event-store"
 import { getPlaylistDetail } from "../services/music"
 
-const rankingsIds = [3779629,2884035,19723756]
+export const rankingsIds = {
+    newRanking:3779629,
+    originRanking:2884035,
+    upRanking:19723756
+}
+
 const rankingStore = new HYEventStore({
     state:{
         newRanking:{},
@@ -10,9 +15,10 @@ const rankingStore = new HYEventStore({
     },
     actions: {
         fetchRankingDataAction(ctx) {
-            for(const id of rankingsIds) {
+            for(const key in rankingsIds) {
+                const id = rankingsIds[key]
                 getPlaylistDetail(id).then(res =>{
-                    console.log(res);
+                    ctx[key] = res.data.playlist
                 })
             }
         }

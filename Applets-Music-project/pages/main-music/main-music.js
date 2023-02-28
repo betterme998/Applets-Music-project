@@ -1,7 +1,7 @@
 // pages/main-music/main-music.js
 import { getMusicBanner, getSongMenuList } from "../../services/music"
 import recommendStore from "../../store/recommendStore"
-import rankingStore from "../../store/rankingStore"
+import rankingStore, {rankingsIds} from "../../store/rankingStore"
 import querySelect from "../../utils/query_select.js"
 // 自己写的节流,可以用第三方库
 import throttle from "../../utils/throttle"
@@ -13,21 +13,33 @@ Page({
     data: {
         searchValue: "",
         banners:[],
-        bannerHeight:150,
+        bannerHeight:0,
         recommendSongs:[],
         screenWidth:375,
         // 歌单数据
         hotMenuList:[],
-        recMenuList:[]
+        recMenuList:[],
+        isRankingDate:false,
+        // 巅峰榜数据
+        rankingInfos:{}
     },
     onLoad() {
         this.fetchMusicBanner()
         this.fetchSongMenuList()
 
         // 监听数据变化，改变视图
-        recommendStore.onState("recommendSongs",(value)=>{
-            this.setData({ recommendSongs:value.slice(0, 6) })
-        })
+        recommendStore.onState("recommendSongInfo",this.handleRecommendSongs)
+
+        // =========================================
+        // rankingStore.onState("newRanking",this.handleNewRanking)
+        // rankingStore.onState("originRanking",this.handleOriginRanking)
+        // rankingStore.onState("upRanking",this.handleUpRanking)
+        // 高阶用法
+        for (const key in rankingsIds) {
+            rankingStore.onState(key,this.getRankingHanlder(key))
+        }
+        // ===============================================
+
         // 发起action
         recommendStore.dispatch("fetchRecommendSongsAction")
         rankingStore.dispatch("fetchRankingDataAction")
@@ -58,13 +70,51 @@ Page({
     async onBannerImageLoad(event) {
         // 获取图片加载完成后高度，通过回调封装好的api。使用了promise方式
         const res = await querySelectThrottle(".banner-image")
-        console.log(res);
+        // console.log(res);
         this.setData({ bannerHeight: res[0].height })
     },
     onRecommendMoreClick(){
         wx.navigateTo({
-          url: '/pages/detail-song/detail-song',
+          url: '/pages/detail-song/detail-song?type=recommend',
         })
+    },
+
+    //============================== 从Store中获取数据 ==============================
+    handleRecommendSongs(value) {
+        if (!value.tracks) return
+        this.setData({ recommendSongs:value.tracks.slice(0, 6) })
+    },
+
+    // 高阶用法
+    // handleNewRanking(value) {
+    //     console.log("新歌榜",value);
+    //     const newRankingInfos = { ...this.data.rankingInfos, newRanking:value }
+    //     this.setData({ rankingInfos: newRankingInfos })
+    // },
+    // handleOriginRanking(value) {
+    //     console.log("原创榜",value);
+    //     const newRankingInfos = { ...this.data.rankingInfos, originRanking:value }
+    //     this.setData({ rankingInfos: newRankingInfos })
+    // },
+    // handleUpRanking(value) {
+    //     console.log("飙升榜",value);
+    //     const newRankingInfos = { ...this.data.rankingInfos, upRanking:value }
+    //     this.setData({ rankingInfos: newRankingInfos })
+    // },
+    getRankingHanlder(ranking) {
+        return value => {
+            if (!value.name) return
+            this.setData({ isRankingDate:true })
+            const newRankingInfos = { ...this.data.rankingInfos, [ranking]:value}
+            this.setData({ rankingInfos: newRankingInfos })
+        }
+    },
+
+    onUnload() {
+        recommendStore.offState("recommendSongs",this.handleRecommendSongs)
+        rankingStore.offState("recommendSongs",this.handleRecommendSongs)
+        rankingStore.offState("originRanking",this.handleOriginRanking)
+        rankingStore.offState("upRanking",this.handleUpRanking)
     }
 })
 /*
