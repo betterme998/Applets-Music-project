@@ -2,7 +2,9 @@
 App({
     globalData: {
         screeWidth:375,
-        screeHeight:667
+        screeHeight:667,
+        statusBarHeight:20,
+        contentHeight:500
     },
     onLaunch() {
         // 1.获取设备信息
@@ -10,7 +12,9 @@ App({
           success: (res) => {
               this.globalData.screeWidth = res.screenWidth
               this.globalData.screeHeight = res.screenHeight
-              console.log(this.globalData.screeWidth);
+              this.globalData.statusBarHeight = res.statusBarHeight
+              this.globalData.contentHeight = res.screenHeight - res.statusBarHeight - 44
+              console.log(res);
           },
         })
     }

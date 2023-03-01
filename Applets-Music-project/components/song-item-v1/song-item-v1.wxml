@@ -1,5 +1,5 @@
 <!--components/song-item-v1/song-item-v1.wxml-->
-<view class="item">
+<view class="item" bindtap="onSongItemClick">
     <image class="image" src="{{itemData.al.picUrl}}"></image>
     <view class="info">
         <view class="name">{{itemData.name}}</view>
