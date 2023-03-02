@@ -14,7 +14,6 @@ App({
               this.globalData.screeHeight = res.screenHeight
               this.globalData.statusBarHeight = res.statusBarHeight
               this.globalData.contentHeight = res.screenHeight - res.statusBarHeight - 44
-              console.log(res);
           },
         })
     }

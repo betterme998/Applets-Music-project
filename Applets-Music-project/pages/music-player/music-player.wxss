@@ -84,7 +84,36 @@
     width: 80rpx;
     height: 80rpx;
 }
-.music .controls .btn.play {
-    width: 140rpx;
-    height: 140rpx;
+.music .controls .stopconter {
+    width: 120rpx;
+    height: 120rpx;
+    border: #fff solid 4rpx;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
+/* 歌词样式 */
+.lyric-list {
+    color: #aaa;
+    font-size: 28rpx;
+    text-align: center;
+    height: 100%;
+}
+/* 隐藏滚动条 */
+.lyric-list ::-webkit-scrollbar {
+    display: none;
+}
+.lyric-list .item {
+    height: 35px;
+    line-height: 35px;
+}
+
+/* 预留空间 */
+/* .lyric-list .item:first-of-type{
+    padding-top:100px ;
+}
+.lyric-list .item:last-of-type {
+    padding-bottom: 100px;
+} */

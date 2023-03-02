@@ -5,6 +5,9 @@
     white-space: nowrap;
     margin-left: -24rpx;
 }
+.hot-menu .list ::-webkit-scrollbar{
+    display: none;
+}
 .hot-menu .list .item {
     display: inline-block;
     width: 220rpx;

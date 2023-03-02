@@ -1,4 +1,5 @@
 <!--pages/music-player/music-player.wxml-->
+<wxs src="/utils/format.wxs" module="fmt"></wxs>
 
 <!-- 1.背景展示 -->
 <image class="bg-image" src="{{currentSong.al.picUrl}}" mode="aspectFill"></image>
@@ -25,6 +26,7 @@
     bindchange="onSwiperChange"
     style="height: {{contentHeight}}px;"
     current="{{currentPage}}"
+    wx:if="{{currentSong.name}}"
 >
     <swiper-item class="music">
         <view class="album">
@@ -35,22 +37,44 @@
             <view class="singer">{{currentSong.ar[0].name}}</view>
         </view>
         <view class="lyric">
-            一句歌词
+            {{currentLyricText}}
         </view>
         <view class="proress">
-            <slider class="slider" block-size="12"/>
+            <slider 
+                class="slider" 
+                block-size="12" 
+                value="{{sliderValue}}"
+                bindchange="onSliderChange"
+                bindchanging="onSliderChanging"
+            />
             <view class="time">
-                <view class="current">03:22</view>
-                <view class="duration">05:45</view>
+                <view class="current">{{fmt.formatTime(currentTime)}}</view>
+                <view class="duration">{{fmt.formatTime(durationTime)}}</view>
             </view>
         </view>
         <view class="controls">
             <image class="btn mode" src="/assets/images/player/play_order.png"></image>
             <image class="btn prev" src="/assets/images/player/play_prev.png"></image>
-            <image class="btn play" src="/assets/images/player/play_pause.png"></image>
+            <view 
+                class="stopconter"
+                bindtap="onPlayOrPauseTap"    
+            >
+                <image class="btn play" src="/assets/images/player/{{isPlaying ? 'stop2.png' : 'stop.png'}}"></image>
+            </view>
             <image class="btn next" src="/assets/images/player/play_next.png"></image>
             <image class="btn list" src="/assets/images/player/play_music.png"></image>
         </view>
     </swiper-item>
-    <swiper-item>歌词</swiper-item>
+    <swiper-item>
+        <scroll-view class="lyric-list" scroll-y>
+            <block wx:for="{{lyricInfos}}" wx:key="time">
+                <view 
+                    class="item"
+                    style="padding-top:{{index === 0 ? 100 : 0}}px; padding-bottom:{{index === lyricInfos.length -1 ? 100:0}}px;"
+                >
+                    {{item.text}}
+                </view>
+            </block>
+        </scroll-view>
+    </swiper-item>
 </swiper>
