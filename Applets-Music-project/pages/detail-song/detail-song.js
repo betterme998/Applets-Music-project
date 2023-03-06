@@ -2,6 +2,7 @@
 import recommendStore from "../../store/recommendStore"
 import rankingStore, { rankingsIds } from "../../store/rankingStore"
 import { getPlaylistDetail } from "../../services/music"
+import playerStore from "../../store/playerStore"
 
 Page({
     data: {
@@ -39,6 +40,15 @@ Page({
         this.setData({songInfos: res.data.playlist})
         console.log(res);
     },
+    // ==============事件监听============
+    onSongItemTap(event){
+        const index = event.currentTarget.dataset.index
+        playerStore.setState("playSongList", this.data.songInfos.tracks)
+        playerStore.setState("playSongIndex", index)
+
+    },
+
+    // ==============store共享数据=============
 
     handleRanking(value) {
         if (this.data.type === "recommend") {

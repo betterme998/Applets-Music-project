@@ -54,25 +54,40 @@
         </view>
         <view class="controls">
             <image class="btn mode" src="/assets/images/player/play_order.png"></image>
-            <image class="btn prev" src="/assets/images/player/play_prev.png"></image>
+            <image 
+                class="btn prev"
+                src="/assets/images/player/play_prev.png"
+                bindtap="onPrevBtnTap"
+            ></image>
             <view 
                 class="stopconter"
                 bindtap="onPlayOrPauseTap"    
             >
                 <image class="btn play" src="/assets/images/player/{{isPlaying ? 'stop2.png' : 'stop.png'}}"></image>
             </view>
-            <image class="btn next" src="/assets/images/player/play_next.png"></image>
+            <image 
+                class="btn next" 
+                src="/assets/images/player/play_next.png"
+                bindtap="onNextBtnTap"
+            ></image>
             <image class="btn list" src="/assets/images/player/play_music.png"></image>
         </view>
     </swiper-item>
     <swiper-item>
-        <scroll-view class="lyric-list" scroll-y>
-            <block wx:for="{{lyricInfos}}" wx:key="time">
+        <scroll-view 
+            class="lyric-list" 
+            scroll-y
+            scroll-top="{{lyricScrolltop}}"
+            scroll-with-animation
+        >
+            <block wx:for="{{newline}}" wx:key="time">
                 <view 
-                    class="item"
-                    style="padding-top:{{index === 0 ? 100 : 0}}px; padding-bottom:{{index === lyricInfos.length -1 ? 100:0}}px;"
+                    class="item lyrictext {{currentLyricIndex === index ? 'active':''}}"
+                    style="padding-top:{{index === 0 ? (contentHeight/2 - 66) : 0}}px; padding-bottom:{{index === lyricInfos.length -1 ? (contentHeight/2 +66):0}}px;"
                 >
-                    {{item.text}}
+                   <block wx:for="{{item.lyricItem}}" wx:for-item ="iten" wx:key="time">
+                        <text>{{iten}}</text>
+                   </block>
                 </view>
             </block>
         </scroll-view>

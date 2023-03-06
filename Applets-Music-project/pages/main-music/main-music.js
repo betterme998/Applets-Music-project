@@ -1,6 +1,7 @@
 // pages/main-music/main-music.js
 import { getMusicBanner, getSongMenuList } from "../../services/music"
 import recommendStore from "../../store/recommendStore"
+import playerStore from "../../store/playerStore"
 import rankingStore, {rankingsIds} from "../../store/rankingStore"
 import querySelect from "../../utils/query_select.js"
 // 自己写的节流,可以用第三方库
@@ -77,6 +78,12 @@ Page({
         wx.navigateTo({
           url: '/pages/detail-song/detail-song?type=recommend',
         })
+    },
+    onSongItemTap(event){
+        // 1.拿到播放列表. 放到store的第三方库中
+        const index = event.currentTarget.dataset.index
+        playerStore.setState("playSongList",this.data.recommendSongs)
+        playerStore.setState("playSongIndex",index)
     },
 
     //============================== 从Store中获取数据 ==============================
