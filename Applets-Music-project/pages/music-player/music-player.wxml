@@ -53,7 +53,11 @@
             </view>
         </view>
         <view class="controls">
-            <image class="btn mode" src="/assets/images/player/play_order.png"></image>
+            <image 
+                class="btn mode" 
+                src="/assets/images/player/play_{{playModeName}}.png"
+                bindtap="onModeBtnTap"
+            ></image>
             <image 
                 class="btn prev"
                 src="/assets/images/player/play_prev.png"
