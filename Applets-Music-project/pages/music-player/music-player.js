@@ -192,9 +192,6 @@ Page({
     },
     //节流
     onSliderChanging:throttle(function(event){
-        
-    },100),
-    onSliderChanging(event) {
         // 1.获取滑块到的位置的value
         const value = event.detail.value
         // 2.根据当前的值，计算出对应的时间
@@ -206,7 +203,10 @@ Page({
         setTimeout(()=>{
             this.data.isSliderChanging = false
         },1000)
-    },
+    },100),
+    // onSliderChanging(event) {
+        
+    // },
     onPlayOrPauseTap() {
         if (!audioContext.paused) {
             audioContext.pause()
