@@ -32,7 +32,7 @@ Page({
 
         lyricScrolltop:0,
         lyricdom:[],
-        oldindex:[0,0],
+        ldindex:[0,0],
         getlyric:true,
 
         playSongIndex:0,
@@ -89,10 +89,11 @@ Page({
  
          // 3.播放当前的歌曲
          audioContext.stop()
+         this.setData({currentSong:{},sliderValue:0,currentTime:0,durationTime:0,getlyric:true,ldindex: [0,0]})
          audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`
           // 准备好之后自动播放
         audioContext.autoplay = true
- 
+         
          // 4.监听播放时间
          if (this.data.isFirstPlay) {
             this.data.isFirstPlay = false
@@ -100,7 +101,7 @@ Page({
             const ldindex = [0,0]
             audioContext.onTimeUpdate((event) =>{
                 // 1.更新歌曲进度
-                if (!this.data.isSliderChanging && !this.data.isWaiting) {
+                if (!this.data.isSliderChanging) {
                     throttleUpdataProgres()
                 }
                 // 2.匹配正确的歌词
@@ -121,7 +122,9 @@ Page({
                 // 4.获取歌词跳转起末索引index
                 ldindex.push(index)
                 if (ldindex.length > 2) ldindex.shift()
-
+                if (ldindex[1] === 0 && ldindex[0] !== 0) {
+                    this.setData({lyricScrolltop:0})
+                }
                 this.setData({
                     currentLyricText,
                     currentLyricIndex: index,
@@ -140,12 +143,10 @@ Page({
                 }
 
                 if (this.data.lyricdom.length>0&&this.data.currentLyricIndex>=2) {
-                    // console.log(this.data.lyricdom.length);
                     if (this.data.currentLyricIndex <= this.data.lyricdom.length) {
                         
                         const lyricScrolltop = this.data.lyricdom[this.data.ldindex[1]].top - this.data.lyricdom[this.data.ldindex[0]].top
                         this.setData({lyricScrolltop:lyricScrolltop+this.data.lyricScrolltop})
-                        // console.log(this.data.currentLyricIndex);
                     }
                 }
                 // 4.1.通过滑块改变歌曲位置
@@ -167,6 +168,9 @@ Page({
          }
     },
     // =============事件监听=============
+    onNavBackTap(){
+        wx.navigateBack()
+    },
     onSwiperChange(event) {
        this.setData({currentPage:event.detail.current})
     },
@@ -175,10 +179,7 @@ Page({
         this.setData({currentPage:index})
     },
     onSliderChange(event) {
-        this.data.isWaiting = true
-        setTimeout(()=>{
-            this.data.isWaiting = false
-        },1500)
+        // this.data.isWaiting = true
         // 1.获取点击的滑块位置对应的值
         const value = event.detail.value
         // 2.计算出要播放的时间
@@ -188,8 +189,11 @@ Page({
         this.setData({currentTime,isSliderChanging:false, sliderValue:value})
 
         // 4.判断是否使用滑块
-        console.log(event);
     },
+    //节流
+    onSliderChanging:throttle(function(event){
+        
+    },100),
     onSliderChanging(event) {
         // 1.获取滑块到的位置的value
         const value = event.detail.value
@@ -199,6 +203,9 @@ Page({
 
         // 3.当前再滑动
         this.data.isSliderChanging = true
+        setTimeout(()=>{
+            this.data.isSliderChanging = false
+        },1000)
     },
     onPlayOrPauseTap() {
         if (!audioContext.paused) {
@@ -219,32 +226,24 @@ Page({
     },
     changeNewSong(isNext = true) {
         // 下一首，1.找到之前索引
-        const length = this.data.playSongList.length
-        let index = this.data.playSongIndex
-        function newindex(index) {
-            if (index === Math.floor(Math.random() * length)) {
-                newindex(index)
-            }
-            return Math.floor(Math.random() * length)
-        } 
+        const length = this.data?.playSongList.length
+        let index = this.data?.playSongIndex
+        function random(){
+            let indexNew = Math.floor(Math.random() * length)
+            if (indexNew !== index){index = indexNew}else{random()} 
+        }
+
 
         // 计算最新索引
         switch(this.data.playModeIndex) {
+            case 1: //单曲循环
             case 0: //顺序播放
                 index = isNext ? index + 1 : index - 1
                 if (index === length) index = 0
                 if (index === -1) index = length -1
                 break
-            case 1: //单曲循环
-            if (this.data.SingleCycle) {
-                index = isNext ? index + 1 : index - 1
-                if (index === length) index = 0
-                if (index === -1) index = length -1
-            }
-                break
             case 2: //随机播放
-                index = newindex(index)
-                console.log(index);
+                random()
                 break
         }
 
@@ -262,6 +261,11 @@ Page({
     onModeBtnTap(){
         let modeIndex = this.data.playModeIndex
         modeIndex = modeIndex + 1
+        if (modeIndex === 1) {
+            audioContext.loop = true
+        }else{
+            audioContext.loop = false
+        }
         if (modeIndex === 3) modeIndex = 0
         this.setData({playModeIndex:modeIndex,playModeName:modeNames[modeIndex]})
     },
