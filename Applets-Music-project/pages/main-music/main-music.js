@@ -22,7 +22,10 @@ Page({
         recMenuList:[],
         isRankingDate:false,
         // 巅峰榜数据
-        rankingInfos:{}
+        rankingInfos:{},
+
+        // 当前正在播放的歌曲信息
+        currentSong:{}
     },
     onLoad() {
         this.fetchMusicBanner()
@@ -31,10 +34,6 @@ Page({
         // 监听数据变化，改变视图
         recommendStore.onState("recommendSongInfo",this.handleRecommendSongs)
 
-        // =========================================
-        // rankingStore.onState("newRanking",this.handleNewRanking)
-        // rankingStore.onState("originRanking",this.handleOriginRanking)
-        // rankingStore.onState("upRanking",this.handleUpRanking)
         // 高阶用法
         for (const key in rankingsIds) {
             rankingStore.onState(key,this.getRankingHanlder(key))
@@ -44,6 +43,8 @@ Page({
         // 发起action
         recommendStore.dispatch("fetchRecommendSongsAction")
         rankingStore.dispatch("fetchRankingDataAction")
+
+        playerStore.onStates(["currentSong"], this.handlePlayInfos)
 
         // 获取屏幕尺寸
         this.setData({screenWidth: app.globalData.screeWidth})
@@ -93,21 +94,6 @@ Page({
     },
 
     // 高阶用法
-    // handleNewRanking(value) {
-    //     console.log("新歌榜",value);
-    //     const newRankingInfos = { ...this.data.rankingInfos, newRanking:value }
-    //     this.setData({ rankingInfos: newRankingInfos })
-    // },
-    // handleOriginRanking(value) {
-    //     console.log("原创榜",value);
-    //     const newRankingInfos = { ...this.data.rankingInfos, originRanking:value }
-    //     this.setData({ rankingInfos: newRankingInfos })
-    // },
-    // handleUpRanking(value) {
-    //     console.log("飙升榜",value);
-    //     const newRankingInfos = { ...this.data.rankingInfos, upRanking:value }
-    //     this.setData({ rankingInfos: newRankingInfos })
-    // },
     getRankingHanlder(ranking) {
         return value => {
             if (!value.name) return
@@ -117,11 +103,19 @@ Page({
         }
     },
 
+    handlePlayInfos({ currentSong }) {
+        if (currentSong) {
+            this.setData({currentSong})
+        }
+    },
+
     onUnload() {
         recommendStore.offState("recommendSongs",this.handleRecommendSongs)
         rankingStore.offState("recommendSongs",this.handleRecommendSongs)
         rankingStore.offState("originRanking",this.handleOriginRanking)
         rankingStore.offState("upRanking",this.handleUpRanking)
+
+        playerStore.offState(["currentSong"], this.handlePlayInfos)
     }
 })
 /*
