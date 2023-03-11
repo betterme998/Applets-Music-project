@@ -38,7 +38,8 @@ Page({
         pageTitles:["歌曲","歌词"],
         currentPage:0,
         contentHeight:0,
-        isSliderChanging:false
+        isSliderChanging:false,
+        topBool:false
     },
     onLoad(options) {
         // 0.获取设备信息
@@ -47,9 +48,15 @@ Page({
         })
         // 1.获取传入的id
         const id = options.id
+        const topBool = options.topBool
+        if (topBool) {
+            this.setData({topBool})
+        }
 
         // 2.根据id播放歌曲
-        playerStore.dispatch("playMusicWithSongId", id)
+        if(id) {
+            playerStore.dispatch("playMusicWithSongId", id)
+        }
         // 5.获取store共享数据
         playerStore.onStates(["playSongList","playSongIndex"],this.getPlaySonginfosHandler)
         playerStore.onStates(this.data.stateKeys,this.getPlayerInfosHandler)
@@ -99,7 +106,7 @@ Page({
        playerStore.dispatch("playMusicStatusAction")
     },
     onPrevBtnTap(){
-        playerStore.dispatch("playNewMusicAction", true)
+        playerStore.dispatch("playNewMusicAction", false)
     },
     onNextBtnTap(){
         playerStore.dispatch("playNewMusicAction", true)
@@ -136,14 +143,18 @@ Page({
             if (this.data.ldindex[1] === 1 && this.data.ldindex[0] === 0) {
                 this.setData({lyricScrolltop:0})
             }
+            if (this.data.topBool&&this.data.lyricdom.length) {
+                // 播放栏进入，重新计算歌词位置
+                const lyricScrolltop = this.data?.lyricdom[this.data.currentLyricIndex]?.top - this.data?.lyricdom[2]?.top
+                this.setData({lyricScrolltop:lyricScrolltop,topBool:false})
+            }
             // 4.自然改变歌词滚动页面的位置
-            if (this.data.lyricdom.length>0&&this.data.currentLyricIndex>=2) {
+            if (this.data.lyricdom.length>0&&this.data.currentLyricIndex>=2&&this.data.ldindex[1] !== this.data.ldindex[0]) {
                if (this.data.currentLyricIndex <= this.data.lyricdom.length) {
                    const lyricScrolltop = this.data.lyricdom[this.data.ldindex[1]].top - this.data.lyricdom[this.data.ldindex[0]].top
                    this.setData({lyricScrolltop:lyricScrolltop+this.data.lyricScrolltop})
                }
            }
-        
         }
         if (ldindex) {
             this.setData({ldindex})

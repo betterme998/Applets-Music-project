@@ -68,6 +68,7 @@ const playerStore = new HYEventStore({
                 const ldindex = [0,0]
                 audioContext.onTimeUpdate((event) =>{
                     
+                    
                     // 1.获取当前播放的时间
                     ctx.currentTime = audioContext.currentTime * 1000
 
@@ -90,9 +91,11 @@ const playerStore = new HYEventStore({
                     ldindex.push(index)
                     if (ldindex.length > 2) ldindex.shift()
                     
+                    
                     ctx.currentLyricText = currentLyricText
                     ctx.currentLyricIndex = index
                     ctx.ldindex = ldindex
+                    // console.log(ctx.ldindex);
                     // 4.获取歌词节点
                     if (ctx.getlyric) {
                         var query = wx.createSelectorQuery();
@@ -117,6 +120,7 @@ const playerStore = new HYEventStore({
                     ldindex.fill(0)
                     ctx.ldindex = ldindex
 
+
                     if (audioContext.loop) return
                     // 切换歌曲
                     this.dispatch("playNewMusicAction")
@@ -125,7 +129,8 @@ const playerStore = new HYEventStore({
         },
         playMusicStatusAction(ctx) {
             // 暂停-播放
-            if (!audioContext.paused) {
+            const plsying = ctx.isPlaying
+            if (ctx.isPlaying) {
                 audioContext.pause()
                 ctx.isPlaying = false
             }else{

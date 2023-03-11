@@ -54,13 +54,27 @@
     </view>
 </view>
 
+
 <!-- 7.播放工具栏 -->
-<view class="play-bar">
+<view class="play-bar-placeholder" wx:if="{{currentSong.name || isPlaying}}"></view>
+<view 
+    class="play-bar" 
+    wx:if="{{currentSong.name || isPlaying}}"
+    bindtap="onPlayBarAlbumTap"
+>
     <view class="left">
-        <image class="album" src="{{currentSong.al.picUrl}}"></image>
+        <image 
+            class="album album-anim"
+            src="{{currentSong.al.picUrl}}"
+            style="animation-play-state: {{ isPlaying ? 'running':'paused' }}"
+        ></image>
         <view class="name">{{currentSong.name}}</view>
     </view>
     <view class="right">
-        <image src=""></image>
+        <text 
+            class="iconfont {{isPlaying ? 'icon-24gf-pause2' : 'icon-24gf-play'}}"
+            catchtap="onPlayOrPauseBtnTap"
+        ></text>
+        <text class="iconfont icon-24gf-playlist2  "></text>
     </view>
 </view>

@@ -25,7 +25,8 @@ Page({
         rankingInfos:{},
 
         // 当前正在播放的歌曲信息
-        currentSong:{}
+        currentSong:{},
+        isPlaying:false
     },
     onLoad() {
         this.fetchMusicBanner()
@@ -44,7 +45,7 @@ Page({
         recommendStore.dispatch("fetchRecommendSongsAction")
         rankingStore.dispatch("fetchRankingDataAction")
 
-        playerStore.onStates(["currentSong"], this.handlePlayInfos)
+        playerStore.onStates(["currentSong","isPlaying"], this.handlePlayInfos)
 
         // 获取屏幕尺寸
         this.setData({screenWidth: app.globalData.screeWidth})
@@ -86,6 +87,16 @@ Page({
         playerStore.setState("playSongList",this.data.recommendSongs)
         playerStore.setState("playSongIndex",index)
     },
+    onPlayOrPauseBtnTap() {
+        // 播放栏
+        playerStore.dispatch("playMusicStatusAction")
+    },
+    onPlayBarAlbumTap() {
+        const topBool = true
+        wx.navigateTo({
+          url: `/pages/music-player/music-player?topBool=${topBool}`,
+        })
+    },
 
     //============================== 从Store中获取数据 ==============================
     handleRecommendSongs(value) {
@@ -103,9 +114,12 @@ Page({
         }
     },
 
-    handlePlayInfos({ currentSong }) {
+    handlePlayInfos({ currentSong, isPlaying }) {
         if (currentSong) {
             this.setData({currentSong})
+        }
+        if (isPlaying !== undefined) {
+            this.setData({isPlaying})
         }
     },
 
@@ -115,7 +129,7 @@ Page({
         rankingStore.offState("originRanking",this.handleOriginRanking)
         rankingStore.offState("upRanking",this.handleUpRanking)
 
-        playerStore.offState(["currentSong"], this.handlePlayInfos)
+        playerStore.offState(["currentSong","isPlaying"], this.handlePlayInfos)
     }
 })
 /*
