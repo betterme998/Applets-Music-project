@@ -13,7 +13,7 @@
     <view class="info">
         <van-collapse border="{{false}}" custom-class="customcont" accordion value="{{ activeName }}" bind:change="onChange">
             <van-collapse-item border="{{false}}" custom-class="customcont1" content-class="customcont2" title="{{mvInfos.name}}" name="1">
-                <view class="describe">{{mvInfos.desc}}</view>
+                <view class="describe" wx:if="{{mvInfos.desc}}">{{mvInfos.desc}}</view>
             </van-collapse-item>
         </van-collapse>
         <view class="desc">{{ mvInfos.name }} - {{ mvInfos.artistName }}</view>

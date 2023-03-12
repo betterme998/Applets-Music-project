@@ -16,5 +16,6 @@ App({
               this.globalData.contentHeight = res.screenHeight - res.statusBarHeight - 44
           },
         })
+
     }
 })

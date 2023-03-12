@@ -2,7 +2,7 @@
 <wxs src="/utils/format.wxs" module="fmt"></wxs>
 
 <!-- 1.背景展示 -->
-<image class="bg-image" src="{{currentSong.al.picUrl}}" mode="aspectFill"></image>
+<image class="bg-image" wx:if="currentSong.al.picUrl" src="{{currentSong.al.picUrl}}" mode="aspectFill"></image>
 <view class="bg-cover"></view>
 
 <!-- 2.自定义导航栏 -->
@@ -53,28 +53,29 @@
             </view>
         </view>
         <view class="controls">
-            <image 
-                class="btn mode" 
-                src="/assets/images/player/play_{{playModeName}}.png"
+            <text 
+                class="iconfont {{playModeName}}"
                 bindtap="onModeBtnTap"
-            ></image>
-            <image 
-                class="btn prev"
-                src="/assets/images/player/play_prev.png"
+            ></text>
+            <text 
+                class="iconfont icon-shangyishou"
                 bindtap="onPrevBtnTap"
-            ></image>
+            ></text>
             <view 
                 class="stopconter"
                 bindtap="onPlayOrPauseTap"    
             >
-                <image class="btn play" src="/assets/images/player/{{isPlaying ? 'stop2.png' : 'stop.png'}}"></image>
+                <text 
+                    class="iconfont play {{isPlaying ? 'icon-24gf-pause2' : 'icon-24gf-play'}}"
+                ></text>
             </view>
-            <image 
-                class="btn next" 
-                src="/assets/images/player/play_next.png"
+            <text 
+                class="iconfont icon-xiayishou"
                 bindtap="onNextBtnTap"
-            ></image>
-            <image class="btn list" src="/assets/images/player/play_music.png"></image>
+            ></text>
+            <text 
+                class="iconfont list icon-24gf-playlistMusic4"
+            ></text>
         </view>
     </swiper-item>
     <swiper-item>
@@ -84,7 +85,7 @@
             scroll-top="{{lyricScrolltop}}"
             scroll-with-animation
         >
-            <block wx:for="{{newline}}" wx:key="time">
+            <block wx:for="{{newline}}" wx:if="{{newline.length}}" wx:key="time">
                 <view 
                     class="item lyrictext {{currentLyricIndex === index ? 'active':''}}"
                     style="padding-top:{{index === 0 ? (contentHeight/2 - 66) : 0}}px; padding-bottom:{{index === lyricInfos.length -1 ? (contentHeight/2 +66):0}}px;"

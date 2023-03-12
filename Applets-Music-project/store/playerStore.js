@@ -3,6 +3,9 @@ import { getSongLyric, getSongDatail} from "../services/player"
 import { parseLyric } from "../utils/parse-lyric"
 
 export const audioContext = wx.createInnerAudioContext()
+audioContext.onError(res => {
+    console.log(res);
+})
 
 
 // 1.创建store
@@ -61,14 +64,14 @@ const playerStore = new HYEventStore({
             audioContext.src = `https://music.163.com/song/media/outer/url?id=${ctx.id}.mp3`
             // 准备好之后自动播放
             audioContext.autoplay = true
+            console.log(audioContext.src);
+            console.log(audioContext);
             
             // 4.监听播放时间
             if (ctx.isFirstPlay) {
                 ctx.isFirstPlay = false
                 const ldindex = [0,0]
                 audioContext.onTimeUpdate((event) =>{
-                    
-                    
                     // 1.获取当前播放的时间
                     ctx.currentTime = audioContext.currentTime * 1000
 
@@ -129,7 +132,6 @@ const playerStore = new HYEventStore({
         },
         playMusicStatusAction(ctx) {
             // 暂停-播放
-            const plsying = ctx.isPlaying
             if (ctx.isPlaying) {
                 audioContext.pause()
                 ctx.isPlaying = false

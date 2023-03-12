@@ -8,7 +8,8 @@
                 <slot name="left"></slot>
             </view>
             <view class="default">
-                <image class="icon" src="/assets/images/icons/arrow-left.png"></image>
+                <!-- <image class="icon" src="/assets/images/icons/arrow-left.png"></image> -->
+                <van-icon class="icon" name="arrow-left" />
             </view>
         </view>
         <view class="center">

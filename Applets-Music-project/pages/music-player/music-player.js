@@ -6,7 +6,7 @@ import { throttle } from 'underscore'
 
 const app = getApp()
  // createInnerAudioContext 会创建音乐播放器 来播放歌曲
- const modeNames = ["order", "repeat", "random"]
+ const modeNames = ["icon-xunhuanbofang", "icon-danquxunhuan", "icon-suijibofang"]
 
 
 Page({
@@ -34,7 +34,7 @@ Page({
         isPlaying:false,
 
         playModeIndex: 0, //0：顺序播放 1：单曲循环 2：随机播放
-        playModeName:"order",
+        playModeName:"icon-xunhuanbofang",
         pageTitles:["歌曲","歌词"],
         currentPage:0,
         contentHeight:0,
