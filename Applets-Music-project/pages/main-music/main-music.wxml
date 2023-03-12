@@ -75,6 +75,6 @@
             class="iconfont {{isPlaying ? 'icon-24gf-pause2' : 'icon-24gf-play'}}"
             catchtap="onPlayOrPauseBtnTap"
         ></text>
-        <text class="iconfont icon-24gf-playlist2  "></text>
+        <text class="iconfont icon-24gf-playlistMusic4"></text>
     </view>
 </view>

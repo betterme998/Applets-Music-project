@@ -64,6 +64,9 @@ const playerStore = new HYEventStore({
             audioContext.src = `https://music.163.com/song/media/outer/url?id=${ctx.id}.mp3`
             // 准备好之后自动播放
             audioContext.autoplay = true
+            audioContext.onCanplay(() =>{
+                console.log(audioContext.src);
+            })
             console.log(audioContext.src);
             console.log(audioContext);
             
