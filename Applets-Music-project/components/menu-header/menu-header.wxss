@@ -1,4 +1,5 @@
 /* components/menu-header/menu-header.wxss */
+@import "/assets/font/iconfont.wxss";
 .content {
     position: relative;
     display: flex;
@@ -81,8 +82,12 @@
     align-items: center;
 }
 
-.operation .item .icon {
-    width: 48rpx;
+.operation .item .iconfont {
+    font-size: 50rpx;
+    margin-right: 10rpx;
+}
+.operation .item .icon-xihuan {
+    font-size: 55rpx;
     margin-right: 10rpx;
 }
 .operation .item .text {
