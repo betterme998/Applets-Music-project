@@ -1,0 +1,37 @@
+<!--components/menu-list/menu-list.wxml-->
+<van-popup
+    show="{{ show }}"
+    round
+    position="bottom"
+    custom-style="border-radius: 32rpx; height: 60%;width:90%; box-sizing: border-box; margin-left: 5%;background:rgba(255,255,255,0.5) "
+    bind:click-overlay="onClose"
+    safe-area-tab-bar
+    overlay-style="background:rgba(255,255,255,0)"
+>
+<van-button type="default">默认按钮</van-button>
+<van-button type="primary">主要按钮</van-button>
+<van-button type="info">信息按钮</van-button>
+<van-button type="warning">警告按钮</van-button>
+<van-button type="danger">危险按钮</van-button>
+    <view class="sssssssss">
+        <text>123123134</text>
+    </view>
+</van-popup>
+<view class="sd">
+    <view class="sssssssss">
+        
+    </view>
+</view>
+<!-- <page-container
+    show="{{ show }}"
+    round
+    position="bottom"
+    bind:clickoverlay="onClose"
+    custom-style="border-radius: 32rpx; height: 60%;width:90%; box-sizing: border-box; margin-left: 5%; "
+    safe-area-tab-bar
+    overlay-style="background:rgba(255,255,255,0)"
+>
+<cscscs></cscscs>
+<text>123123</text>
+<van-button type="danger">危险按钮</van-button>
+</page-container> -->

@@ -15,18 +15,20 @@
         "navigationBarTextStyle": "black"
     },
     "tabBar": {
+        "color":"#95969b",
+        "selectedColor":"#fd3446",
         "list": [
             {
                 "pagePath": "pages/main-music/main-music",
                 "text": "音乐",
-                "iconPath": "assets/images/tabbar/music_normal.png",
-                "selectedIconPath": "assets/images/tabbar/music_active.png"
+                "iconPath": "assets/images/tabbar/Music_active.png",
+                "selectedIconPath": "assets/images/tabbar/Music.png"
             },
             {
                 "pagePath": "pages/main-video/main-video",
                 "text": "视频",
-                "iconPath": "assets/images/tabbar/video_normal.png",
-                "selectedIconPath": "assets/images/tabbar/video_active.png"
+                "iconPath": "assets/images/tabbar/Video.png",
+                "selectedIconPath": "assets/images/tabbar/Video_active.png"
             }
         ]
     },

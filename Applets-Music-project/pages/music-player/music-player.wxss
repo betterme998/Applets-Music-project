@@ -118,18 +118,25 @@
 .lyric-list ::-webkit-scrollbar {
     display: none;
 }
-.lyric-list .item {
+.lyric-list .listcontent{
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 25rpx 0;
-    /* box-sizing: border-box; */
 }
-
-.lyric-list .item.active {
+.lyric-list .listcontent .item.active {
     color: #fff;
     font-weight: 700;
-    font-size: 32rpx;
+    margin: 25rpx 6rpx;
+    font-size: 31rpx;
+}
+.lyric-list .item {
+    width: 60%;
+    height: auto;
+    text-align: center;
+    margin: 15rpx 0;
+    font-size: 28rpx;
 }
 
 /* 预留空间 */

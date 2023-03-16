@@ -75,7 +75,11 @@
             ></text>
             <text 
                 class="iconfont list icon-24gf-playlistMusic4"
+                bindtap="showPopup"
             ></text>
+        </view>
+        <view class="menuListCont">
+            <menu-list show="{{show}}"/>
         </view>
     </swiper-item>
     <swiper-item>
@@ -85,7 +89,7 @@
             scroll-top="{{lyricScrolltop}}"
             scroll-with-animation
         >
-            <block wx:for="{{newline}}" wx:if="{{newline.length}}" wx:key="time">
+            <!-- <block wx:for="{{newline}}" wx:if="{{newline.length}}" wx:key="time">
                 <view 
                     class="item lyrictext {{currentLyricIndex === index ? 'active':''}}"
                     style="padding-top:{{index === 0 ? (contentHeight/2 - 66) : 0}}px; padding-bottom:{{index === lyricInfos.length -1 ? (contentHeight/2 +66):0}}px;"
@@ -94,7 +98,17 @@
                         <text>{{iten}}</text>
                    </block>
                 </view>
-            </block>
+            </block> -->
+            <view class="listcontent">
+                <block wx:for="{{lyricInfos}}" wx:if="{{lyricInfos.length}}" wx:key="time">
+                    <view 
+                        class="item lyrictext {{currentLyricIndex === index ? 'active':''}}"
+                        style="padding-top:{{index === 0 ? (contentHeight/2 - 66) : 0}}px; padding-bottom:{{index === lyricInfos.length -1 ? (contentHeight/2 +66):0}}px;"
+                    >
+                        <text>{{item.text}}</text>
+                    </view>
+                </block>
+            </view>
         </scroll-view>
     </swiper-item>
 </swiper>

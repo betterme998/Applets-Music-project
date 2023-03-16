@@ -29,6 +29,8 @@ Page({
         isPlaying:false
     },
     onLoad() {
+        
+
         this.fetchMusicBanner()
         this.fetchSongMenuList()
 

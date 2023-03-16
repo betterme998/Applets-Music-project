@@ -1,0 +1,8 @@
+/* components/menu-list/menu-list.wxss */
+.sssssssss{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    z-index: 9999999;
+    color: red;
+}

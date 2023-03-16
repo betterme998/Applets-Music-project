@@ -12,10 +12,9 @@ const app = getApp()
 Page({
     data: {
         id:"",
-        stateKeys:["id", "currentSong", "durationTime", "currentTime", "lyricInfos","newline","ldindex","currentLyricText", "currentLyricIndex","sliderValue","lyricdom","isPlaying","playModeIndex"],
+        stateKeys:["id", "currentSong", "durationTime", "currentTime", "lyricInfos","ldindex","currentLyricText", "currentLyricIndex","sliderValue","lyricdom","isPlaying","playModeIndex"],
         currentSong: {},
         lyricInfos:[],
-        newline:[],
         currentLyricText:"",
         currentLyricIndex:0,
 
@@ -39,12 +38,15 @@ Page({
         currentPage:0,
         contentHeight:0,
         isSliderChanging:false,
-        topBool:false
+        topBool:false,
+
+        show: false,
     },
     onLoad(options) {
         // 0.获取设备信息
         this.setData({
-            contentHeight:app.globalData.contentHeight
+            contentHeight:app.globalData.contentHeight,
+            show:app.globalData.show,
         })
         // 1.获取传入的id
         const id = options.id
@@ -64,8 +66,10 @@ Page({
     updateprogress:throttle(function(currentTime){
         // 1.记录当前的时间
         // 2.修改sliderValue 滑块的值
-        const sliderValue = currentTime / this.data.durationTime * 100
-        this.setData({currentTime,sliderValue})  
+        if (!this.data.isSliderChanging) {
+            const sliderValue = currentTime / this.data.durationTime * 100
+            this.setData({currentTime,sliderValue}) 
+        } 
     },800,{leading:false,trailing:false}),
     // =============事件监听=============
     onNavBackTap(){
@@ -86,9 +90,13 @@ Page({
         const currentTime = value / 100 * this.data.durationTime
         // 3.设置播放器，播放计算出的时间
         audioContext.seek(currentTime / 1000)
-        this.setData({currentTime, sliderValue:value})
+        this.setData({currentTime, sliderValue:value,isSliderChanging: false})
 
         // 4.判断是否使用滑块
+    },
+    showPopup(){
+        // 音乐列表显示
+        this.setData({ show: true });
     },
     //节流
     onSliderChanging:throttle(function(event){
@@ -97,9 +105,7 @@ Page({
         const value = event.detail.value
         // 2.根据当前的值，计算出对应的时间
         const currentTime = value / 100 * this.data.durationTime
-        this.setData({ currentTime })
-        // 3.当再滑动时
-        this.data.isSliderChanging = true
+        this.setData({ currentTime,isSliderChanging: true })
     },100),
     onPlayOrPauseTap() {
         // 播放暂停
@@ -125,7 +131,7 @@ Page({
         }
     },
     getPlayerInfosHandler({
-        id,currentSong,durationTime, currentTime, lyricInfos,newline,ldindex,currentLyricText, currentLyricIndex,sliderValue,lyricdom,isPlaying,playModeIndex
+        id,currentSong,durationTime, currentTime, lyricInfos,ldindex,currentLyricText, currentLyricIndex,sliderValue,lyricdom,isPlaying,playModeIndex
     }) {
         if (id !== undefined) {
             this.setData({id})
@@ -137,6 +143,7 @@ Page({
             this.setData({currentLyricText})
         }
         if (currentLyricIndex) {
+            console.log(currentLyricIndex);
             // 匹配的歌词index，歌词滑动距离
             this.setData({currentLyricIndex})
             // 歌词滚动
@@ -168,14 +175,12 @@ Page({
         if (lyricInfos) {
             this.setData({lyricInfos})
         }
-        if (newline) {
-            this.setData({newline})
-        }
         if (durationTime !== undefined) {
             this.setData({durationTime})
         }
         if (currentTime !== undefined) {
             // 根据当前时间改变当前进度
+            console.log(currentTime);
             this.updateprogress(currentTime)
         }
         if (isPlaying !== undefined) {

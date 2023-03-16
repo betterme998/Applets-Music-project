@@ -17,7 +17,6 @@ const playerStore = new HYEventStore({
         id:"",
         currentSong: {},
         lyricInfos:[],
-        newline:[],
         currentLyricText:"",
         currentLyricIndex:0,
         durationTime:0,
@@ -55,20 +54,15 @@ const playerStore = new HYEventStore({
             getSongLyric(ctx.id).then(res => {
                 const lrcString = res.data.lrc.lyric
                 const lyricInfos = parseLyric(lrcString)
-                const newline = parseLyric(lrcString,true)
                 ctx.lyricInfos = lyricInfos
-                ctx.newline = newline
+
+                 // 3.播放当前的歌曲
+                audioContext.src = `https://music.163.com/song/media/outer/url?id=${ctx.id}.mp3`
+                // 准备好之后自动播放
+                audioContext.autoplay = true
             })
     
-            // 3.播放当前的歌曲
-            audioContext.src = `https://music.163.com/song/media/outer/url?id=${ctx.id}.mp3`
-            // 准备好之后自动播放
-            audioContext.autoplay = true
-            audioContext.onCanplay(() =>{
-                console.log(audioContext.src);
-            })
-            console.log(audioContext.src);
-            console.log(audioContext);
+           
             
             // 4.监听播放时间
             if (ctx.isFirstPlay) {
@@ -77,32 +71,7 @@ const playerStore = new HYEventStore({
                 audioContext.onTimeUpdate((event) =>{
                     // 1.获取当前播放的时间
                     ctx.currentTime = audioContext.currentTime * 1000
-
-                    // 2.匹配正确的歌词
-                    if (!ctx.lyricInfos.length) return
-                    let index = ctx.lyricInfos.length - 1
-
-                    for (let i = 0; i < ctx.lyricInfos.length; i++) {
-                        const info = ctx.lyricInfos[i];
-                        if(info.time >= audioContext.currentTime * 1000) {
-                            index = i - 1
-                            break
-                        }
-                    }
-                    if (index === ctx.currentLyricIndex) return
-        
-                    // 3.获取歌词的索引index和文本text
-                    const currentLyricText= ctx.lyricInfos[index]?.text
-                    // 4.获取歌词跳转起末索引index
-                    ldindex.push(index)
-                    if (ldindex.length > 2) ldindex.shift()
-                    
-                    
-                    ctx.currentLyricText = currentLyricText
-                    ctx.currentLyricIndex = index
-                    ctx.ldindex = ldindex
-                    // console.log(ctx.ldindex);
-                    // 4.获取歌词节点
+                    // 2.获取歌词节点
                     if (ctx.getlyric) {
                         var query = wx.createSelectorQuery();
                         query.selectAll('.lyrictext').boundingClientRect(()=>{}).exec(res =>{
@@ -111,6 +80,33 @@ const playerStore = new HYEventStore({
                             ctx.getlyric = false
                         })
                     }
+
+                    // 3.匹配正确的歌词
+                    if (!ctx.lyricInfos.length) return
+                    let index = ctx.lyricInfos.length - 1
+
+                    for (let i = 0; i < ctx.lyricInfos.length; i++) {
+                        const info = ctx.lyricInfos[i];
+                        if(info.time > audioContext.currentTime * 1000) {
+                            index = i - 1
+                            console.log(i);
+                            break
+                        }
+                    }
+                    if (index === ctx.currentLyricIndex) return
+        
+                    // 4.获取歌词的索引index和文本text
+                    const currentLyricText= ctx.lyricInfos[index]?.text
+                    // 5.获取歌词跳转起末索引index
+                    ldindex.push(index)
+                    if (ldindex.length > 2) ldindex.shift()
+                    
+                    
+                    ctx.currentLyricText = currentLyricText
+                    ctx.currentLyricIndex = index
+                    ctx.ldindex = ldindex
+                    // console.log(ctx.currentLyricIndex);
+                    
                     // 4.1.通过滑块改变歌曲位置
                 })
                 audioContext.onWaiting(() => {
