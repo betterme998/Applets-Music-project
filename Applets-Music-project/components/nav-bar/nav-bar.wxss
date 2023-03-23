@@ -6,7 +6,7 @@
     color: #fff;
 }
 
-.left, .right, .center {
+.left, .right {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,6 +16,8 @@
     width: 120rpx;
 }
 .nav .center{
+    display: flex;
+    align-items: center;
     flex: 1;
 }
 
@@ -27,9 +29,8 @@
 .default {
     display: none;
 }
-
-.left .default {
-    display: flex;
+.slot {
+    width: 100%;
 }
 
 /* 当.slot 内容为空时，设置display为blick */

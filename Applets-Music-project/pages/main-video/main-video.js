@@ -7,7 +7,20 @@ Page({
        hasMore: true
     },
     onLoad() {
-        this.fetchTopMV()
+        var that = this
+        var banners =wx.getStorageSync("banners")
+        var videoList =wx.getStorageSync("videoList")
+        // 时间
+        var expiredTime =wx.getStorageSync('EXPIREDTIME')
+        var now = +new Date()
+        if (now - expiredTime <=1*1*60*60*1000) {
+            console.log("提前渲染视频");
+            that.setData({
+                videoList
+            })
+        }else{
+            this.fetchTopMV()
+        }
     },
     // 发送网络请求的函数
     async fetchTopMV() {
@@ -17,8 +30,16 @@ Page({
         const newVideoList = [...this.data.videoList,...res.data.data]
         // 3.设置全新数据
         this.setData({videoList:newVideoList})
+        wx.setStorageSync('videoList',newVideoList)
+        // 保持1天
+        var expiredTime = +new Date() +1*1*60*60*1000
+        wx.setStorageSync('EXPIREDTIME',expiredTime)
         this.data.offset = this.data.videoList.length
         this.data.hasMore = res.data.hasMore
+
+        // 保存时间
+        var expiredTime = +new Date() +1*1*60*60*1000
+        console.log("重新加载");
     },
     // 监听上拉加载更多
     onReachBottom() {

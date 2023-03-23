@@ -15,8 +15,13 @@
 /* 导航中的center */
 .tabs {
     display: flex;
+    justify-content: center;
     font-size: 28rpx;
     color: #aaa;
+}
+.tabsCon {
+    display: flex;
+    justify-content: center;
 }
 .tabs .divider {
     margin: 0 8rpx;

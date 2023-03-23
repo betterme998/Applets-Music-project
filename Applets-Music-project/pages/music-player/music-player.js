@@ -120,6 +120,9 @@ Page({
     onModeBtnTap(){
         playerStore.dispatch("changPlayModeAcyion")
     },
+    onchaShowFn(){
+        this.setData({show:false})
+    },
 
     // ==================store共享数据================
     getPlaySonginfosHandler({playSongList,playSongIndex}) {
@@ -127,6 +130,7 @@ Page({
             this.setData({ playSongList })
         }
         if (playSongIndex !== undefined) {
+            console.log(playSongIndex);
             this.setData({ playSongIndex })
         }
     },
@@ -143,7 +147,6 @@ Page({
             this.setData({currentLyricText})
         }
         if (currentLyricIndex) {
-            console.log(currentLyricIndex);
             // 匹配的歌词index，歌词滑动距离
             this.setData({currentLyricIndex})
             // 歌词滚动
@@ -180,7 +183,6 @@ Page({
         }
         if (currentTime !== undefined) {
             // 根据当前时间改变当前进度
-            console.log(currentTime);
             this.updateprogress(currentTime)
         }
         if (isPlaying !== undefined) {

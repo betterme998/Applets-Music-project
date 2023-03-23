@@ -1,1 +1,12 @@
 /* pages/detail-search/detail-search.wxss */
+page {
+    /* 修改搜索框背景变量 */
+    --search-background-color:#fff;
+    /* 搜索框padding变量 */
+    --search-padding:0;
+    box-sizing: border-box;
+    background-color: #f8f9fd;
+}
+.van-search{
+    padding: 0 0;
+}

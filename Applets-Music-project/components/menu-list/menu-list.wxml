@@ -3,35 +3,48 @@
     show="{{ show }}"
     round
     position="bottom"
-    custom-style="border-radius: 32rpx; height: 60%;width:90%; box-sizing: border-box; margin-left: 5%;background:rgba(255,255,255,0.5) "
+    custom-style="border-radius: 32rpx; width:90%;margin-left:5%; box-sizing: border-box;background:rgba(255,255,255,1) "
     bind:click-overlay="onClose"
     safe-area-tab-bar
     overlay-style="background:rgba(255,255,255,0)"
 >
-<van-button type="default">默认按钮</van-button>
-<van-button type="primary">主要按钮</van-button>
-<van-button type="info">信息按钮</van-button>
-<van-button type="warning">警告按钮</van-button>
-<van-button type="danger">危险按钮</van-button>
-    <view class="sssssssss">
-        <text>123123134</text>
+    <view class="Listcontainer">
+        <view class="headerList">
+            <view class="headertop">
+                <text>当前播放</text>
+                <text>{{ '(' + playSongList.length + ')' }}</text>
+            </view>
+            <view class="hraderbottom">
+                <text 
+                    class="iconfont {{modeNames[playModeIndex]}}"
+                    bindtap="onModeBtnTap"
+                ></text>
+                <text>{{modeName[playModeIndex]}}</text>
+            </view>
+        </view>
+        <view class="bodyList">
+            <scroll-view class="listC" scroll-y="true" style="height: 606.352617rpx;" enable-passive>
+                <block wx:for="{{playSongList}}" wx:key="id">
+                    <view class="listCont"  data-id="{{item.id}}" data-index="{{index}}" bindtap="onlistMenuFn">
+                        <view class="listItem">
+                            <text 
+                                wx:if="{{playSongIndex === index}}"
+                                class="iconfont icon-a-zhengzaizhibozhengzaibofang {{playSongIndex === index  ? 'active':''}}"
+                            ></text>
+                            <text class="itemName {{playSongIndex === index  ? 'active':''}}">{{item.name}}</text>
+                            <text class="arname {{playSongIndex === index  ? 'active':''}}"> - </text>
+                            <block wx:for="{{item.ar}}" wx:for-index="inden" wx:for-item="iten" wx:key="id">
+                                <text class="arname {{playSongIndex === index  ? 'active':''}}">{{iten.name + ' '}}</text>
+                            </block>
+                        </view>
+                        <text 
+                            class="iconfont icon-cuowuguanbiquxiao"
+                        ></text>
+                    </view>
+                </block>
+            </scroll-view>
+            
+        </view>
     </view>
 </van-popup>
-<view class="sd">
-    <view class="sssssssss">
-        
-    </view>
-</view>
-<!-- <page-container
-    show="{{ show }}"
-    round
-    position="bottom"
-    bind:clickoverlay="onClose"
-    custom-style="border-radius: 32rpx; height: 60%;width:90%; box-sizing: border-box; margin-left: 5%; "
-    safe-area-tab-bar
-    overlay-style="background:rgba(255,255,255,0)"
->
-<cscscs></cscscs>
-<text>123123</text>
-<van-button type="danger">危险按钮</van-button>
-</page-container> -->
+

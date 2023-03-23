@@ -20,6 +20,6 @@
                 {{title}}
             </view>
         </view>
-        <view class="right"></view>
+        <view class="right" style="width:{{rightShoe ? menuRight:120}}rpx"></view>
     </view>
 </view>

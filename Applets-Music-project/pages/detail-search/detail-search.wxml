@@ -1,2 +1,16 @@
 <!--pages/detail-search/detail-search.wxml-->
-<text>pages/detail-search/detail-search.wxml</text>
+<nav-bar>
+    <view class="lsftIcon" slot="left">
+        <text class="iconfont icon-fanhui"></text>
+    </view>
+    <view class="searchCenter" slot="center">
+        <view class="searchCon">
+            <van-search
+            value="{{searchValue}}"
+            shape="round"
+            background="#fafafa"
+            placeholder="请输入搜索关键词"
+            />
+        </view>
+    </view>
+</nav-bar>

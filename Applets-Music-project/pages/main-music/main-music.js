@@ -26,13 +26,40 @@ Page({
 
         // 当前正在播放的歌曲信息
         currentSong:{},
-        isPlaying:false
+        isPlaying:false,
+
+        // 播放栏
+        show:false,
+        playModeIndex:0,
+        playModeIndex:0,
+        playSongList:[],
+
+        // 音乐高度
+        menuHeight:0
     },
     onLoad() {
-        
 
-        this.fetchMusicBanner()
-        this.fetchSongMenuList()
+        var that = this
+        var banners =wx.getStorageSync("banners")
+        var hotMenuList =wx.getStorageSync("hotMenuList")
+        var recMenuList =wx.getStorageSync("recMenuList")
+        // 时间
+        var expiredTime =wx.getStorageSync('EXPIREDTIME')
+        var now = +new Date()
+        if (now - expiredTime <=1*1*60*60*1000) {
+            if (banners.length&&hotMenuList.length&&recMenuList.length) { // 本地如果有缓存列表，提前渲染
+                console.log("提前渲染");
+                that.setData({
+                    banners,
+                    hotMenuList,
+                    recMenuList
+                })
+                console.log(that.data.banners);
+            }
+        }else{
+            that.fetchMusicBanner()
+            that.fetchSongMenuList()
+        }
 
         // 监听数据变化，改变视图
         recommendStore.onState("recommendSongInfo",this.handleRecommendSongs)
@@ -50,19 +77,33 @@ Page({
         playerStore.onStates(["currentSong","isPlaying"], this.handlePlayInfos)
 
         // 获取屏幕尺寸
-        this.setData({screenWidth: app.globalData.screeWidth})
+        this.setData({
+            screenWidth: app.globalData.screeWidth,
+            menuHeight: app.globalData.menuHeight * app.globalData.devicePixelRatio
+        })
+        // 共享store
+        playerStore.onStates(["playSongList","playSongIndex","playModeIndex"],this.getPlaySonginfosHandler)
     },
     // 网络请求方法
     async fetchMusicBanner() {
-         const res = await getMusicBanner()
-         this.setData({  banners: res.data.banners })
+         getMusicBanner().then(res =>{
+            console.log('覆盖');
+            this.setData({  banners: res.data.banners })
+            wx.setStorageSync('banners',res.data.banners)
+
+            // 保持1天
+            var expiredTime = +new Date() +1*1*60*60*1000
+            wx.setStorageSync('EXPIREDTIME',expiredTime)
+         })
     },
     async fetchSongMenuList() {
         getSongMenuList().then(res =>{
             this.setData({hotMenuList:res.data.playlists})
+            wx.setStorageSync('hotMenuList',res.data.playlists)
         })
         getSongMenuList("华语").then(res =>{
             this.setData({recMenuList:res.data.playlists})
+            wx.setStorageSync('recMenuList',res.data.playlists)
         })
     },
 
@@ -99,11 +140,29 @@ Page({
           url: `/pages/music-player/music-player?topBool=${topBool}`,
         })
     },
+    onchaShowFn() {
+        this.setData({show:false})
+    },
+    showPopup() {
+        console.log('1111');
+        this.setData({show:true})
+    },
 
     //============================== 从Store中获取数据 ==============================
     handleRecommendSongs(value) {
         if (!value.tracks) return
         this.setData({ recommendSongs:value.tracks.slice(0, 6) })
+    },
+    getPlaySonginfosHandler({playSongList,playSongIndex,playModeIndex}) {
+        if (playSongList) {
+            this.setData({ playSongList })
+        }
+        if (playSongIndex !== undefined) {
+            this.setData({ playSongIndex })
+        }
+        if (playModeIndex !== undefined) {
+            this.setData({ playModeIndex })
+        }
     },
 
     // 高阶用法

@@ -9,14 +9,22 @@ Component({
         title: {
             type:String,
             value:"导航标题"
+        },
+        rightShoe: {
+            type:Boolean,
+            value:false
         }
     },
     data: {
-        statusHeight:20
+        statusHeight:20,
+        menuRight:0
     },
     lifetimes:{
         attached() {
-            this.setData({statusHeight:app.globalData.statusBarHeight})
+            this.setData({
+                statusHeight:app.globalData.statusBarHeight,
+                menuRight:app.globalData.menuRight * app.globalData.devicePixelRatio
+            })
         }
     },
     methods: {

@@ -3,6 +3,8 @@ import { getSongLyric, getSongDatail} from "../services/player"
 import { parseLyric } from "../utils/parse-lyric"
 
 export const audioContext = wx.createInnerAudioContext()
+const app = getApp()
+const modeNames = ["icon-xunhuanbofang", "icon-danquxunhuan", "icon-suijibofang"]
 audioContext.onError(res => {
     console.log(res);
 })
@@ -29,15 +31,16 @@ const playerStore = new HYEventStore({
 
         isPlaying:false,
         playModeIndex:0, //0：顺序播放 1：单曲循环 2：随机播放
+        playModeNames:'icon-xunhuanbofang'
     },
     actions:{
         playMusicWithSongId(ctx,id) {
             // 0.原来的数据重置
             audioContext.stop()
-            ctx.currentSong = {}
+            // ctx.currentSong = {}
             ctx.sliderValue = 0
             ctx.currentTime = 0
-            ctx.durationTime = 0
+            // ctx.durationTime = 0
             ctx.getlyric = true
             ctx.ldindex = [0,0]
             // 1.保存id
@@ -89,7 +92,6 @@ const playerStore = new HYEventStore({
                         const info = ctx.lyricInfos[i];
                         if(info.time > audioContext.currentTime * 1000) {
                             index = i - 1
-                            console.log(i);
                             break
                         }
                     }
@@ -151,6 +153,7 @@ const playerStore = new HYEventStore({
             if (modeIndex === 3) modeIndex = 0
             // 2.保存当前模式
             ctx.playModeIndex = modeIndex
+            ctx.playModeNames = modeNames[modeIndex]
         },
         playNewMusicAction(ctx,isNext = true) {
             // 上一首。下一首
@@ -181,6 +184,7 @@ const playerStore = new HYEventStore({
             this.dispatch("playMusicWithSongId",newSong.id)
             // 4.保存最新索引值
             ctx.playSongIndex = index
+            app.globalData.playSongIndex = index
         }
     }
 })

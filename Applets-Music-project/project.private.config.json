@@ -63,9 +63,16 @@
                     "query": "id=2026224214",
                     "launchMode": "default",
                     "scene": null
+                },
+                {
+                    "name": "搜索",
+                    "pathName": "pages/detail-search/detail-search",
+                    "query": "",
+                    "launchMode": "default",
+                    "scene": null
                 }
             ]
         }
     },
-    "libVersion": "2.23.4"
+    "libVersion": "2.27.3"
 }
