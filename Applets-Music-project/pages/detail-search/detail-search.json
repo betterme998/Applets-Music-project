@@ -2,6 +2,10 @@
     "navigationStyle": "custom",
     "usingComponents": {
         "nav-bar": "/components/nav-bar/nav-bar",
-        "van-search": "@vant/weapp/search/index"
+        "van-search": "@vant/weapp/search/index",
+        "prompt-list":"/components/prompt-list/prompt-list",
+        "loading":"/components/loading/loading",
+        "specially-click":"/components/specially-click/specially-click",
+        "search-scroll":"/components/search-scroll/search-scroll"
     }
 }

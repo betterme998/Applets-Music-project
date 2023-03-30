@@ -1,0 +1,14 @@
+<!--components/search-scroll/search-scroll.wxml-->
+<!-- 搜索tab -->
+<van-tabs 
+    animated
+    swipeable
+    color="#ff5a5a"
+    title-active-color="#353535"
+    background="#f6f6f6"
+>
+<van-tab title="标签 1">内容 1</van-tab>
+<van-tab title="标签 2">内容 2</van-tab>
+<van-tab title="标签 3">内容 3</van-tab>
+<van-tab title="标签 4">内容 4</van-tab>
+</van-tabs>

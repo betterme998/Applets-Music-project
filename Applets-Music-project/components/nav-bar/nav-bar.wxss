@@ -29,9 +29,7 @@
 .default {
     display: none;
 }
-.slot {
-    width: 100%;
-}
+
 
 /* 当.slot 内容为空时，设置display为blick */
 .slot:empty + .default {

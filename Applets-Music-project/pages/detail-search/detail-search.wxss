@@ -5,8 +5,13 @@ page {
     /* 搜索框padding变量 */
     --search-padding:0;
     box-sizing: border-box;
-    background-color: #f8f9fd;
+    background-color: #f6f6f6;
 }
 .van-search{
     padding: 0 0;
 }
+.icon-fanhui{
+    color: #313332;
+    font-size: 40rpx;
+}
+

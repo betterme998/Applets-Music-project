@@ -1,5 +1,7 @@
 <!--pages/detail-search/detail-search.wxml-->
-<nav-bar>
+<nav-bar
+    rightShoe
+>
     <view class="lsftIcon" slot="left">
         <text class="iconfont icon-fanhui"></text>
     </view>
@@ -9,8 +11,25 @@
             value="{{searchValue}}"
             shape="round"
             background="#fafafa"
-            placeholder="请输入搜索关键词"
+            placeholder="{{RecommendText}}"
+            bind:change="onPromptFn"
+            bind:search="onfingerboardSearch"
+            bind:focus="onFocus"
+            bind:blur="onBlur"
             />
         </view>
     </view>
 </nav-bar>
+
+<!-- 搜索列表 -->
+<prompt-list
+    wx:if="{{ProposeListShow}}"
+    loading = "{{loading}}"
+    ProposeListValue = "{{ProposeListValue}}"
+    values = "{{values}}"
+    nolistShow = "{{nolistShow}}"
+    bind:srarchitemevent = "keyWorldSearch"
+/>
+
+<!-- 搜索tab -->
+<search-scroll/>

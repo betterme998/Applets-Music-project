@@ -1,0 +1,15 @@
+<!--components/loading/loading.wxml-->
+<view class="loading">
+    <view class="item item1">
+        
+    </view>
+    <view class="item item2">
+        
+    </view>
+    <view class="item item3">
+        
+    </view>
+    <view class="item item4">
+        
+    </view>
+</view>

@@ -1,0 +1,30 @@
+<!--components/prompt-list/prompt-list.wxml-->
+<wxs src="/utils/srarchlist.wxs" module="slt"/>
+<view class="listCont">
+    <block wx:for="{{ProposeListValue}}" wx:key="keyword">
+        <view class="list" data-keyword= "{{item.keyword}}" bindtap="onSearchBtnWord">
+            <text class="iconfont icon-sousuo"></text>
+            <view class="listItem">
+                <view class="itemText">
+                    <block wx:for="{{slt.containFn(item.keyword,values)}}" wx:key="*this" wx:for-item="iten" wx:for-index="inden">
+                        <text class="{{iten.active ? 'active':''}}">{{iten.keyworld}}</text>
+                    </block>
+                </view>
+            </view>
+            <view class="clickSpe">
+                <specially-click 
+                    deepen='true'
+                />
+            </view>
+        </view>
+    </block>
+    <view class="nolist" wx:if="{{ nolistShow }}">
+        <text>搜索“{{values}}”</text>
+    </view>
+</view>
+<view wx:if="{{loading}}" class="loadingCon"> 
+    <view class="loading">
+        <loading></loading>
+    </view>
+    <text>正在加载...</text>
+</view>

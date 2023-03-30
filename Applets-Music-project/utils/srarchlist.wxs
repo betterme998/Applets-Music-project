@@ -1,0 +1,24 @@
+  // 对搜索进行匹配
+  function containFn(keyworld,values) {
+    var lastkey = keyworld.slice(values.length,keyworld.length)
+    var frontkey = keyworld.slice(0,values.length)
+    var keyworldArray = []
+    if (values.toLowerCase() === frontkey.toLowerCase()) {
+        keyworldArray[0] = {
+            keyworld:frontkey,
+            active:true
+        }
+        keyworldArray[1] = {
+            keyworld:lastkey
+        }
+    }else {
+        keyworldArray[0] = {
+            keyworld:keyworld
+        }
+    }
+    return keyworldArray
+  }
+
+  module.exports = {
+    containFn:containFn
+  }

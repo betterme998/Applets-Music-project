@@ -1,0 +1,6 @@
+/* components/search-scroll/search-scroll.wxss */
+page{
+    --tabs-nav-background-color:#f6f6f6
+    --font-weight-bold:700
+}
+/* .tab /deep/ .van-tabs /deep/ .van-tabs__wrap */

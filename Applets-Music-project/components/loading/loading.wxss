@@ -1,0 +1,36 @@
+/* components/loading/loading.wxss */
+.loading{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+    height: 100%;
+}
+.loading .item {
+    width: 12.5%;
+    height: 100%;
+    background-color: #fd3b35;
+}
+@keyframes itemHeight {
+    0% {
+        height: 0%;
+    }
+    50% {
+        height: 100%;
+    }
+    100% {
+        height: 0%;
+    }
+}
+.item1 {
+    animation: itemHeight .8s linear infinite;
+}
+.item2 {
+    animation: itemHeight 1s linear infinite;
+}
+.item3 {
+    animation: itemHeight .9s linear infinite;
+}
+.item4 {
+    animation: itemHeight 1.1s linear infinite reverse;
+}
