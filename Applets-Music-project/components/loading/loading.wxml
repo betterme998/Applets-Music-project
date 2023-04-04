@@ -1,15 +1,19 @@
 <!--components/loading/loading.wxml-->
-<view class="loading">
-    <view class="item item1">
-        
+<view wx:if="{{loading}}" class="loadingCon">
+    <view class="loading" style="width: {{width}}rpx;height: {{height}}rpx;">
+        <view class="item item1">
+            
+        </view>
+        <view class="item item2">
+            
+        </view>
+        <view class="item item3">
+            
+        </view>
+        <view class="item item4">
+            
+        </view>
     </view>
-    <view class="item item2">
-        
-    </view>
-    <view class="item item3">
-        
-    </view>
-    <view class="item item4">
-        
-    </view>
+    <text>正在加载...</text>
 </view>
+

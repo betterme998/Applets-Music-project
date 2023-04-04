@@ -5,7 +5,14 @@ page {
     /* 搜索框padding变量 */
     --search-padding:0;
     box-sizing: border-box;
-    background-color: #f6f6f6;
+    background-color: #f8f9fd;
+}
+.navCont{
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
 }
 .van-search{
     padding: 0 0;
@@ -13,5 +20,11 @@ page {
 .icon-fanhui{
     color: #313332;
     font-size: 40rpx;
+}
+.searcHomeCon,.homecontent{
+    padding: 0 24rpx;
+}
+.icon-shuaxin{
+    font-size: 48rpx;
 }
 

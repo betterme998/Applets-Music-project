@@ -1,0 +1,29 @@
+/* components/search-Hometab/ProposeListShow.wxss */
+@import "/assets/font/iconfont.wxss";
+.tabCon{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 28rpx;
+    padding: 24rpx 0;
+}
+.itemTab{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.tabCon .itemTab:nth-of-type(3) .iconfont{
+    margin-top: 5rpx;
+}
+.itemTab .text:last-child{
+    font-weight: 700;
+}
+.iconfont {
+    margin-right: 8rpx;
+    color: #fd3c3c;
+    /* margin-top: 5rpx; */
+    font-size: 35rpx;
+}
+.divider{
+    color: #dfdfe1;
+}

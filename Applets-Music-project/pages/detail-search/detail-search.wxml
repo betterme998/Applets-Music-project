@@ -1,35 +1,81 @@
 <!--pages/detail-search/detail-search.wxml-->
-<nav-bar
-    rightShoe
->
-    <view class="lsftIcon" slot="left">
-        <text class="iconfont icon-fanhui"></text>
-    </view>
-    <view class="searchCenter" slot="center">
-        <view class="searchCon">
-            <van-search
-            value="{{searchValue}}"
-            shape="round"
-            background="#fafafa"
-            placeholder="{{RecommendText}}"
-            bind:change="onPromptFn"
-            bind:search="onfingerboardSearch"
-            bind:focus="onFocus"
-            bind:blur="onBlur"
-            />
+<view class="navCont">
+    <!-- 导航 -->
+    <nav-bar
+        rightShoe
+    >
+        <view class="lsftIcon" slot="left">
+            <text class="iconfont icon-fanhui"></text>
         </view>
+        <view class="searchCenter" slot="center">
+            <view class="searchCon">
+                <van-search
+                value="{{searchValue}}"
+                shape="round"
+                background="#fafafa"
+                placeholder="{{RecommendText}}"
+                bind:change="onPromptFn"
+                bind:search="onfingerboardSearch"
+                bind:focus="onFocus"
+                bind:blur="onBlur"
+                />
+            </view>
+        </view>
+    </nav-bar>
+    <!-- 搜索提示 -->
+    <prompt-list
+        wx:if="{{ProposeListShow}}"
+        loading = "{{loading}}"
+        ProposeListValue = "{{ProposeListValue}}"
+        values = "{{values}}"
+        nolistShow = "{{nolistShow}}"
+        bind:srarchitemevent = "keyWorldSearch"
+    />
+    <!-- 搜索首页 -->
+    <view
+        class="searcHomeCon"
+        wx:if="{{!Proposeresult&&!ProposeListShow}}"
+    >
+        <search-Hometab/>
     </view>
-</nav-bar>
+    <!-- 搜索结果 -->
+    <view
+        wx:if="{{Proposeresult}}"   
+    >
+        <search-scroll 
+        />
+    </view>
+</view>
 
-<!-- 搜索列表 -->
-<prompt-list
-    wx:if="{{ProposeListShow}}"
-    loading = "{{loading}}"
-    ProposeListValue = "{{ProposeListValue}}"
-    values = "{{values}}"
-    nolistShow = "{{nolistShow}}"
-    bind:srarchitemevent = "keyWorldSearch"
-/>
+<!-- 搜索首页 -->
+<view
+    wx:if="{{!Proposeresult&&!ProposeListShow}}"
+    class="homecontent"
+    style="margin-top: {{homeTop}}rpx;"
+>
+    <srarch-history
+        wx:if="{{historyListShow}}"
+        historyList="{{historyList}}"
+        historyShow="true"
+        bind:deleteEmit="deleteEmitFn"
+    />
+    <srarch-history
+        historyList="{{historyList}}"
+    >
+        <text class="leftLove" slot="left">猜你喜欢</text>
+        <text bindtap="getLoveSong" class="iconfont icon-shuaxin" slot="right"></text>
+    </srarch-history>
+</view>
 
-<!-- 搜索tab -->
-<search-scroll/>
+<!-- 搜索结果 -->
+<view
+    wx:if="{{Proposeresult}}"   
+    style="margin-top: {{resultTop}};"
+>
+    
+</view>
+
+
+
+
+

@@ -1,0 +1,31 @@
+<!--components/srarch-history/srarch-history.wxml-->
+<view class="itemHeader">
+    <view class="left">
+        <view class="slot">
+            <slot name="left"></slot>
+        </view>
+        <view class="default">
+            <text>搜索历史</text>
+        </view>
+    </view>
+    <view class="right">
+        <view bindtap="getLoveSong" class="slot">
+            <slot name="right"></slot>
+        </view>
+        <view class="default" bindtap="deleteHistory">
+            <text class="iconfont icon-shanchu"></text>
+        </view>
+    </view>
+</view>
+<van-dialog id="van-dialog" />
+<view class="itemConter">
+    <block wx:for="{{allitem ? mistHistoryList : historyList}}" wx:key="*this">
+        <view class="itemHistory">
+            <text>{{item}}</text>
+        </view>
+    </block>
+    <view wx:if="{{historyShow}}" class="lastitem" bindtap="onclickLastItem">
+        <text class="iconfont icon-fanhui {{allitem ? 'allActive':'Active'}}"></text>
+    </view>
+</view>
+

@@ -1,0 +1,10 @@
+<!--components/search-Hometab/ProposeListShow.wxml-->
+<view class="tabCon">
+    <block wx:for="{{tabList}}" wx:key="icon">
+        <view class="itemTab">
+            <text class="text iconfont {{item.icon}}"></text>
+            <text class="text">{{item.text}}</text>
+        </view>
+        <view class="divider" wx:if="{{index !== tabList.length - 1}}">|</view>
+    </block>
+</view>

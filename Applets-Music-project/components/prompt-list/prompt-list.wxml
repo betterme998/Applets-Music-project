@@ -22,9 +22,5 @@
         <text>搜索“{{values}}”</text>
     </view>
 </view>
-<view wx:if="{{loading}}" class="loadingCon"> 
-    <view class="loading">
-        <loading></loading>
-    </view>
-    <text>正在加载...</text>
-</view>
+<loading loading="{{loading}}"></loading>
+
