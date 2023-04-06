@@ -20,7 +20,9 @@ Page({
         focus:true,
         homeTop:0,
         resultTop:0,
-        historyList:[]
+        historyList:[],
+        index:0,
+        LoveList:[]
     },
     onLoad(options) {
         this.servicesRecommend()
@@ -116,6 +118,22 @@ Page({
             timer
         });
     },
+    // 猜你喜欢
+    async getLoveSong(){
+        let newList = this.data.historyList
+        if (newList.length>0) {
+            this.setData({index:this.data.index - 1})
+            let data = await search(newList[this.data.index],1)
+            let wordKey = data.data.result.songs[0].ar[0].name
+            search(wordKey,10).then(res =>{
+                console.log(res);
+                this.setData({
+                    LoveList:res.data.result.songs
+                })
+            })
+        }
+        if (this.data.index<=0) this.setData({index:this.data.historyList.length})
+    },
 
     // 网络请求
     async servicesRecommend(){
@@ -154,7 +172,7 @@ Page({
             search(event.detail).then(res => {
                 console.log(res);
             }).finally(()=>{
-                this.setData({historyList:listMap})
+                this.setData({historyList:listMap,index:listMap.length})
             })
         }else {
             listMap.unshift(this.data.RecommendText)
@@ -166,7 +184,7 @@ Page({
             search(this.data.searchValue).then(res => {
                 console.log(res);
             }).finally(()=>{
-                this.setData({historyList:listMap})
+                this.setData({historyList:listMap,index:listMap.length})
             })
             this.setData({Proposeresult:true,ProposeListShow:false})
         }
@@ -200,7 +218,8 @@ Page({
             listMap = historyList
             that.setData({
                 historyList,
-                historyListShow:true
+                historyListShow:true,
+                index:listMap.length
             })
         }else{
             that.setData({

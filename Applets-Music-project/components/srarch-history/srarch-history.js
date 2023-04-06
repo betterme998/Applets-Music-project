@@ -30,7 +30,6 @@ Component({
     },
     observers: {
         'historyList': function(historyList) {
-          
           this.getCachedMap()
         }
     },
@@ -53,16 +52,6 @@ Component({
         // 监听事件
         onclickLastItem() {
             this.setData({allitem:!this.data.allitem})
-        },
-        getLoveSong(){
-            let newList = this.properties.historyList
-            let index = newList.length - 1
-            console.log(newList);
-            search(newList[index]).then(res =>{
-                console.log(res);
-            })
-            index--
-            if (index<=0) index = newList.length - 1 
         },
 
         // 计算胶囊位置

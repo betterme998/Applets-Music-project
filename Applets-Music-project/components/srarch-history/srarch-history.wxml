@@ -9,7 +9,7 @@
         </view>
     </view>
     <view class="right">
-        <view bindtap="getLoveSong" class="slot">
+        <view  class="slot">
             <slot name="right"></slot>
         </view>
         <view class="default" bindtap="deleteHistory">
@@ -19,7 +19,7 @@
 </view>
 <van-dialog id="van-dialog" />
 <view class="itemConter">
-    <block wx:for="{{allitem ? mistHistoryList : historyList}}" wx:key="*this">
+    <block wx:for="{{allitem ? mistHistoryList:historyList}}" wx:key="*this">
         <view class="itemHistory">
             <text>{{item}}</text>
         </view>
