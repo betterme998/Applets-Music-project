@@ -60,7 +60,8 @@ Component({
             if (this.data.itemwidth === 0 || this.data.itemConterWidth === 0) {
                 this.getWidth(query)
             }
-            query.selectAll('.itemHistory').boundingClientRect(res =>{
+            if (this.data.historyShow) {
+                query.selectAll('.itemHistory').boundingClientRect(res =>{
                 if (res.length !== 0) {
                     let itemAdd = 0 
                     let newItem = res.filter((item,index) =>{
@@ -71,11 +72,15 @@ Component({
                     })
                     let mistList = this.properties.historyList
                     let mistHistoryList = mistList.slice(0,newItem.length)
-                    this.setData({
-                        mistHistoryList
-                    })
+                    if(mistHistoryList.length){
+                        this.setData({
+                            mistHistoryList,
+                            allitem:true
+                        })
+                    }
                 }
             }).exec();
+            }
         },
         getWidth(query){
             //获取历史记录宽度

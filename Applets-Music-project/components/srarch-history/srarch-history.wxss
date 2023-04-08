@@ -44,10 +44,11 @@
     flex-wrap: wrap;
     align-content:space-between;
 }
+.itemConterActive{
+    overflow:hidden;
+    max-height:50rpx;
+}
 .itemHistory{
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
     border-radius: 30rpx;
     background-color: #eb6e6e;
     padding: 6rpx 30rpx;
@@ -55,6 +56,16 @@
     font-size: 28rpx;
     margin-bottom: 20rpx;
     box-sizing: border-box;
+    text-overflow:ellipsis;
+    max-width:300rpx;
+    /* 显示一行 */
+    /*white-space: normal; 是因为父元素也设置该该元素，不想继承父元素  */
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
 }
 
 .lastitem{

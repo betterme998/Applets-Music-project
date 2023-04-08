@@ -57,10 +57,11 @@
         wx:if="{{historyListShow}}"
         historyList="{{historyList}}"
         historyShow="true"
-        bind:deleteEmit="deleteEmitFn"
+        bind:deleteEmit="deleteEmitFn"  
     />
     <srarch-history
         historyList="{{LoveList}}"
+        wx:if="{{LoveList.length}}"
     >
         <text class="leftLove" slot="left">猜你喜欢</text>
         <text bindtap="getLoveSong" class="iconfont icon-shuaxin" slot="right"></text>

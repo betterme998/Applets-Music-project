@@ -4,6 +4,7 @@ import { searchPropose, search, searchRecommend } from "../../services/search"
 
 const app = getApp()
 let listMap = new Array()
+let listMapSet = new Set()
 Page({
     data: {
         searchValue: "",
@@ -31,6 +32,8 @@ Page({
         this.getNavTabHeight()
         // 获取本地搜索记录
         this.getHistoryFn()
+        // 喜欢推荐
+        this.getLoveSong()
         
     },
     onUnload(){
@@ -122,17 +125,28 @@ Page({
     async getLoveSong(){
         let newList = this.data.historyList
         if (newList.length>0) {
-            this.setData({index:this.data.index - 1})
             let data = await search(newList[this.data.index],1)
             let wordKey = data.data.result.songs[0].ar[0].name
-            search(wordKey,10).then(res =>{
+            search(wordKey,5).then(res =>{
                 console.log(res);
-                this.setData({
-                    LoveList:res.data.result.songs
-                })
+                if (res.data.result.songs[0].name) {
+                    let loveArrays = res.data.result.songs
+                    let LoveList = loveArrays.filter(item =>{
+                        if (item.name !== 'Undefined' && item.name) {
+                            return item
+                        }
+                    }).map(res =>{
+                        return res.name
+                    })
+                    this.setData({
+                        LoveList,
+                        index:this.data.index + 1
+                    })
+
+                }
             })
         }
-        if (this.data.index<=0) this.setData({index:this.data.historyList.length})
+        if (this.data.index >= newList.length) this.setData({index:0})
     },
 
     // 网络请求
@@ -167,24 +181,34 @@ Page({
             if (listMap.length>10) {
                 listMap.pop()
             }
-            wx.setStorageSync('history',listMap)
+            listMapSet.clear()
+            listMap.forEach(element => {
+                listMapSet.add(element)
+            });
+            let newLists = [...listMapSet]
+            wx.setStorageSync('history',newLists)
             this.setData({Proposeresult:true,ProposeListShow:false,historyListShow:true})
             search(event.detail).then(res => {
                 console.log(res);
             }).finally(()=>{
-                this.setData({historyList:listMap,index:listMap.length})
+                this.setData({historyList:newLists,index:newLists.length})
             })
         }else {
             listMap.unshift(this.data.RecommendText)
             if (listMap.length>10) {
                 listMap.pop()
             }
+            listMapSet.clear()
+            listMap.forEach(element => {
+                listMapSet.add(element)
+            });
+            let newLists = [...listMapSet]
             this.setData({searchValue:this.data.RecommendText,historyListShow:true})
-            wx.setStorageSync('history',listMap)
+            wx.setStorageSync('history',newLists)
             search(this.data.searchValue).then(res => {
                 console.log(res);
             }).finally(()=>{
-                this.setData({historyList:listMap,index:listMap.length})
+                this.setData({historyList:newLists,index:newLists.length})
             })
             this.setData({Proposeresult:true,ProposeListShow:false})
         }

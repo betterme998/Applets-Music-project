@@ -18,10 +18,10 @@
     </view>
 </view>
 <van-dialog id="van-dialog" />
-<view class="itemConter">
+<view class="itemConter {{historyShow ? '':'itemConterActive'}}">
     <block wx:for="{{allitem ? mistHistoryList:historyList}}" wx:key="*this">
         <view class="itemHistory">
-            <text>{{item}}</text>
+            <text class="text">{{item}}</text>
         </view>
     </block>
     <view wx:if="{{historyShow}}" class="lastitem" bindtap="onclickLastItem">
