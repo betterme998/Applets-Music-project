@@ -8,6 +8,7 @@
         "specially-click":"/components/specially-click/specially-click",
         "search-scroll":"/components/search-scroll/search-scroll",
         "search-Hometab":"/components/search-Hometab/search-Hometab",
-        "srarch-history":"/components/srarch-history/srarch-history"
+        "srarch-history":"/components/srarch-history/srarch-history",
+        "search-detail":"/components/search-detail/search-detail"
     }
 }

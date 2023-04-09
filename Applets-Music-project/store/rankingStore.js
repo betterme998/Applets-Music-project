@@ -19,6 +19,7 @@ const rankingStore = new HYEventStore({
                 const id = rankingsIds[key]
                 getPlaylistDetail(id).then(res =>{
                     ctx[key] = res.data.playlist
+
                 })
             }
         }

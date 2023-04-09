@@ -1,6 +1,6 @@
 // components/srarch-history/srarch-history.js
 import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog';
-import {search} from '../../services/search'
+import {search} from '../../services/search';
 const app = getApp()
 Component({
     // 多个插槽要加上这个
@@ -22,10 +22,12 @@ Component({
         itemwidth:0,
         itemConterWidth:0,
         indexItem:0,
-        mistHistoryList:[]
+        mistHistoryList:[],
+        
     },
     lifetimes: {
         attached: function() {
+            
         }
     },
     observers: {

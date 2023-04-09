@@ -1,0 +1,14 @@
+<!--components/search-detail/search-detail.wxml-->
+<view>
+    <view class="header">
+        <text>{{rankingInfosItem.name}}</text>
+    </view>
+    <view class="detailList">
+        <block wx:for="{{rankingInfosItem.tracks}}" wx:key="id">
+            <view>
+                <text>{{index}}</text>
+                <text>{{item.name}}</text>
+            </view>
+        </block>
+    </view>
+</view>

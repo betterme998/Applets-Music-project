@@ -24,7 +24,22 @@ page {
 .searcHomeCon,.homecontent{
     padding: 0 24rpx;
 }
+.homecontent{
+    margin-bottom: 24rpx;
+}
 .icon-shuaxin{
     font-size: 48rpx;
+}
+
+.swiperConts{
+    background-color: red;
+    margin: 0 12rpx;
+    border-radius: 12rpx;
+}
+.swipers .swiperItem:first-child .swiperConts{
+    margin-left: 24rpx;
+}
+.swipers .swiperItem:last-child .swiperConts{
+    margin-right: 24rpx;
 }
 

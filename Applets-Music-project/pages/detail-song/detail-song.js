@@ -9,7 +9,7 @@ Page({
         type:"ranking",
         key:"newRanking",
         id:"",
-
+        
         songInfos: {}
     },
     onLoad(options) {

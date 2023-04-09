@@ -43,6 +43,7 @@
     display: flex;
     flex-wrap: wrap;
     align-content:space-between;
+    color: #5e5e66;
 }
 .itemConterActive{
     overflow:hidden;
@@ -50,7 +51,7 @@
 }
 .itemHistory{
     border-radius: 30rpx;
-    background-color: #eb6e6e;
+    background-color: #ffffff;
     padding: 6rpx 30rpx;
     margin-right: 16rpx;
     font-size: 28rpx;
@@ -72,7 +73,7 @@
     width: 50rpx;
     height: 50rpx;
     border-radius: 100%;
-    background-color: #eb6e6e;
+    background-color: #ffffff;
     display: inline-flex;
     justify-content: center;
     align-items: center;

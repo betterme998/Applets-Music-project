@@ -6,6 +6,8 @@
     align-items: center;
     font-size: 28rpx;
     padding: 24rpx 0;
+    /* margin: 24rpx 0; */
+    box-sizing: border-box;
 }
 .itemTab{
     display: flex;

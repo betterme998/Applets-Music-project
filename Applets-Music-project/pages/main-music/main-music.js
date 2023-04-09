@@ -186,9 +186,9 @@ Page({
 
     onUnload() {
         recommendStore.offState("recommendSongs",this.handleRecommendSongs)
-        rankingStore.offState("recommendSongs",this.handleRecommendSongs)
-        rankingStore.offState("originRanking",this.handleOriginRanking)
-        rankingStore.offState("upRanking",this.handleUpRanking)
+        rankingStore.offState("recommendSongs",this.getRankingHanlder)
+        rankingStore.offState("originRanking",this.getRankingHanlder)
+        rankingStore.offState("upRanking",this.getRankingHanlder)
 
         playerStore.offState(["currentSong","isPlaying"], this.handlePlayInfos)
     }

@@ -1,6 +1,6 @@
 // pages/detail-search/detail-search.js
 import { searchPropose, search, searchRecommend } from "../../services/search"
-
+import rankingStore, {rankingsIds} from "../../store/rankingStore";
 
 const app = getApp()
 let listMap = new Array()
@@ -23,7 +23,10 @@ Page({
         resultTop:0,
         historyList:[],
         index:0,
-        LoveList:[]
+        LoveList:[],
+        renovate:true,
+        // 巅峰榜数据
+        rankingInfos:{},
     },
     onLoad(options) {
         this.servicesRecommend()
@@ -34,14 +37,18 @@ Page({
         this.getHistoryFn()
         // 喜欢推荐
         this.getLoveSong()
+        // store
+        this.storeEnjoy()
         
     },
     onUnload(){
-        clearInterval(this.data.timer)
+        clearInterval(this.data.timer),
+        rankingStore.offState("recommendSongs",this.getRankingHanlder)
+        rankingStore.offState("originRanking",this.getRankingHanlder)
+        rankingStore.offState("upRanking",this.getRankingHanlder)
     },
     // 事件监听
     onPromptFn(event) {
-        console.log(event);
         if (event.detail) {
             this.setData({
                 ProposeListShow:true,
@@ -62,7 +69,6 @@ Page({
         this.searchGetFn(event)
     },
     onFocus(event){
-        console.log(event);
         this.setData({
             focus:false
         })
@@ -124,11 +130,14 @@ Page({
     // 猜你喜欢
     async getLoveSong(){
         let newList = this.data.historyList
-        if (newList.length>0) {
+        if (newList.length === 0) {
+            newList = ['林俊杰','薛之谦','隔壁老樊','陈奕迅','李荣浩','华晨宇']
+        }
+        if (newList.length>0&&this.data.renovate) {
             let data = await search(newList[this.data.index],1)
             let wordKey = data.data.result.songs[0].ar[0].name
+            this.data.renovate = false
             search(wordKey,5).then(res =>{
-                console.log(res);
                 if (res.data.result.songs[0].name) {
                     let loveArrays = res.data.result.songs
                     let LoveList = loveArrays.filter(item =>{
@@ -142,6 +151,7 @@ Page({
                         LoveList,
                         index:this.data.index + 1
                     })
+                    this.data.renovate = true
 
                 }
             })
@@ -249,6 +259,24 @@ Page({
             that.setData({
                 historyListShow:false
             })
+        }
+    },
+
+    
+    // 共享store 
+    storeEnjoy(){
+        // 高阶用法
+        for (const key in rankingsIds) {
+            rankingStore.onState(key,this.getRankingHanlder(key))
+        }
+    },
+    // 高阶用法
+    getRankingHanlder(ranking) {
+        return value => {
+            if (!value.name) return
+            const newRankingInfos = { ...this.data.rankingInfos, [ranking]:value}
+            this.setData({ rankingInfos: newRankingInfos })
+            // console.log(newRankingInfos);
         }
     },
 

@@ -50,22 +50,38 @@
 <!-- 搜索首页 -->
 <view
     wx:if="{{!Proposeresult&&!ProposeListShow}}"
-    class="homecontent"
     style="margin-top: {{homeTop}}rpx;"
 >
-    <srarch-history
-        wx:if="{{historyListShow}}"
-        historyList="{{historyList}}"
-        historyShow="true"
-        bind:deleteEmit="deleteEmitFn"  
-    />
-    <srarch-history
-        historyList="{{LoveList}}"
-        wx:if="{{LoveList.length}}"
+    <view class="homecontent">
+        <srarch-history
+            wx:if="{{historyListShow}}"
+            historyList="{{historyList}}"
+            historyShow="true"
+            bind:deleteEmit="deleteEmitFn"  
+        />
+        <srarch-history
+            historyList="{{LoveList}}"
+            wx:if="{{LoveList.length}}"
+        >
+            <text class="leftLove" slot="left">猜你喜欢</text>
+            <text bindtap="getLoveSong" class="iconfont icon-shuaxin" slot="right"></text>
+        </srarch-history>
+    </view>
+    <!-- 排行 -->
+    <swiper 
+        previous-margin="24rpx"
+        next-margin="160rpx"
+        snap-to-edge
+        class="swipers"
     >
-        <text class="leftLove" slot="left">猜你喜欢</text>
-        <text bindtap="getLoveSong" class="iconfont icon-shuaxin" slot="right"></text>
-    </srarch-history>
+        <block wx:for="{{rankingInfos}}" wx:key="name">
+            <swiper-item class="swiperItem">
+                <view class="swiperConts">
+                    <search-detail rankingInfosItem="{{item}}"></search-detail>
+                </view>
+            </swiper-item>
+        </block>
+    </swiper>
 </view>
 
 <!-- 搜索结果 -->
