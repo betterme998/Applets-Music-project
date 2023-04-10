@@ -68,20 +68,24 @@
         </srarch-history>
     </view>
     <!-- 排行 -->
-    <swiper 
-        previous-margin="24rpx"
-        next-margin="160rpx"
-        snap-to-edge
-        class="swipers"
-    >
-        <block wx:for="{{rankingInfos}}" wx:key="name">
-            <swiper-item class="swiperItem">
-                <view class="swiperConts">
-                    <search-detail rankingInfosItem="{{item}}"></search-detail>
-                </view>
-            </swiper-item>
-        </block>
-    </swiper>
+    <view class="swipersView">
+        <swiper 
+            previous-margin="24rpx"
+            next-margin="160rpx"
+            snap-to-edge
+            class="swipers"
+            style="height: {{swiperHeight}}rpx;"
+        >
+            <block wx:for="{{rankingInfos}}" wx:key="name">
+            
+                <swiper-item class="swiperItem">
+                    <view class="swiperConts">
+                        <search-detail bind:swiperEvent="swiperEventFn" rankingInfosItem="{{item}}"></search-detail>
+                    </view>
+                </swiper-item>
+            </block>
+        </swiper>
+    </view>
 </view>
 
 <!-- 搜索结果 -->

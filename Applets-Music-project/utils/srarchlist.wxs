@@ -18,7 +18,11 @@
     }
     return keyworldArray
   }
+  function indexAdd(index) {
+      return index+1
+  }
   
   module.exports = {
-    containFn:containFn
+    containFn:containFn,
+    indexAdd:indexAdd
   }

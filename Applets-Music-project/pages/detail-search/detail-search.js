@@ -20,6 +20,7 @@ Page({
         RecommendText:'',
         focus:true,
         homeTop:0,
+        swiperHeight:800,
         resultTop:0,
         historyList:[],
         index:0,
@@ -43,7 +44,7 @@ Page({
     },
     onUnload(){
         clearInterval(this.data.timer),
-        rankingStore.offState("recommendSongs",this.getRankingHanlder)
+        rankingStore.offState("newRanking",this.getRankingHanlder)
         rankingStore.offState("originRanking",this.getRankingHanlder)
         rankingStore.offState("upRanking",this.getRankingHanlder)
     },
@@ -158,6 +159,9 @@ Page({
         }
         if (this.data.index >= newList.length) this.setData({index:0})
     },
+    swiperEventFn(){
+        this.getSwiperHeight()
+    },
 
     // 网络请求
     async servicesRecommend(){
@@ -227,7 +231,7 @@ Page({
         }
     },
 
-    // 获取nav+tab高度
+    // 获取nav+tab高度,swiper
     getNavTabHeight() {
         let query = wx.createSelectorQuery();
         query.select('.navCont').boundingClientRect(res =>{
@@ -240,8 +244,18 @@ Page({
             }
             
         }).exec();
+        
     },
-    
+    getSwiperHeight() {
+        let query = wx.createSelectorQuery();
+        query.select('.swiperConts').boundingClientRect(res =>{
+            if (res.height) {
+                let swiperHeight = res.height * app.globalData.devicePixelRatio
+                console.log(swiperHeight);
+                this.setData({swiperHeight})
+            }
+        }).exec();
+    },
 
     // 本地记录
     getHistoryFn() {
@@ -275,8 +289,12 @@ Page({
         return value => {
             if (!value.name) return
             const newRankingInfos = { ...this.data.rankingInfos, [ranking]:value}
+            for (const key in newRankingInfos) {
+               let newTracksList = newRankingInfos[key].tracks
+               let newTracksArray = newTracksList.slice(0,20)
+               newRankingInfos[key].tracks = newTracksArray
+            }
             this.setData({ rankingInfos: newRankingInfos })
-            // console.log(newRankingInfos);
         }
     },
 

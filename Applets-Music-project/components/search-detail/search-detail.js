@@ -8,7 +8,12 @@ Component({
     },
     lifetimes: {
         attached: function() {
-            console.log(this.properties.rankingInfosItem.tracks);
+            // console.log(this.properties.rankingInfosItem.tracks);
+        }
+    },
+    observers: {
+        'rankingInfosItem': function(rankingInfosItem) {
+            this.triggerEvent('swiperEvent')
         }
     },
     data: {

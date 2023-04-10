@@ -45,22 +45,30 @@ Page({
         var recMenuList =wx.getStorageSync("recMenuList")
         // 时间
         var expiredTime =wx.getStorageSync('EXPIREDTIME')
+        let rankingInfos = wx.getStorageSync('rankingInfos')
+        let recommendSongs = wx.getStorageSync('recommendSongs')
         var now = +new Date()
         if (now - expiredTime <=1*1*60*60*1000) {
-            if (banners.length&&hotMenuList.length&&recMenuList.length) { // 本地如果有缓存列表，提前渲染
+            if (banners.length&&hotMenuList.length&&recMenuList.length&&recommendSongs.length) { // 本地如果有缓存列表，提前渲染
                 console.log("提前渲染");
                 that.setData({
                     banners,
                     hotMenuList,
-                    recMenuList
+                    recMenuList,
+                    rankingInfos,
+                    recommendSongs
                 })
-                console.log(that.data.banners);
+            }else{
+                that.fetchMusicBanner()
+                that.fetchSongMenuList()
             }
         }else{
             that.fetchMusicBanner()
             that.fetchSongMenuList()
         }
-
+        // 发起action
+        recommendStore.dispatch("fetchRecommendSongsAction")
+        rankingStore.dispatch("fetchRankingDataAction")
         // 监听数据变化，改变视图
         recommendStore.onState("recommendSongInfo",this.handleRecommendSongs)
 
@@ -70,9 +78,7 @@ Page({
         }
         // ===============================================
 
-        // 发起action
-        recommendStore.dispatch("fetchRecommendSongsAction")
-        rankingStore.dispatch("fetchRankingDataAction")
+        
 
         playerStore.onStates(["currentSong","isPlaying"], this.handlePlayInfos)
 
@@ -152,6 +158,7 @@ Page({
     handleRecommendSongs(value) {
         if (!value.tracks) return
         this.setData({ recommendSongs:value.tracks.slice(0, 6) })
+        wx.setStorageSync('recommendSongs',value.tracks.slice(0, 6))
     },
     getPlaySonginfosHandler({playSongList,playSongIndex,playModeIndex}) {
         if (playSongList) {
@@ -172,6 +179,7 @@ Page({
             this.setData({ isRankingDate:true })
             const newRankingInfos = { ...this.data.rankingInfos, [ranking]:value}
             this.setData({ rankingInfos: newRankingInfos })
+            wx.setStorageSync('rankingInfos',newRankingInfos)
         }
     },
 
@@ -186,7 +194,7 @@ Page({
 
     onUnload() {
         recommendStore.offState("recommendSongs",this.handleRecommendSongs)
-        rankingStore.offState("recommendSongs",this.getRankingHanlder)
+        rankingStore.offState("newRanking",this.getRankingHanlder)
         rankingStore.offState("originRanking",this.getRankingHanlder)
         rankingStore.offState("upRanking",this.getRankingHanlder)
 

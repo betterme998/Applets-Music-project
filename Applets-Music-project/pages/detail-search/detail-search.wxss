@@ -43,3 +43,7 @@ page {
     margin-right: 24rpx;
 }
 
+.swipersView /deep/ .swiper{
+    height: auto !important; 
+}
+
