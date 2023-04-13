@@ -1,1 +1,31 @@
 /* components/search-detail/search-detail.wxss */
+.detailCon{
+    padding: 24rpx;
+    box-sizing: border-box;
+}
+.header {
+    font-weight: 700;
+    font-size: 38rpx;
+    padding-bottom: 24rpx;
+    border-bottom: 2rpx solid #eaeaea;
+    color: #303546;
+}
+.listItem{
+    padding: 24rpx 0;
+}
+.detailList {
+    font-size: 30rpx;
+    color: #2e3546;
+}
+.detailList .listItem:last-child{
+    padding-bottom: 0;
+}
+.detailList .listItem .listIndex{
+    margin-right: 24rpx;
+}
+.detailList .listItem:nth-child(-n + 3){
+    font-weight: 700;
+}
+.detailList .listItem:nth-child(-n + 3) .listIndex{
+    color: #f03c3f;
+}

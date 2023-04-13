@@ -1,9 +1,7 @@
 <!--pages/detail-search/detail-search.wxml-->
 <view class="navCont">
     <!-- 导航 -->
-    <nav-bar
-        rightShoe
-    >
+    <nav-bar>
         <view class="lsftIcon" slot="left">
             <text class="iconfont icon-fanhui"></text>
         </view>
@@ -21,6 +19,10 @@
                 />
             </view>
         </view>
+        <view class="rightSlot" slot="right">
+            <view class="rightCon" style="width: {{menuRight}}px">
+        </view>
+    </view>
     </nav-bar>
     <!-- 搜索提示 -->
     <prompt-list
@@ -49,8 +51,8 @@
 
 <!-- 搜索首页 -->
 <view
-    wx:if="{{!Proposeresult&&!ProposeListShow}}"
-    style="margin-top: {{homeTop}}rpx;"
+    wx:if="{{!Proposeresult&&!ProposeListShow&&homeTop>0}}"
+    style="margin-top: {{homeTop}}px;"
 >
     <view class="homecontent">
         <srarch-history
@@ -74,7 +76,7 @@
             next-margin="160rpx"
             snap-to-edge
             class="swipers"
-            style="height: {{swiperHeight}}rpx;"
+            style="height: {{swiperHeight}}px;"
         >
             <block wx:for="{{rankingInfos}}" wx:key="name">
             

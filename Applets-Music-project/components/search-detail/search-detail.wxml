@@ -1,13 +1,13 @@
 <!--components/search-detail/search-detail.wxml-->
 <wxs src="../../utils/srarchlist.wxs" module="srarch"/>
-<view>
+<view class="detailCon">
     <view class="header">
         <text>{{rankingInfosItem.name}}</text>
     </view>
     <view class="detailList">
         <block wx:for="{{rankingInfosItem.tracks}}" wx:key="id">
-            <view>
-                <text>{{srarch.indexAdd(index)}}</text>
+            <view class="listItem">
+                <text class="listIndex">{{srarch.indexAdd(index)}}</text>
                 <text>{{item.name}}</text>
             </view>
         </block>

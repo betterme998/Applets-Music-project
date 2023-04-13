@@ -28,8 +28,11 @@ Page({
         renovate:true,
         // 巅峰榜数据
         rankingInfos:{},
+
+        menuRight:0
     },
     onLoad(options) {
+        this.setData({menuRight:app.globalData.menuRight})
         this.servicesRecommend()
 
         // 获取高度
@@ -231,11 +234,11 @@ Page({
         }
     },
 
-    // 获取nav+tab高度,swiper
+    // 获取nav+tab高度
     getNavTabHeight() {
         let query = wx.createSelectorQuery();
         query.select('.navCont').boundingClientRect(res =>{
-            let homeTop = res.height * app.globalData.devicePixelRatio
+            let homeTop = res.height
             if (!this.data.Proposeresult&&!this.data.ProposeListShow) {
                 this.setData({ homeTop})
             }
@@ -250,8 +253,7 @@ Page({
         let query = wx.createSelectorQuery();
         query.select('.swiperConts').boundingClientRect(res =>{
             if (res.height) {
-                let swiperHeight = res.height * app.globalData.devicePixelRatio
-                console.log(swiperHeight);
+                let swiperHeight = res.height 
                 this.setData({swiperHeight})
             }
         }).exec();

@@ -40,13 +40,13 @@ Page({
         isSliderChanging:false,
         topBool:false,
 
-        show: false,
+        show: false
     },
     onLoad(options) {
         // 0.获取设备信息
         this.setData({
             contentHeight:app.globalData.contentHeight,
-            show:app.globalData.show,
+            show:app.globalData.show
         })
         // 1.获取传入的id
         const id = options.id

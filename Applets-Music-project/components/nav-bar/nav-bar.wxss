@@ -12,11 +12,13 @@
     align-items: center;
 }
 
-.nav .left, .nav .right {
+.nav .left, .nav .rightDefault {
     width: 120rpx;
+    height: 100%;
 }
 .nav .center{
     display: flex;
+    justify-content: center;
     align-items: center;
     flex: 1;
 }
