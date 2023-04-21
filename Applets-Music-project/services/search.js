@@ -12,7 +12,7 @@ export function searchPropose(keywords,type="mobile") {
 }
 
 // 搜索结果
-export function search(keywords,limit=30,type=1) {
+export function search(keywords,limit=5,type=1) {
     return hyRequest.get({
         url:"/cloudsearch",
         data:{

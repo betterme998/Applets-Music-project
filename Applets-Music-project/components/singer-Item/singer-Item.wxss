@@ -1,0 +1,30 @@
+/* components/singer-Item/singer-Item.wxss */
+.itemCon{
+    display: flex;
+}
+.itemLeft{
+    width: 200rpx;
+    height: auto;
+    margin-right: 24rpx;
+}
+.image {
+    width: 100%;
+    border-radius: 40rpx;    
+    background-size: cover;
+}
+.active{
+    border-radius: 100%;    
+}
+
+
+.itemRight{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+.rightBomText,.rightTopText{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space:nowrap;
+}

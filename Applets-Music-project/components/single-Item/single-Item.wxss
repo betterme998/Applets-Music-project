@@ -1,0 +1,67 @@
+/* components/single-Item/single-Item.wxss */
+@import "/assets/font/iconfont.wxss";
+.item{
+    display: flex;
+    flex-direction: column;
+    padding: 18rpx 0;
+    border-top: 2rpx solid #f6f6f6;
+    box-sizing: border-box;
+    position: relative;
+}
+.top{
+    display: flex;
+    justify-content: space-between;
+}
+.left{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.leftText{
+    font-size: 30rpx;
+}
+.leftText .textLeft{
+    color: #393939;
+}
+.leftText .textRight{
+    color: #a5a5a5;
+}
+.leftBottom{
+    font-size: 25rpx;
+}
+.bottomLeft{
+    color: #557da2;
+}
+.bottomRight{
+    color: #9b9b9b;
+}
+.right{
+    display: flex;
+    align-items: center;
+}
+.iconfont{
+    font-size: 20rpx;
+    color: #b3b3b3;
+}
+.textright{
+    padding: 6rpx 10rpx;
+    border: 2rpx solid #b3b3b3;
+    border-radius: 14rpx;
+    margin-right: 36rpx;
+}
+.icon-diandiandianshu{
+    font-size: 50rpx;
+    margin-top: 2rpx;
+}
+.bottom{
+    color: #9b9b9b;
+    font-size: 25rpx;
+}
+.clickSpe{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+}

@@ -1,0 +1,61 @@
+/* components/search-result-item/search-result-item.wxss */
+@import "/assets/font/iconfont.wxss";
+.itemCon{
+    width: 100%;
+    height: auto;
+    background-color: #ffffff;
+    border-radius: 24rpx;
+    padding:18rpx 24rpx;
+    box-sizing: border-box;
+}
+.default{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 18rpx;
+}
+.defaultIddle{
+    display: flex;
+    flex-direction: column;
+    align-items:flex-start;
+}
+.defaultIddle .single-Item:last-child{
+    border-bottom: 2rpx solid #f4f4f4;
+}
+.single-Item{
+    width: 100%;
+}
+.title{
+    color: #333333;
+    font-weight: 700;
+    font-size: 34rpx;
+}
+.iconfont{
+    margin: 0 12rpx;
+    font-size: 25rpx;
+}
+.text{
+    margin-right: 12rpx;
+}
+.rightIcon{
+    padding: 9rpx;
+    border-radius: 28rpx;
+    border: 2rpx solid #e5c4cb;
+    color: #fb3d42;
+    font-size: 25rpx;
+}
+.BottomCon{
+    font-size: 25rpx;
+    color: #9b9b9b;
+    justify-content: center;
+    align-items: center;
+    padding: 10rpx;
+}
+
+.default {
+    display: none;
+}
+/* 当.slot 内容为空时，设置display为blick */
+.slot:empty + .default {
+    display: flex;
+}

@@ -12,6 +12,7 @@ const querySelectThrottle = throttle(querySelect)
 const app = getApp()
 Page({
     data: {
+        servicesApi:true,
         searchValue: "",
         banners:[],
         bannerHeight:0,
@@ -50,26 +51,34 @@ Page({
         var now = +new Date()
         if (now - expiredTime <=1*1*60*60*1000) {
             if (banners.length&&hotMenuList.length&&recMenuList.length&&recommendSongs.length) { // 本地如果有缓存列表，提前渲染
-                console.log("提前渲染");
                 that.setData({
                     banners,
                     hotMenuList,
                     recMenuList,
                     rankingInfos,
+                    isRankingDate:true,
                     recommendSongs
                 })
             }else{
+                this.data.servicesApi = false
                 that.fetchMusicBanner()
                 that.fetchSongMenuList()
+                recommendStore.dispatch("fetchRecommendSongsAction")
+                rankingStore.dispatch("fetchRankingDataAction")
             }
         }else{
+            this.data.servicesApi = false
             that.fetchMusicBanner()
             that.fetchSongMenuList()
+            recommendStore.dispatch("fetchRecommendSongsAction")
+            rankingStore.dispatch("fetchRankingDataAction")
         }
-        // 发起action
-        recommendStore.dispatch("fetchRecommendSongsAction")
-        rankingStore.dispatch("fetchRankingDataAction")
-        // 监听数据变化，改变视图
+        if (this.data.servicesApi) {
+            that.fetchMusicBanner()
+            that.fetchSongMenuList()
+            recommendStore.dispatch("fetchRecommendSongsAction")
+            rankingStore.dispatch("fetchRankingDataAction")
+        }
         recommendStore.onState("recommendSongInfo",this.handleRecommendSongs)
 
         // 高阶用法
@@ -93,7 +102,6 @@ Page({
     // 网络请求方法
     async fetchMusicBanner() {
          getMusicBanner().then(res =>{
-            console.log('覆盖');
             this.setData({  banners: res.data.banners })
             wx.setStorageSync('banners',res.data.banners)
 
@@ -122,7 +130,6 @@ Page({
     async onBannerImageLoad(event) {
         // 获取图片加载完成后高度，通过回调封装好的api。使用了promise方式
         const res = await querySelectThrottle(".banner-image")
-        // console.log(res);
         this.setData({ bannerHeight: res[0].height })
     },
     onRecommendMoreClick(){
@@ -150,7 +157,6 @@ Page({
         this.setData({show:false})
     },
     showPopup() {
-        console.log('1111');
         this.setData({show:true})
     },
 

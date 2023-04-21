@@ -27,7 +27,7 @@ Component({
                     this.setData({
                         show:false
                     })
-                },550)
+                },400)
             }).exec() 
         }
     }

@@ -1,16 +1,22 @@
 <!--components/search-scroll/search-scroll.wxml-->
 <!-- 搜索tab -->
-<van-tabs 
-    animated
-    swipeable
-    color="#ff5a5a"
-    title-active-color="#353535"
-    background="#f6f6f6"
->
-<van-tab title="标签 1">综合</van-tab>
-<van-tab title="标签 2">单曲</van-tab>
-<van-tab title="标签 3">歌单</van-tab>
-<van-tab title="标签 4">视频</van-tab>
-<van-tab title="标签 5">歌手</van-tab>
+<view class="tabsCon">
+    <van-tabs 
+        animated
+        swipeable
+        title-active-color="#353535"
+        line-height="16rpx"
+        class="van-tabsCon"
+        wrap-class = "wrap-class-tab"
+        swipe-threshold = "6"
+    >
+        <block wx:for="{{tabsValue}}" wx:key="name">
+            <van-tab title="{{item.tabTitle}}">
+                <scroll-view class="listC" scroll-y="true" style="height: {{resultHeight}}rpx;" enable-passive>
+                    <slot name="{{item.name}}"></slot>
+                </scroll-view>
+            </van-tab>
+        </block>
+    </van-tabs>
+</view>
 
-</van-tabs>

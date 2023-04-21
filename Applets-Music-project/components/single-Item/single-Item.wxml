@@ -1,0 +1,27 @@
+<!--components/single-Item/single-Item.wxml-->
+<view class="item">
+    <view class="top">
+        <view class="left">
+            <view class="leftText">
+                <text class="textLeft">{{singleValue.name}}</text>
+                <text class="textRight" wx:if="{{singleValue.tns[0]}}">({{singleValue.tns[0]}})</text>
+            </view>
+            <view class="leftBottom">
+                <text class="bottomLeft">{{singleValue.ar[0].name}}</text>
+                <text class="bottomRight"> - {{singleValue.al.name}}</text>
+            </view>
+        </view>
+        <view class="right">
+            <text wx:if="{{singleValue.copyright}}" class="iconfont icon-24gf-play textright"></text>
+            <text class="iconfont icon-diandiandianshu"></text>
+        </view>
+    </view>
+    <view class="bottom">
+        <text wx:if="{{singleValue.alia[0]}}">{{singleValue.alia[0]}}</text>
+    </view>
+    <view class="clickSpe">
+        <specially-click 
+            deepen='true'
+        />
+    </view>
+</view>

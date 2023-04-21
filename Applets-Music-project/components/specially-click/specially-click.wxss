@@ -7,37 +7,37 @@
 }
 .text {
     position: absolute;
-    background: rgb(126, 124, 124);
+    background: rgb(158, 157, 157);
     transform: translate(-50%,-50%);
     pointer-events: none;
     border-radius: 50%;
-    animation: animate .6s linear infinite;
+    animation: animate .4s linear;
 }
 .text.active{
     border-radius: 50%;
-    animation: animateActive .6s linear infinite;
+    animation: animateActive .4s linear;
 }
 @keyframes animate {
     0% {
-        width: 0px;
-        height: 0px;
+        width: 0rpx;
+        height: 0rpx;
         opacity: .5;
     }
     100% {
-        width: 500px;
-        height: 500px;
+        width: 1000rpx;
+        height: 1000rpx;
         opacity: 0;
     }
 }
 @keyframes animateActive {
     0% {
-        width: 50%;
+        width: 70%;
         height: 100%;
-        opacity: 1;
+        opacity: .5;
     }
     100% {
-        width: 500px;
-        height: 500px;
+        width: 1000rpx;
+        height: 1000rpx;
         opacity: 0;
     }
 }

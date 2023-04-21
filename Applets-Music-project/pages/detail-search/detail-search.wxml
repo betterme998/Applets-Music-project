@@ -1,7 +1,8 @@
 <!--pages/detail-search/detail-search.wxml-->
+
 <view class="navCont">
     <!-- 导航 -->
-    <nav-bar>
+    <nav-bar bind:leftclick="onNavBackTap">
         <view class="lsftIcon" slot="left">
             <text class="iconfont icon-fanhui"></text>
         </view>
@@ -10,12 +11,15 @@
                 <van-search
                 value="{{searchValue}}"
                 shape="round"
-                background="#fafafa"
+                background="#f8f9fd"
                 placeholder="{{RecommendText}}"
                 bind:change="onPromptFn"
                 bind:search="onfingerboardSearch"
                 bind:focus="onFocus"
                 bind:blur="onBlur"
+                clear-trigger="always"
+                bind:clear="clearFn"
+                focus
                 />
             </view>
         </view>
@@ -42,61 +46,92 @@
     </view>
     <!-- 搜索结果 -->
     <view
-        wx:if="{{Proposeresult}}"   
+        wx:if="{{Proposeresult}}" 
+        class="resultCon"  
     >
         <search-scroll 
-        />
-    </view>
-</view>
-
-<!-- 搜索首页 -->
-<view
-    wx:if="{{!Proposeresult&&!ProposeListShow&&homeTop>0}}"
-    style="margin-top: {{homeTop}}px;"
->
-    <view class="homecontent">
-        <srarch-history
-            wx:if="{{historyListShow}}"
-            historyList="{{historyList}}"
-            historyShow="true"
-            bind:deleteEmit="deleteEmitFn"  
-        />
-        <srarch-history
-            historyList="{{LoveList}}"
-            wx:if="{{LoveList.length}}"
+            tabsValue="{{tabsValue}}"
+            resultHeight="{{resultHeight}}"
         >
-            <text class="leftLove" slot="left">猜你喜欢</text>
-            <text bindtap="getLoveSong" class="iconfont icon-shuaxin" slot="right"></text>
-        </srarch-history>
-    </view>
-    <!-- 排行 -->
-    <view class="swipersView">
-        <swiper 
-            previous-margin="24rpx"
-            next-margin="160rpx"
-            snap-to-edge
-            class="swipers"
-            style="height: {{swiperHeight}}px;"
-        >
-            <block wx:for="{{rankingInfos}}" wx:key="name">
-            
-                <swiper-item class="swiperItem">
-                    <view class="swiperConts">
-                        <search-detail bind:swiperEvent="swiperEventFn" rankingInfosItem="{{item}}"></search-detail>
-                    </view>
-                </swiper-item>
+            <block wx:for="{{tabsValue}}" wx:key="name">
+                <view class="slotScroll" slot="{{item.name}}">
+                    <view
+                        wx:if="{{item.name === 'comprehensive'}}"
+                    >
+                        <view class="guessLove">
+                            <search-result-item>
+                                <view class="LoveTopText" slot="top">
+                                    <text>你可能感兴趣</text>
+                                </view>
+                                <view slot="Iddle">
+                                    <singer-Item songList="{{songList}}"></singer-Item>
+                                </view>
+                                <view slot="Bottom">
+                                    <text></text>
+                                </view>
+                            </search-result-item>
+                        </view>
+                        <search-result-item
+                            title="{{tabsValue[index+1].tabTitle}}"
+                            singleList="{{singleList}}"
+                        />
+                    </view> 
+                </view>
             </block>
-        </swiper>
+        </search-scroll>
     </view>
 </view>
+<scroll-view class="listC" scroll-y="true" style="height: {{(!Proposeresult&&!ProposeListShow) ? bodyHeight:resultHeight}}rpx;" enable-passive>
+    <!-- 搜索首页 -->
+    <view
+        wx:if="{{!Proposeresult&&!ProposeListShow&&homeTop>0}}"
+        style="margin-top: {{homeTop}}px;"
+    >
+        <view class="homecontent">
+            <srarch-history
+                wx:if="{{historyListShow}}"
+                historyList="{{historyList}}"
+                historyShow="true"
+                bind:deleteEmit="deleteEmitFn"  
+            />
+            <srarch-history
+                historyList="{{LoveList}}"
+                wx:if="{{LoveList.length}}"
+            >
+                <text class="leftLove" slot="left">猜你喜欢</text>
+                <text bindtap="getLoveSong" class="iconfont icon-shuaxin" slot="right"></text>
+            </srarch-history>
+        </view>
+        <!-- 排行 -->
+        <view class="swipersView">
+            <swiper 
+                previous-margin="24rpx"
+                next-margin="160rpx"
+                snap-to-edge
+                class="swipers"
+                style="height: {{swiperHeight}}px;"
+            >
+                <block wx:for="{{rankingInfos}}" wx:key="name">
+                
+                    <swiper-item class="swiperItem">
+                        <view class="swiperConts">
+                            <search-detail bind:swiperEvent="swiperEventFn" rankingInfosItem="{{item}}"></search-detail>
+                        </view>
+                    </swiper-item>
+                </block>
+            </swiper>
+        </view>
+    </view>
 
-<!-- 搜索结果 -->
-<view
-    wx:if="{{Proposeresult}}"   
-    style="margin-top: {{resultTop}};"
->
-    
-</view>
+    <!-- 搜索结果 -->
+    <view
+        wx:if="{{Proposeresult}}"   
+        style="margin-top: {{resultTop}};"
+    >
+        
+    </view>
+</scroll-view>
+
 
 
 

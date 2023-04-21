@@ -7,6 +7,7 @@
     shape="round"
     background="#fafafa"
     placeholder="请输入搜索关键词"
+    disabled
     bind:click-input="onSearchClick"
     />
     <!-- 2.轮播图展示 -->

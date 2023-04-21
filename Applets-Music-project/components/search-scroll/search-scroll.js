@@ -1,22 +1,26 @@
 // components/search-scroll/search-scroll.js
 Component({
-    /**
-     * 组件的属性列表
-     */
+    // 多个插槽要加上这个
+    options:{
+        multipleSlots:true
+    },
     properties: {
-
+        tabsValue:{
+            type:Array,
+            value:[]
+        },
+        resultHeight:{
+            type:Number,
+            value:0
+        }
     },
-
-    /**
-     * 组件的初始数据
-     */
     data: {
-
     },
-
-    /**
-     * 组件的方法列表
-     */
+    lifetimes: {
+        attached: function() {
+             
+        }
+    },
     methods: {
 
     }

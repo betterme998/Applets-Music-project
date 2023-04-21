@@ -1,0 +1,14 @@
+<!--components/singer-Item/singer-Item.wxml-->
+<wxs src="/utils/format.wxs" module="fmt"></wxs>
+<view class="itemCon">
+    <view class="itemLeft">
+        <image class="image {{round ? 'active' : ''}}" src="{{songList.playlists[0].coverImgUrl}}" mode="widthFix"></image>
+    </view>
+    <view class="itemRight">
+        <view class="rightTopText"><text>{{songList.title}} {{songList.playlists[0].name}}</text></view>
+        <view class="rightBomText">
+            <text class="text">歌曲:{{songList.playlistCount}}</text>
+            <text class="text">,播放:{{fmt.formatCount(songList.playlists[0].playCount)}}</text>
+        </view>
+    </view>
+</view>

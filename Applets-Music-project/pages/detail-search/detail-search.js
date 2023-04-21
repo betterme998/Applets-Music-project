@@ -1,4 +1,5 @@
 // pages/detail-search/detail-search.js
+import { object } from "underscore";
 import { searchPropose, search, searchRecommend } from "../../services/search"
 import rankingStore, {rankingsIds} from "../../store/rankingStore";
 
@@ -29,7 +30,24 @@ Page({
         // 巅峰榜数据
         rankingInfos:{},
 
-        menuRight:0
+        menuRight:0,
+        bodyHeight:0,
+        resultHeight:0,
+        tabsValue:[
+            {tabTitle:'综合',name:'comprehensive'},
+            {tabTitle:'单曲',name:'single'},
+            {tabTitle:'歌曲',name:'song'},
+            {tabTitle:'视频',name:'video'},
+            {tabTitle:'歌手',name:'singer'},
+            {tabTitle:'电台',name:'radio'},
+        ],
+
+        // 搜索结果
+        singleList:[],
+
+        // 猜你喜欢
+        songList:{},
+        singerList:{}
     },
     onLoad(options) {
         this.setData({menuRight:app.globalData.menuRight})
@@ -87,20 +105,19 @@ Page({
     onBlur(){
         this.setData({focus:true})
     },
+    clearFn(){
+        this.setData({Proposeresult:false})
+    },
+    onNavBackTap(){
+        wx.navigateBack()
+    },
 
 
     // 自定义事件
     keyWorldSearch(event) {
-        let keyword = event.detail.keyword
-        
-
-
-        // search(keyword).then(res => {
-        //     console.log(res);
-        // })
-        // search(keyword,30,10).then(res => {
-        //     console.log(res);
-        // })
+        setTimeout(()=>{
+            this.searchGetFn(event)
+        },300)        
     },
     deleteEmitFn(){
         listMap=[]
@@ -137,27 +154,24 @@ Page({
         if (newList.length === 0) {
             newList = ['林俊杰','薛之谦','隔壁老樊','陈奕迅','李荣浩','华晨宇']
         }
-        if (newList.length>0&&this.data.renovate) {
+        if (this.data.renovate) {
             let data = await search(newList[this.data.index],1)
             let wordKey = data.data.result.songs[0].ar[0].name
             this.data.renovate = false
             search(wordKey,5).then(res =>{
-                if (res.data.result.songs[0].name) {
-                    let loveArrays = res.data.result.songs
-                    let LoveList = loveArrays.filter(item =>{
-                        if (item.name !== 'Undefined' && item.name) {
-                            return item
-                        }
-                    }).map(res =>{
-                        return res.name
-                    })
-                    this.setData({
-                        LoveList,
-                        index:this.data.index + 1
-                    })
-                    this.data.renovate = true
-
-                }
+                let loveArrays = res.data.result.songs
+                let LoveList = loveArrays.filter(item =>{
+                    if (item.name !== 'Undefined' && item.name) {
+                        return item
+                    }
+                }).map(res =>{
+                    return res.name
+                })
+                this.setData({
+                    LoveList,
+                    index:this.data.index + 1
+                })
+                this.data.renovate = true
             })
         }
         if (this.data.index >= newList.length) this.setData({index:0})
@@ -176,9 +190,10 @@ Page({
     ServicesPromptFn(event){
         var loadingTime = setTimeout(()=>{
             this.setData({
-                loading:true
+                loading:true,
+                ProposeListValue:[]
             })
-        },200)
+        },100)
         searchPropose(event).then(res => {
             if (res.data.result.allMatch === undefined) {
                 this.setData({nolistShow:true})
@@ -193,8 +208,15 @@ Page({
         })
     },
     searchGetFn(event){//搜索结果函数
-        if (event.detail) {
-            listMap.unshift(event.detail)
+        this.setData({singleList:[]})
+        let keyWord = ''
+        if (typeof(event.detail) === 'object') {
+            keyWord = event.detail.keyword
+        }else if (typeof(event.detail) === 'string') {
+            keyWord = event.detail
+        }
+        if (keyWord) {
+            listMap.unshift(keyWord)
             if (listMap.length>10) {
                 listMap.pop()
             }
@@ -204,11 +226,28 @@ Page({
             });
             let newLists = [...listMapSet]
             wx.setStorageSync('history',newLists)
-            this.setData({Proposeresult:true,ProposeListShow:false,historyListShow:true})
-            search(event.detail).then(res => {
-                console.log(res);
+            this.setData({Proposeresult:true,ProposeListShow:false,historyListShow:true,searchValue:keyWord})
+            search(keyWord).then(res => {
+                let singleList = res.data.result.songs
+                this.setData({singleList})
             }).finally(()=>{
                 this.setData({historyList:newLists,index:newLists.length})
+            })
+            search(keyWord,1,100).then(res => {
+                console.log(res);
+                let singerList = res.data.result
+                singerList.title = "歌手:"
+                this.setData({
+                    singerList
+                })
+            })
+            search(keyWord,1,1000).then(res => {
+                console.log(res);
+                let songList = res.data.result
+                songList.title = "歌单:"
+                this.setData({
+                    songList
+                })
             })
         }else {
             listMap.unshift(this.data.RecommendText)
@@ -223,9 +262,22 @@ Page({
             this.setData({searchValue:this.data.RecommendText,historyListShow:true})
             wx.setStorageSync('history',newLists)
             search(this.data.searchValue).then(res => {
-                console.log(res);
+                let singleList = res.data.result.songs
+                this.setData({singleList})
             }).finally(()=>{
                 this.setData({historyList:newLists,index:newLists.length})
+            })
+            search(this.data.searchValue,1,100).then(res => {
+                let singerList = res.data.result.artists
+                this.setData({
+                    singerList
+                })
+            })
+            search(this.data.searchValue,1,1000).then(res => {
+                let songList = res.data.result
+                this.setData({
+                    songList
+                })
             })
             this.setData({Proposeresult:true,ProposeListShow:false})
         }
@@ -239,11 +291,13 @@ Page({
         let query = wx.createSelectorQuery();
         query.select('.navCont').boundingClientRect(res =>{
             let homeTop = res.height
+            let bodyHeight = app.globalData.screeHeight * app.globalData.devicePixelRatio
             if (!this.data.Proposeresult&&!this.data.ProposeListShow) {
-                this.setData({ homeTop})
+                this.setData({ homeTop, bodyHeight})
             }
             if (this.data.Proposeresult) {
-                this.setData({ resultTop:homeTop})
+                let resultHeight = bodyHeight - (homeTop*app.globalData.devicePixelRatio)
+                this.setData({ resultTop:homeTop,resultHeight})
             }
             
         }).exec();
@@ -268,8 +322,7 @@ Page({
             listMap = historyList
             that.setData({
                 historyList,
-                historyListShow:true,
-                index:listMap.length
+                historyListShow:true
             })
         }else{
             that.setData({

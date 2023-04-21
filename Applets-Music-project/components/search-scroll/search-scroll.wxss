@@ -2,5 +2,9 @@
 page{
     --tabs-nav-background-color:#f6f6f6
     --font-weight-bold:700
+    --tabs-bottom-bar-color:#f6f6f6
 }
-/* .tab /deep/ .van-tabs /deep/ .van-tabs__wrap */
+
+.listC{
+    background-color: #f8f9fd;
+}

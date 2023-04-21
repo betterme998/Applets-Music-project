@@ -9,6 +9,8 @@
         "search-scroll":"/components/search-scroll/search-scroll",
         "search-Hometab":"/components/search-Hometab/search-Hometab",
         "srarch-history":"/components/srarch-history/srarch-history",
-        "search-detail":"/components/search-detail/search-detail"
+        "search-detail":"/components/search-detail/search-detail",
+        "search-result-item":"/components/search-result-item/search-result-item",
+        "singer-Item":"/components/singer-Item/singer-Item"
     }
 }
