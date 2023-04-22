@@ -61,7 +61,7 @@
                         <view class="guessLove">
                             <search-result-item>
                                 <view class="LoveTopText" slot="top">
-                                    <text>你可能感兴趣</text>
+                                     <text>你可能感兴趣</text>
                                 </view>
                                 <view slot="Iddle">
                                     <singer-Item songList="{{songList}}"></singer-Item>

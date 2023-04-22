@@ -21,6 +21,15 @@
   function indexAdd(index) {
       return index+1
   }
+ // 抽取搜索关键字  
+  function extractKeyWorld(values,keyworld,negation = false) {
+    var world = values;
+    var key = keyworld;
+    var index = world.indexOf(key)
+    if (index>0) {
+        
+    }
+  } 
   
   module.exports = {
     containFn:containFn,

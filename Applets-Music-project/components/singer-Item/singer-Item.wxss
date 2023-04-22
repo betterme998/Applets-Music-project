@@ -3,13 +3,13 @@
     display: flex;
 }
 .itemLeft{
-    width: 200rpx;
+    width: 120rpx;
     height: auto;
     margin-right: 24rpx;
 }
 .image {
     width: 100%;
-    border-radius: 40rpx;    
+    border-radius: 30rpx;    
     background-size: cover;
 }
 .active{
@@ -27,4 +27,5 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space:nowrap;
+    font-size: 30rpx;
 }
