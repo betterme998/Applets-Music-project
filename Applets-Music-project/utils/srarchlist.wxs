@@ -21,17 +21,39 @@
   function indexAdd(index) {
       return index+1
   }
- // 抽取搜索关键字  
-  function extractKeyWorld(values,keyworld,negation = false) {
-    var world = values;
-    var key = keyworld;
-    var index = world.indexOf(key)
-    if (index>0) {
-        
+  function keyWordFn(key,keyWord) {
+    if (key&&keyWord) {
+        var key = key + ''
+        var arr = key.split(keyWord);
+        var textArr = [];
+        arr.forEach(function(item,index){
+            var objText = {
+                text:item,
+                active:false
+            }
+            var objKey = {
+                text:keyWord,
+                active:true
+            }
+            if (index+1 !== arr.length) {
+                textArr.push(objText)
+                textArr.push(objKey)
+            }else{
+                textArr.push(objText)
+            }
+        })
+        var newArr = textArr.filter(function(item){
+            if (item.text !== '') {
+                return true
+            }
+        })
+        return newArr
     }
-  } 
+  }
+
   
   module.exports = {
     containFn:containFn,
-    indexAdd:indexAdd
+    indexAdd:indexAdd,
+    keyWordFn:keyWordFn
   }

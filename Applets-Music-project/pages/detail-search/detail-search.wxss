@@ -78,5 +78,11 @@ page {
 .lsftIcon{
     margin: 24rpx;
 }
+.guessLove .iddleItem:last-child{
+    margin-bottom: 0rpx;
+}
+.iddleItem{
+    margin-bottom: 20rpx;
+}
 
 

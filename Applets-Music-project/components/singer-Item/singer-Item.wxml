@@ -1,18 +1,67 @@
 <!--components/singer-Item/singer-Item.wxml-->
+<wxs src="/utils/srarchlist.wxs" module="sct"></wxs>
+
 <wxs src="/utils/format.wxs" module="fmt"></wxs>
 <view class="itemCon">
-    <view class="itemLeft">
-        <image class="image {{round ? 'active' : ''}}" src="{{songList.playlists[0].coverImgUrl}}" mode="widthFix"></image>
+    <view
+        wx:if="{{songList.img1v1Url||songList.coverImgUrl}}" 
+        class="itemLeft">
+        <image class="image {{round ? 'actives' : ''}}" src="{{round ? songList.img1v1Url: songList.coverImgUrl}}" mode="widthFix"></image>
     </view>
     <view class="itemRight">
         <view class="rightTopText">
-            <text>{{songList.title}}</text>
-            <text>{{songList.playlists[0].name}}</text>
-            <text>{{songList.playlists[0].name}}</text>
+            <block wx:for="{{songList.nameObj}}" wx:key="text">
+                <text class="{{item.active ? 'active' : ''}}">{{item.text}}</text>
+            </block>
         </view>
         <view class="rightBomText">
-            <text class="text">歌曲:{{songList.playlistCount}}</text>
-            <text class="text">,播放:{{fmt.formatCount(songList.playlists[0].playCount)}}</text>
+            <view wx:if="{{!round}}">
+                <block  wx:if="{{songList.trackCount>0}}"
+                        wx:for="{{sct.keyWordFn(songList.trackCount,keyWorld)}}" wx:key="text"
+                >
+                    <text class="{{item.active ? 'active' : ''}}">{{item.text}}</text>
+                </block>
+                <text wx:if="{{songList.trackCount>0}}">首</text>
+                <text wx:if="{{songList.creator.nickname && songList.trackCount>0}}">,</text>
+
+                <block  wx:if="{{songList.creator.nickname}}"
+                        wx:for="{{sct.keyWordFn(songList.creator.nickname,keyWorld)}}" wx:key="text"
+                >
+                    <text class="{{item.active ? 'active' : ''}}">{{item.text}}</text>
+                </block>
+                <text wx:if="{{songList.playCount>0 && songList.creator.nickname}}">,</text>
+
+                <text wx:if="{{songList.playCount>0}}"> 播放</text>
+                <block  wx:if="{{songList.playCount>0}}"
+                        wx:for="{{sct.keyWordFn(fmt.formatCount(songList.playCount),keyWorld)}}" wx:key="text"
+                >
+                    <text class="{{item.active ? 'active' : ''}}">{{item.text}}</text>
+                </block>
+                <text wx:if="{{songList.playCount>0}}">次</text>
+            </view>
+            <view wx:if="{{round}}">
+                <text wx:if="{{songList.albumSize>0}}">专辑:</text>
+                <block
+                    wx:if="{{songList.albumSize>0}}" 
+                    wx:for="{{sct.keyWordFn(songList.albumSize,keyWorld)}}" wx:key="text"> 
+                    <text class="{{item.active ? 'active' : ''}}">{{item.text}}</text>
+                </block>
+
+                <text wx:if="{{songList.albumSize>0 && songList.mvSize>0}}">,</text>
+
+                <text wx:if="{{songList.mvSize>0}}">MV:</text>
+                <block
+                    wx:if="{{songList.mvSize>0}}"
+                    wx:for="{{sct.keyWordFn(fmt.formatCount(songList.mvSize),keyWorld)}}" wx:key="text"> 
+                    <text class="{{item.active ? 'active' : ''}}">{{item.text}}</text>
+                </block>
+
+            </view>
+        </view>
+        <view class="addcla"  wx:if="{{round}}">
+            <text class="iconfont icon-xihuan"></text>
+            <text>TA的乐迷团</text>
+            <text class="iconfont icon-jinru"></text>
         </view>
     </view>
 </view>

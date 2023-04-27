@@ -12,6 +12,10 @@ Component({
         singleList:{
             type:Array,
             value:[]
+        },
+        keyWorld:{
+            type:String,
+            value:''
         }
     },
     data: {

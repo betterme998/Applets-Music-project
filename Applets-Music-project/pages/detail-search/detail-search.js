@@ -36,7 +36,7 @@ Page({
         tabsValue:[
             {tabTitle:'综合',name:'comprehensive'},
             {tabTitle:'单曲',name:'single'},
-            {tabTitle:'歌曲',name:'song'},
+            {tabTitle:'歌单',name:'song'},
             {tabTitle:'视频',name:'video'},
             {tabTitle:'歌手',name:'singer'},
             {tabTitle:'电台',name:'radio'},
@@ -44,7 +44,9 @@ Page({
 
         // 搜索结果
         singleList:[],
-
+        singleAll:[],
+        songAll:[],
+        shiftingIndex:0,
         // 猜你喜欢
         songList:{},
         singerList:{}
@@ -111,6 +113,16 @@ Page({
     onNavBackTap(){
         wx.navigateBack()
     },
+    getTabItemValue(e){
+        console.log(e);
+        if (this.data.singleAll.length === 0 && e.detail === 1) {
+            this.searchSingle(this.data.searchValue)
+        }
+        if (this.data.songAll.length === 0 && e.detail === 2) {
+            this.searchSong(this.data.searchValue)
+        }
+    },
+
 
 
     // 自定义事件
@@ -179,6 +191,27 @@ Page({
     swiperEventFn(){
         this.getSwiperHeight()
     },
+    // 整合请求数据
+    handleValue(res,num,keyWord){
+        if (num === 1000) {
+            let playList = res.data.result.playlists
+            playList.map((item)=> {
+                let key = "歌单:"+item.name
+                let nameObj = this.keyWordFn(key,keyWord)
+                item.nameObj = nameObj
+            })
+            return playList
+        }
+        if (num === 100) {
+            let playList = res.data.result.artists
+            playList.map((item)=> {
+                let key = "歌手:"+item.name
+                let nameObj = this.keyWordFn(key,keyWord)
+                item.nameObj = nameObj
+            })
+            return playList
+        }
+    },
 
     // 网络请求
     async servicesRecommend(){
@@ -208,7 +241,7 @@ Page({
         })
     },
     searchGetFn(event){//搜索结果函数
-        this.setData({singleList:[]})
+        this.setData({singleList:[],singleAll:[],songAll:[]})
         let keyWord = ''
         if (typeof(event.detail) === 'object') {
             keyWord = event.detail.keyword
@@ -234,17 +267,14 @@ Page({
                 this.setData({historyList:newLists,index:newLists.length})
             })
             search(keyWord,1,100).then(res => {
-                console.log(res);
-                let singerList = res.data.result
-                singerList.title = "歌手:"
+                let singerList = this.handleValue(res,100,keyWord)
                 this.setData({
                     singerList
                 })
             })
-            search(keyWord,1,1000).then(res => {
+            search(keyWord,5,1000).then(res => {
+                let songList = this.handleValue(res,1000,keyWord)
                 console.log(res);
-                let songList = res.data.result
-                songList.title = "歌单:"
                 this.setData({
                     songList
                 })
@@ -268,13 +298,13 @@ Page({
                 this.setData({historyList:newLists,index:newLists.length})
             })
             search(this.data.searchValue,1,100).then(res => {
-                let singerList = res.data.result.artists
+                let singerList = this.handleValue(res,100,keyWord)
                 this.setData({
                     singerList
                 })
             })
-            search(this.data.searchValue,1,1000).then(res => {
-                let songList = res.data.result
+            search(this.data.searchValue,5,1000).then(res => {
+                let songList = this.handleValue(res,1000,keyWord)
                 this.setData({
                     songList
                 })
@@ -284,6 +314,25 @@ Page({
         if (this.data.resultTop === 0) {
             this.getNavTabHeight()
         }
+    },
+    // 歌曲上拉下拉
+    searchSingle(keyWord){
+        search(keyWord,30,1,this.data.shiftingIndex * 30).then(res => {
+            let singleAll = res.data.result.songs
+            this.setData({
+                singleAll
+            })
+        })
+    },
+    // 歌单上拉下拉
+    searchSong(keyWord){
+        search(keyWord,30,1000,this.data.shiftingIndex * 30).then(res => {
+            console.log(res);
+            let songList = this.handleValue(res,1000,keyWord)
+            this.setData({
+                songAll:songList
+            })
+        })
     },
 
     // 获取nav+tab高度
@@ -329,6 +378,35 @@ Page({
                 historyListShow:false
             })
         }
+    },
+
+    // 数据处理 搜索文本匹配 active
+    keyWordFn(key,keyWord){
+        let arr = key.split(keyWord)
+        let textArr = new Array();
+
+        arr.forEach((item,index)=>{
+            let objText = {
+                text:item,
+                active:false
+            }
+            let objKey = {
+                text:keyWord,
+                active:true
+            }
+            if (index+1 !== arr.length) {
+                textArr.push(objText)
+                textArr.push(objKey)
+            }else{
+                textArr.push(objText)
+            }
+        })
+        let newArr = textArr.filter((item)=>{
+            if (item.text !== '') {
+                return true
+            }
+        })
+        return newArr
     },
 
     

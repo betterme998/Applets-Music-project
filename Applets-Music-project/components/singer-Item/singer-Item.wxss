@@ -1,4 +1,5 @@
 /* components/singer-Item/singer-Item.wxss */
+@import "/assets/font/iconfont.wxss";
 .itemCon{
     display: flex;
 }
@@ -8,24 +9,50 @@
     margin-right: 24rpx;
 }
 .image {
-    width: 100%;
+    width: 120rpx;
     border-radius: 30rpx;    
     background-size: cover;
 }
-.active{
+.actives{
     border-radius: 100%;    
+}
+.active{
+    color: #507bab;
 }
 
 
 .itemRight{
+    flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-
+    justify-content: space-evenly;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.rightTopText{
+    font-size: 30rpx;
+    color: #363636;
 }
 .rightBomText,.rightTopText{
     overflow: hidden;
     text-overflow: ellipsis;
     white-space:nowrap;
-    font-size: 30rpx;
+    
+}
+.rightTopText .active{
+    color: #507bab;
+}
+.rightBomText{
+    font-size: 25rpx;
+    color: #9a9a9c;
+}
+.addcla{
+    color: #507bab;
+    font-size: 25rpx;
+    display: flex;
+    align-items: center;
+}
+.iconfont{
+    font-size: 25rpx;
 }

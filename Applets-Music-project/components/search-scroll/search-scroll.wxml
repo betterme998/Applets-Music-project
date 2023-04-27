@@ -9,6 +9,7 @@
         class="van-tabsCon"
         wrap-class = "wrap-class-tab"
         swipe-threshold = "6"
+        bind:change="vanTabClick"
     >
         <block wx:for="{{tabsValue}}" wx:key="name">
             <van-tab title="{{item.tabTitle}}">

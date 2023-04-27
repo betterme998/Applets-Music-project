@@ -4,6 +4,10 @@ Component({
         singleValue:{
             type:Object,
             value:{}
+        },
+        keyWorld:{
+            type:String,
+            value:''
         }
     },
 

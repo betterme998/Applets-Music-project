@@ -52,30 +52,77 @@
         <search-scroll 
             tabsValue="{{tabsValue}}"
             resultHeight="{{resultHeight}}"
+            bind:getTabItemValue="getTabItemValue"
         >
             <block wx:for="{{tabsValue}}" wx:key="name">
                 <view class="slotScroll" slot="{{item.name}}">
                     <view
                         wx:if="{{item.name === 'comprehensive'}}"
                     >
-                        <view class="guessLove">
+                        <!-- 猜你喜欢 -->
+                        <view wx:if="{{singerList.length>0 || songList.length>0}}" class="guessLove">
                             <search-result-item>
                                 <view class="LoveTopText" slot="top">
                                      <text>你可能感兴趣</text>
                                 </view>
                                 <view slot="Iddle">
-                                    <singer-Item songList="{{songList}}"></singer-Item>
+                                    <view wx:if="{{singerList.length>0}}" class="iddleItem">
+                                        <singer-Item round="false" keyWorld="{{searchValue}}" songList="{{singerList[0]}}"></singer-Item>
+                                    </view>
+                                    <view wx:if="{{songList.length>0}}" class="iddleItem">
+                                        <singer-Item keyWorld="{{searchValue}}" songList="{{songList[0]}}"></singer-Item>
+                                    </view>
                                 </view>
                                 <view slot="Bottom">
                                     <text></text>
                                 </view>
                             </search-result-item>
                         </view>
-                        <search-result-item
-                            title="{{tabsValue[index+1].tabTitle}}"
-                            singleList="{{singleList}}"
-                        />
-                    </view> 
+                        <!-- 单曲 -->
+                        <view wx:if="{{singleList.length>0}}" class="guessLove">
+                            <search-result-item
+                                title="{{tabsValue[index+1].tabTitle}}"
+                                singleList="{{singleList}}"
+                                keyWorld="{{searchValue}}"
+                            />
+                        </view>
+                        <!-- 歌单 -->
+                        <view class="guessLove">
+                            <search-result-item
+                                title="{{tabsValue[index+2].tabTitle}}"
+                            >
+                                <view class="LoveTopText" slot="top">
+                                     <text>{{tabsValue[index+2].tabTitle}}</text>
+                                </view>
+                                <view slot="Iddle">
+                                    <block wx:for="{{songList}}" wx:key="id">
+                                        <view class="iddleItem">
+                                            <singer-Item keyWorld="{{searchValue}}" songList="{{item}}"></singer-Item>
+                                        </view>
+                                    </block>
+                                </view>
+                            </search-result-item> 
+                        </view>
+                    </view>
+                    <view
+                        wx:if="{{item.name === 'single'}}"
+                    >
+                        <block wx:for="{{singleAll}}" wx:key="id">
+                            <single-Item  
+                                singleValue="{{item}}"
+                                keyWorld="{{searchValue}}"
+                            />
+                        </block>
+                    </view>
+                    <view
+                        wx:if="{{item.name === 'song'}}"
+                    >
+                        <block wx:for="{{songAll}}" wx:key="id">
+                            <view class="iddleItem">
+                                <singer-Item keyWorld="{{searchValue}}" songList="{{item}}"></singer-Item>
+                            </view>
+                        </block>
+                    </view>
                 </view>
             </block>
         </search-scroll>

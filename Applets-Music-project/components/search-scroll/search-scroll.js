@@ -22,6 +22,9 @@ Component({
         }
     },
     methods: {
-
+        vanTabClick(event) {
+            let index = event.detail.index
+            this.triggerEvent("getTabItemValue",index)
+        }
     }
 })

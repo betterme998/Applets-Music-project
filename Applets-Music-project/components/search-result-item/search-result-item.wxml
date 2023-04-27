@@ -21,6 +21,7 @@
                 <single-Item
                     singleValue="{{item}}"
                     class="single-Item"
+                    keyWorld="{{keyWorld}}"
                 />
             </block>
         </view>
@@ -30,7 +31,7 @@
             <slot name="Bottom"></slot>
         </view>
         <view class="default BottomCon">
-            <text>查看全部单曲</text>
+            <text>查看全部{{title}}</text>
         </view>
     </view>
 </view>

@@ -12,13 +12,14 @@ export function searchPropose(keywords,type="mobile") {
 }
 
 // 搜索结果
-export function search(keywords,limit=5,type=1) {
+export function search(keywords,limit=5,type=1,offset=0) {
     return hyRequest.get({
         url:"/cloudsearch",
         data:{
             keywords,
             limit,
-            type
+            type,
+            offset
         }
     })
 }
