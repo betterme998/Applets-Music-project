@@ -1,6 +1,7 @@
 // pages/detail-search/detail-search.js
 import { object } from "underscore";
 import { searchPropose, search, searchRecommend } from "../../services/search"
+import { getMVRel } from "../../services/video"
 import rankingStore, {rankingsIds} from "../../store/rankingStore";
 
 const app = getApp()
@@ -49,7 +50,9 @@ Page({
         shiftingIndex:0,
         // 猜你喜欢
         songList:{},
-        singerList:{}
+        singerList:{},
+        // 视频
+        MVList:[]
     },
     onLoad(options) {
         this.setData({menuRight:app.globalData.menuRight})
@@ -114,7 +117,6 @@ Page({
         wx.navigateBack()
     },
     getTabItemValue(e){
-        console.log(e);
         if (this.data.singleAll.length === 0 && e.detail === 1) {
             this.searchSingle(this.data.searchValue)
         }
@@ -274,11 +276,21 @@ Page({
             })
             search(keyWord,5,1000).then(res => {
                 let songList = this.handleValue(res,1000,keyWord)
-                console.log(res);
                 this.setData({
                     songList
                 })
             })
+            search(keyWord,5,1014).then(res => {
+                let MVList = res.data.result.videos
+                this.setData({
+                    MVList
+                })
+                //mv 
+                // getMVRel(MV).then(res => {
+                //     console.log(res);
+                // })
+            })
+
         }else {
             listMap.unshift(this.data.RecommendText)
             if (listMap.length>10) {

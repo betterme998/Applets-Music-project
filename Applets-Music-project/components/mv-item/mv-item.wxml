@@ -1,0 +1,30 @@
+<wxs src="/utils/srarchlist.wxs" module="sct"></wxs>
+<wxs src="/utils/format.wxs" module="fmt"/>
+
+<view class="itemCon">
+    <view
+        wx:if="{{songList.coverUrl}}" 
+        class="itemLeft">
+        <image class="image" src="{{songList.coverUrl}}" mode="aspectFill"></image>
+    </view>
+    <view class="itemRight">
+        <view class="rightTopText">
+            <block
+                wx:for="{{sct.keyWordFn(songList.title,keyWorld)}}" wx:key="text"
+            >
+                <text class="{{item.active ? 'active' : ''}}">{{item.text}}</text>
+            </block>
+        </view>
+        <view class="rightBomText">
+            <text>{{fmt.formatTime(songList.durationms)}},{{' '}}</text>
+            <block wx:for="{{songList.creator}}" wx:for-item="iten" wx:key="userId">
+                <block 
+                wx:for="{{sct.keyWordFn(iten.userName,keyWorld)}}" wx:key="text"
+                >
+                    <text class="{{item.active ? 'active' : ''}}">{{item.text}}</text>
+                </block>
+            </block>
+            <!-- <text>{{fmt.formatTime(songList.durationms)}}</text> -->
+        </view>
+    </view>
+</view>

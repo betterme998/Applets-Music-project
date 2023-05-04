@@ -103,6 +103,23 @@
                                 </view>
                             </search-result-item> 
                         </view>
+                        <!-- 视频 -->
+                        <view class="guessLove">
+                            <search-result-item
+                                title="{{tabsValue[index+3].tabTitle}}"
+                            >
+                                <view class="LoveTopText" slot="top">
+                                     <text>{{tabsValue[index+3].tabTitle}}</text>
+                                </view>
+                                <view slot="Iddle">
+                                    <block wx:for="{{MVList}}" wx:key="id">
+                                        <view class="iddleItem">
+                                            <mv-item keyWorld="{{searchValue}}" songList="{{item}}"></mv-item>
+                                        </view>
+                                    </block>
+                                </view>
+                            </search-result-item> 
+                        </view>
                     </view>
                     <view
                         wx:if="{{item.name === 'single'}}"

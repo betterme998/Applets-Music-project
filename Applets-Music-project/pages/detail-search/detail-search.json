@@ -12,6 +12,7 @@
         "search-detail":"/components/search-detail/search-detail",
         "search-result-item":"/components/search-result-item/search-result-item",
         "singer-Item":"/components/singer-Item/singer-Item",
-        "single-Item":"/components/single-Item/single-Item"
+        "single-Item":"/components/single-Item/single-Item",
+        "mv-item":"/components/mv-item/mv-item"
     }
 }
