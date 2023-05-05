@@ -67,6 +67,9 @@ page {
 .slotScroll{
     margin: 24rpx;
 }
+.videoCon{
+    position: relative;
+}
 .guessLove{
     margin-bottom: 24rpx;
 }
@@ -75,14 +78,21 @@ page {
     font-size: 28rpx;
     padding: 12rpx 0;
 }
+.songText,.videoText{
+    color: #333333;
+    font-weight: 700;
+    font-size: 34rpx;
+    padding-bottom: 18rpx;
+}
 .lsftIcon{
     margin: 24rpx;
 }
-.guessLove .iddleItem:last-child{
-    margin-bottom: 0rpx;
+.guessLove .guessLast:last-child{
+    border-bottom: 2rpx solid #f4f4f4;
 }
 .iddleItem{
     margin-bottom: 20rpx;
 }
+
 
 

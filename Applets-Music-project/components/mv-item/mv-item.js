@@ -8,7 +8,12 @@ Component({
         songList:{
             type:Object,
             value:{}
+        },
+        videotab:{
+            type:Boolean,
+            value:false
         }
+
     },
     data: {
 

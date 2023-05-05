@@ -23,6 +23,7 @@ Page({
         focus:true,
         homeTop:0,
         swiperHeight:800,
+        videoHeight:0,
         resultTop:0,
         historyList:[],
         index:0,
@@ -48,11 +49,15 @@ Page({
         singleAll:[],
         songAll:[],
         shiftingIndex:0,
+        videoIndex:0,
+        songIndex:0,
         // 猜你喜欢
         songList:{},
         singerList:{},
         // 视频
-        MVList:[]
+        MVList:[],
+        MVAllList:[],
+        videoTabs:false
     },
     onLoad(options) {
         this.setData({menuRight:app.globalData.menuRight})
@@ -122,6 +127,18 @@ Page({
         }
         if (this.data.songAll.length === 0 && e.detail === 2) {
             this.searchSong(this.data.searchValue)
+        }
+        if (this.data.MVAllList.length === 0 && e.detail === 3) {
+            this.searchVideo(this.data.searchValue)
+            this.getVideoHeight()
+            this.IntersectionObserver()
+            this.setData({
+                videoTabs:true
+            })
+        }else{
+            this.setData({
+                videoTabs:false
+            })
         }
     },
 
@@ -213,6 +230,26 @@ Page({
             })
             return playList
         }
+    },
+    // 监听视频到指定位置播放
+    IntersectionObserver() {
+        let intersectionObserver = wx.createIntersectionObserver({ observeAll: true})
+        console.log(intersectionObserver);
+        intersectionObserver.relativeTo('.relativeView')
+        .observe(".videoItem",(res) =>{
+            console.log(res);
+        })
+        // wx.createIntersectionObserver(this, {
+        //     thresholds: [0.2, 0.5]
+        // }).relativeTo('.relativeView').relativeToViewport().observe('.iddleItem', (res) => {
+        //     console.log(res);
+        // res.intersectionRatio // 相交区域占目标节点的布局区域的比例
+        // res.intersectionRect // 相交区域
+        // res.intersectionRect.left // 相交区域的左边界坐标
+        // res.intersectionRect.top // 相交区域的上边界坐标
+        // res.intersectionRect.width // 相交区域的宽度
+        // res.intersectionRect.height // 相交区域的高度
+        // })
     },
 
     // 网络请求
@@ -338,7 +375,7 @@ Page({
     },
     // 歌单上拉下拉
     searchSong(keyWord){
-        search(keyWord,30,1000,this.data.shiftingIndex * 30).then(res => {
+        search(keyWord,30,1000,this.data.songIndex * 30).then(res => {
             console.log(res);
             let songList = this.handleValue(res,1000,keyWord)
             this.setData({
@@ -346,6 +383,17 @@ Page({
             })
         })
     },
+    //视频上拉下拉
+    searchVideo(keyWord){
+        search(keyWord,10,1014,this.data.videoIndex * 10).then(res => {
+            console.log(res);
+            let MVAllList = res.data.result.videos
+            this.setData({
+                MVAllList
+            })
+        })
+    },
+    
 
     // 获取nav+tab高度
     getNavTabHeight() {
@@ -370,6 +418,20 @@ Page({
             if (res.height) {
                 let swiperHeight = res.height 
                 this.setData({swiperHeight})
+            }
+        }).exec();
+    },
+    // 获取视频高度+nav+tab高度
+    getVideoHeight() {
+        let query = wx.createSelectorQuery();
+        query.select('.iddleItem').boundingClientRect(res =>{
+            if (res.height) {
+            console.log(res);
+
+                let videoHeight = res.height * .8 + this.data.resultTop
+                this.setData({
+                    videoHeight
+                })   
             }
         }).exec();
     },

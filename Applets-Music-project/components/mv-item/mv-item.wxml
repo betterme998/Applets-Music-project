@@ -5,7 +5,9 @@
     <view
         wx:if="{{songList.coverUrl}}" 
         class="itemLeft">
-        <image class="image" src="{{songList.coverUrl}}" mode="aspectFill"></image>
+        <image class="image" src="{{songList.coverUrl}}" mode="widthFix"></image>
+        <text wx:if="{{!videotab}}" class="iconfont icon-bofanganniu"></text>
+        <text wx:if="{{videotab}}" class="mvtime">{{fmt.formatTime(songList.durationms)}}</text>
     </view>
     <view class="itemRight">
         <view class="rightTopText">
