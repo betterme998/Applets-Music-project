@@ -31,7 +31,10 @@
             <slot name="Bottom"></slot>
         </view>
         <view class="default BottomCon">
-            <text>查看全部{{title}}</text>
+            <text>查看更多</text>
+            <text class="keyWorld">{{keyWorld}}</text>
+            <text>{{title}}</text>
+            <text class="iconfont icon-jinru"></text>
         </view>
     </view>
 </view>

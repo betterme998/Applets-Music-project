@@ -12,11 +12,12 @@ export function getTopMVL(offset = 0,limit = 20) {
 }
 
 // 请求mv视频数据
-export function getMVRel(id) {
+export function getMVRel(id,r = 720) {
     return hyRequest.get({
         url:"/mv/url",
         data:{
-            id
+            id,
+            r
         }
     })
 }

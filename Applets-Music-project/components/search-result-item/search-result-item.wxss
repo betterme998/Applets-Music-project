@@ -40,7 +40,7 @@
 .rightIcon{
     padding: 9rpx;
     border-radius: 28rpx;
-    border: 2rpx solid #e5c4cb;
+    border: 2rpx solid #f63a48;
     color: #fb3d42;
     font-size: 25rpx;
 }
@@ -50,6 +50,12 @@
     justify-content: center;
     align-items: center;
     padding: 10rpx;
+}
+.keyWorld{
+    color: #507bab;
+}
+.icon-jinru{
+    margin: 5rpx 0 0 0;
 }
 
 .default {

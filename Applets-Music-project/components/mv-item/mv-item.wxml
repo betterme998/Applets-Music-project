@@ -4,8 +4,18 @@
 <view class="itemCon">
     <view
         wx:if="{{songList.coverUrl}}" 
-        class="itemLeft">
-        <image class="image" src="{{songList.coverUrl}}" mode="widthFix"></image>
+        class="itemLeft {{active? 'active':''}}">
+        <video 
+            wx:if="{{songList.vid == videoPlay.id}}" 
+            src="{{videoPlay.url}}"
+            controls="{{false}}"
+            class="video"
+            id="video"
+            loop
+            muted
+            autoplay
+        />
+        <image wx:if="{{songList.vid != videoPlay.id}}"  bindload="imageLoadFn" class="image" src="{{songList.coverUrl}}" mode="widthFix"></image>
         <text wx:if="{{!videotab}}" class="iconfont icon-bofanganniu"></text>
         <text wx:if="{{videotab}}" class="mvtime">{{fmt.formatTime(songList.durationms)}}</text>
     </view>

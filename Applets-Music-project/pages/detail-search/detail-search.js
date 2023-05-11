@@ -1,8 +1,9 @@
 // pages/detail-search/detail-search.js
 import { object } from "underscore";
 import { searchPropose, search, searchRecommend } from "../../services/search"
-import { getMVRel } from "../../services/video"
+import { getMVRel,getMVInfo } from "../../services/video"
 import rankingStore, {rankingsIds} from "../../store/rankingStore";
+import { debounce } from "../../utils/debounce"
 
 const app = getApp()
 let listMap = new Array()
@@ -35,13 +36,14 @@ Page({
         menuRight:0,
         bodyHeight:0,
         resultHeight:0,
+        heightvideoCon:false,
         tabsValue:[
             {tabTitle:'综合',name:'comprehensive'},
             {tabTitle:'单曲',name:'single'},
             {tabTitle:'歌单',name:'song'},
             {tabTitle:'视频',name:'video'},
             {tabTitle:'歌手',name:'singer'},
-            {tabTitle:'电台',name:'radio'},
+            {tabTitle:'用户',name:'radio'},
         ],
 
         // 搜索结果
@@ -54,10 +56,18 @@ Page({
         // 猜你喜欢
         songList:{},
         singerList:{},
+        useList:{},
         // 视频
         MVList:[],
         MVAllList:[],
-        videoTabs:false
+        videoPlay:{},
+        videoTabs:false,
+        interest:false,
+        // 用户
+        user:{},
+        userAll:[],
+        // 歌手
+        singerAll:[]
     },
     onLoad(options) {
         this.setData({menuRight:app.globalData.menuRight})
@@ -121,7 +131,7 @@ Page({
     onNavBackTap(){
         wx.navigateBack()
     },
-    getTabItemValue(e){
+    async getTabItemValue(e){
         if (this.data.singleAll.length === 0 && e.detail === 1) {
             this.searchSingle(this.data.searchValue)
         }
@@ -129,16 +139,24 @@ Page({
             this.searchSong(this.data.searchValue)
         }
         if (this.data.MVAllList.length === 0 && e.detail === 3) {
-            this.searchVideo(this.data.searchValue)
-            this.getVideoHeight()
-            this.IntersectionObserver()
+            await this.searchVideo(this.data.searchValue)
             this.setData({
                 videoTabs:true
             })
+        }else if (this.data.MVAllList.length !== 0 && e.detail === 3) {
+            this.IntersectionObserver()
         }else{
+            if (this._listen) this._listen.disconnect()
+            clearInterval(this.setInters)
             this.setData({
                 videoTabs:false
             })
+        }
+        if (this.data.singerAll.length === 0 && e.detail === 4) {
+            await this.searchSinger(this.data.searchValue)
+        }
+        if (this.data.userAll.length === 0 && e.detail === 5) {
+            await this.searchUser(this.data.searchValue)
         }
     },
 
@@ -211,7 +229,7 @@ Page({
         this.getSwiperHeight()
     },
     // 整合请求数据
-    handleValue(res,num,keyWord){
+    handleValue(res,num,keyWord,a = false){
         if (num === 1000) {
             let playList = res.data.result.playlists
             playList.map((item)=> {
@@ -221,7 +239,7 @@ Page({
             })
             return playList
         }
-        if (num === 100) {
+        if (num === 100 && !a) {
             let playList = res.data.result.artists
             playList.map((item)=> {
                 let key = "歌手:"+item.name
@@ -230,26 +248,38 @@ Page({
             })
             return playList
         }
+        if (num === 100 && a) {
+            console.log(a);
+            let playList = res.data.result.artists
+            playList.map((item)=> {
+                let key = item.name
+                let nameObj = this.keyWordFn(key,keyWord)
+                item.nameObj = nameObj
+            })
+            return playList
+        }
     },
     // 监听视频到指定位置播放
     IntersectionObserver() {
-        let intersectionObserver = wx.createIntersectionObserver({ observeAll: true})
-        console.log(intersectionObserver);
-        intersectionObserver.relativeTo('.relativeView')
-        .observe(".videoItem",(res) =>{
-            console.log(res);
-        })
-        // wx.createIntersectionObserver(this, {
-        //     thresholds: [0.2, 0.5]
-        // }).relativeTo('.relativeView').relativeToViewport().observe('.iddleItem', (res) => {
-        //     console.log(res);
-        // res.intersectionRatio // 相交区域占目标节点的布局区域的比例
-        // res.intersectionRect // 相交区域
-        // res.intersectionRect.left // 相交区域的左边界坐标
-        // res.intersectionRect.top // 相交区域的上边界坐标
-        // res.intersectionRect.width // 相交区域的宽度
-        // res.intersectionRect.height // 相交区域的高度
-        // })
+        let that = this
+        let idArray = new Array()
+        this._listen = wx.createIntersectionObserver(this,{ observeAll: true})
+        this._listen
+            .relativeTo('.relativeView')
+            .observe(".videoItem",(res) =>{
+                if (res.intersectionRatio>0) {
+                    let id = res.dataset.vid
+                    idArray.push(id)
+                    if (idArray.length>2) {
+                        idArray.shift()
+                    }
+                    if (idArray[0] !== idArray[1]) {
+                        this.setData({videoPlay:{}})
+                        this.searchVideoPlay(id,that)
+                        this.getvideoItem(res.dataset.index)   
+                    }
+                }
+            })
     },
 
     // 网络请求
@@ -280,7 +310,7 @@ Page({
         })
     },
     searchGetFn(event){//搜索结果函数
-        this.setData({singleList:[],singleAll:[],songAll:[]})
+        this.setData({singleList:[],singleAll:[],songAll:[],MVAllList:[],singerAll:[],userAll:[]})
         let keyWord = ''
         if (typeof(event.detail) === 'object') {
             keyWord = event.detail.keyword
@@ -305,10 +335,17 @@ Page({
             }).finally(()=>{
                 this.setData({historyList:newLists,index:newLists.length})
             })
-            search(keyWord,1,100).then(res => {
+            search(keyWord,3,100).then(res => {
                 let singerList = this.handleValue(res,100,keyWord)
                 this.setData({
                     singerList
+                })
+            })
+            search(keyWord,1,1002).then(res => {
+                console.log(res);
+                let user = res.data.result.userprofiles
+                this.setData({
+                    user
                 })
             })
             search(keyWord,5,1000).then(res => {
@@ -322,10 +359,6 @@ Page({
                 this.setData({
                     MVList
                 })
-                //mv 
-                // getMVRel(MV).then(res => {
-                //     console.log(res);
-                // })
             })
 
         }else {
@@ -346,10 +379,16 @@ Page({
             }).finally(()=>{
                 this.setData({historyList:newLists,index:newLists.length})
             })
-            search(this.data.searchValue,1,100).then(res => {
+            search(this.data.searchValue,3,100).then(res => {
                 let singerList = this.handleValue(res,100,keyWord)
                 this.setData({
                     singerList
+                })
+            })
+            search(this.data.searchValue,1,1002).then(res => {
+                let user = res.data.result
+                this.setData({
+                    user
                 })
             })
             search(this.data.searchValue,5,1000).then(res => {
@@ -363,6 +402,7 @@ Page({
         if (this.data.resultTop === 0) {
             this.getNavTabHeight()
         }
+        this.getHeight()
     },
     // 歌曲上拉下拉
     searchSingle(keyWord){
@@ -393,24 +433,61 @@ Page({
             })
         })
     },
-    
-
+    //歌手上拉下拉
+    searchSinger(keyWord){
+        search(keyWord,20,100,this.data.videoIndex * 20).then(res => {
+            console.log(res);
+            let a = true
+            let singerAll = this.handleValue(res,100,keyWord,a)
+            this.setData({
+                singerAll
+            })
+        })
+    },
+    //用户上拉下拉
+    searchUser(keyWord){
+        search(keyWord,20,1002,this.data.videoIndex * 20).then(res => {
+            console.log(res);
+            let userAll  = res.data.result.userprofiles
+            this.setData({
+                userAll
+            })
+        })
+    },
+    // 视频播放
+    searchVideoPlay:debounce((id,that)=>{
+        getMVRel(id).then(res => {
+            let videoPlay = res.data.data
+            console.log(res);
+            that.setData({
+                videoPlay
+            })
+        })
+    },1000,true),
+    // 视频控件
     // 获取nav+tab高度
     getNavTabHeight() {
         let query = wx.createSelectorQuery();
         query.select('.navCont').boundingClientRect(res =>{
             let homeTop = res.height
-            let bodyHeight = app.globalData.screeHeight * app.globalData.devicePixelRatio
+            let bodyHeight = app.globalData.screeHeight - homeTop
             if (!this.data.Proposeresult&&!this.data.ProposeListShow) {
                 this.setData({ homeTop, bodyHeight})
-            }
-            if (this.data.Proposeresult) {
-                let resultHeight = bodyHeight - (homeTop*app.globalData.devicePixelRatio)
-                this.setData({ resultTop:homeTop,resultHeight})
             }
             
         }).exec();
         
+    },
+    // 获取搜索结果高度
+    getHeight() {
+        if (this.data.heightvideoCon ) return
+        let query = wx.createSelectorQuery();
+        query.select('.slotScroll').boundingClientRect(res =>{
+            let top = res.top
+            let height = app.globalData.screeHeight - top
+            this.setData({resultHeight:height})
+            this.data.heightvideoCon = true
+        }).exec();
     },
     getSwiperHeight() {
         let query = wx.createSelectorQuery();
@@ -423,17 +500,30 @@ Page({
     },
     // 获取视频高度+nav+tab高度
     getVideoHeight() {
+        if(this.data.videoHeight > 0) return
         let query = wx.createSelectorQuery();
-        query.select('.iddleItem').boundingClientRect(res =>{
-            if (res.height) {
-            console.log(res);
-
-                let videoHeight = res.height * .8 + this.data.resultTop
-                this.setData({
-                    videoHeight
-                })   
-            }
+        query.select('.videoItem').boundingClientRect(res =>{
+        if (res) {
+            let videoHeight = res.height * .5 + res.top
+            this.setData({
+                videoHeight
+            })   
+            this.IntersectionObserver()
+        }
         }).exec();
+    },
+    getvideoItem(index) {
+        setTimeout(()=>{
+            let classItem = '.mvItem'+index
+            let query = wx.createSelectorQuery().in(this.selectComponent(classItem));
+            query.select('.video').boundingClientRect(res =>{
+                let videoContext = wx.createVideoContext('video',this.selectComponent(classItem))
+                clearInterval(this.setInters)
+                this.setInters = setInterval(()=>{
+                    videoContext.seek(0)
+                },10000)
+            }).exec();
+        },2000)
     },
 
     // 本地记录
