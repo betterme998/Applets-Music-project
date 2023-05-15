@@ -34,7 +34,7 @@ const playerStore = new HYEventStore({
         playModeNames:'icon-xunhuanbofang'
     },
     actions:{
-        playMusicWithSongId(ctx,id) {
+        async playMusicWithSongId(ctx,id) {
             // 0.原来的数据重置
             audioContext.stop()
             // ctx.currentSong = {}
@@ -54,7 +54,7 @@ const playerStore = new HYEventStore({
             })
     
             // 2.2.根据id获取歌词的信息
-            getSongLyric(ctx.id).then(res => {
+            await getSongLyric(ctx.id).then(res => {
                 const lrcString = res.data.lrc.lyric
                 const lyricInfos = parseLyric(lrcString)
                 ctx.lyricInfos = lyricInfos
@@ -63,14 +63,21 @@ const playerStore = new HYEventStore({
                 audioContext.src = `https://music.163.com/song/media/outer/url?id=${ctx.id}.mp3`
                 // 准备好之后自动播放
                 audioContext.autoplay = true
+                // audioContext.play()
             })
     
            
             
             // 4.监听播放时间
             if (ctx.isFirstPlay) {
-                ctx.isFirstPlay = false
+                // ctx.isFirstPlay = false
                 const ldindex = [0,0]
+                audioContext.onCanplay(()=>{
+                    // audioContext.pause()
+                    // 监听是否可以播放，可以播放再播放
+                    audioContext.autoplay = true
+
+                })
                 audioContext.onTimeUpdate((event) =>{
                     // 1.获取当前播放的时间
                     ctx.currentTime = audioContext.currentTime * 1000
@@ -113,11 +120,7 @@ const playerStore = new HYEventStore({
                 })
                 audioContext.onWaiting(() => {
                     // 监听是否等待，在等待就调用暂停
-                    audioContext.pause()
-                })
-                audioContext.onCanplay(()=>{
-                    // 监听是否可以播放，可以播放再播放
-                    audioContext.play()
+                    // audioContext.pause()
                 })
                 // 监听自然播放结束
                 audioContext.onEnded(() =>{

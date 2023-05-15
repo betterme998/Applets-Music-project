@@ -98,6 +98,12 @@ Component({
                     this.setData({itemConterWidth})
                 }
             }).exec();
+        },
+
+        // 点击
+        onHistoryItem(event){
+            let item = event.currentTarget.dataset.text
+            this.triggerEvent('historyItem',item)
         }
 
         

@@ -236,11 +236,13 @@
                 wx:if="{{historyListShow}}"
                 historyList="{{historyList}}"
                 historyShow="true"
+                bind:historyItem="historyItemFn"
                 bind:deleteEmit="deleteEmitFn"  
             />
             <srarch-history
                 historyList="{{LoveList}}"
                 wx:if="{{LoveList.length}}"
+                bind:historyItem="historyItemFn"
             >
                 <text class="leftLove" slot="left">猜你喜欢</text>
                 <text bindtap="getLoveSong" class="iconfont icon-shuaxin" slot="right"></text>
@@ -259,7 +261,7 @@
                 
                     <swiper-item class="swiperItem">
                         <view class="swiperConts">
-                            <search-detail bind:swiperEvent="swiperEventFn" rankingInfosItem="{{item}}"></search-detail>
+                            <search-detail bind:detailItem="historyItemFn" bind:swiperEvent="swiperEventFn" rankingInfosItem="{{item}}"></search-detail>
                         </view>
                     </swiper-item>
                 </block>
@@ -275,6 +277,17 @@
         
     </view>
 </scroll-view>
+<!-- 7.播放工具栏 -->
+<play-toolbar 
+        tabbarHeight="{{tabbarHeight}}"
+        currentSong="{{currentSong}}"
+        isPlaying="{{isPlaying}}"
+        playModeIndex="{{playModeIndex}}"
+        playSongIndex="{{playSongIndex}}"
+        playSongList="{{playSongList}}"
+    >
+    
+</play-toolbar>
 
 
 

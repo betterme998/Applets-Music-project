@@ -59,30 +59,15 @@
 
 
     <!-- 7.播放工具栏 -->
-    <view class="play-bar-placeholder" wx:if="{{currentSong.name || isPlaying}}"></view>
-    <view 
-        class="play-bar" 
-        wx:if="{{currentSong.name || isPlaying}}"
-        bindtap="onPlayBarAlbumTap"
+    <play-toolbar 
+        tabbarHeight="{{tabbarHeight}}"
+        currentSong="{{currentSong}}"
+        isPlaying="{{isPlaying}}"
+        playModeIndex="{{playModeIndex}}"
+        playSongIndex="{{playSongIndex}}"
+        playSongList="{{playSongList}}"
     >
-        <view class="left">
-            <image 
-                class="album album-anim"
-                src="{{currentSong.al.picUrl}}"
-                style="animation-play-state: {{ isPlaying ? 'running':'paused' }}"
-            ></image>
-            <view class="name">{{currentSong.name}}</view>
-        </view>
-        <view class="right">
-            <text 
-                class="iconfont {{isPlaying ? 'icon-24gf-pause2' : 'icon-24gf-play'}}"
-                catchtap="onPlayOrPauseBtnTap"
-            ></text>
-            <text class="iconfont icon-24gf-playlistMusic4" catchtap="showPopup"></text>
-        </view>
-    </view>
-    <view class="menuListCont">
-                <menu-list bind:onchaShow="onchaShowFn" playSongIndex="{{playSongIndex}}" playSongList="{{playSongList}}" playModeIndex="{{playModeIndex}}" show="{{show}}"/>
-    </view>
+    
+    </play-toolbar>
 </scroll-view>
 

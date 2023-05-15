@@ -1,10 +1,23 @@
 // pages/main-video/main-video.js
 import { getTopMVL } from "../../services/video"
+import playerStore from "../../store/playerStore"
+const app = getApp()
 Page({
     data: {
        videoList:[],
        offset:0,
-       hasMore: true
+       hasMore: true,
+       // tabbar高度
+       tabbarHeight:0,
+
+       // 播放栏
+       playModeIndex:0,
+       playSongIndex:0,
+       playSongList:[],
+
+       // 歌曲信息
+       currentSong:{},
+       isPlaying:false
     },
     onLoad() {
         var that = this
@@ -21,6 +34,13 @@ Page({
         }else{
             this.fetchTopMV()
         }
+
+        this.setData({
+            tabbarHeight: app.globalData.tabbarHeight
+        })
+        // 共享store
+        playerStore.onStates(["playSongList","playSongIndex","playModeIndex"],this.getPlaySonginfosHandler)
+        playerStore.onStates(["currentSong","isPlaying"], this.handlePlayInfos)
     },
     // 发送网络请求的函数
     async fetchTopMV() {
@@ -60,6 +80,31 @@ Page({
         wx.stopPullDownRefresh()
         
     },
-    // 事件监听
+    
+    
+    //============================== 从Store中获取数据 ==============================
+    getPlaySonginfosHandler({playSongList,playSongIndex,playModeIndex}) {
+        if (playSongList) {
+            this.setData({ playSongList })
+        }
+        if (playSongIndex !== undefined) {
+            this.setData({ playSongIndex })
+        }
+        if (playModeIndex !== undefined) {
+            this.setData({ playModeIndex })
+        }
+    },
+    handlePlayInfos({ currentSong, isPlaying }) {
+        if (currentSong) {
+            this.setData({currentSong})
+        }
+        if (isPlaying !== undefined) {
+            this.setData({isPlaying})
+        }
+    },
+    onUnload() {
+        playerStore.offState(["currentSong","isPlaying"], this.handlePlayInfos)
+        playerStore.offState(["playSongList","playSongIndex","playModeIndex"],this.getPlaySonginfosHandler)
+    }
 
 })

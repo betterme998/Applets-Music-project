@@ -12,10 +12,21 @@
 }
 .listItem{
     padding: 24rpx 0;
+    display: flex;
+}
+
+.listText{
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .detailList {
     font-size: 30rpx;
     color: #2e3546;
+}
+.active{
+    opacity: .5;
 }
 .detailList .listItem:last-child{
     padding-bottom: 0;

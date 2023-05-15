@@ -38,6 +38,7 @@ Component({
     // },
     methods: {
         imageLoadFn:debounce(function(){
+            console.log('图片加载完成');
             this.triggerEvent('imageLoadComplete')
         },200)
     }

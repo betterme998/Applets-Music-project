@@ -32,11 +32,13 @@ Page({
         // 播放栏
         show:false,
         playModeIndex:0,
-        playModeIndex:0,
+        playSongIndex:0,
         playSongList:[],
 
         // 音乐高度
-        menuHeight:0
+        menuHeight:0,
+        // tabbar 高度
+        tabbarHeight:50
     },
     onLoad() {
 
@@ -94,8 +96,10 @@ Page({
         // 获取屏幕尺寸
         this.setData({
             screenWidth: app.globalData.screeWidth,
-            menuHeight: app.globalData.menuHeight * app.globalData.devicePixelRatio
+            menuHeight: app.globalData.menuHeight * app.globalData.devicePixelRatio,
+            tabbarHeight: app.globalData.tabbarHeight
         })
+        console.log(111111111);
         // 共享store
         playerStore.onStates(["playSongList","playSongIndex","playModeIndex"],this.getPlaySonginfosHandler)
     },
@@ -205,6 +209,7 @@ Page({
         rankingStore.offState("upRanking",this.getRankingHanlder)
 
         playerStore.offState(["currentSong","isPlaying"], this.handlePlayInfos)
+        playerStore.offState(["playSongList","playSongIndex","playModeIndex"],this.getPlaySonginfosHandler)
     }
 })
 /*

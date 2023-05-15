@@ -9,6 +9,7 @@
         "pages/detail-menu/detail-menu",
         "pages/music-player/music-player"
     ],
+    "requiredBackgroundModes": ["audio"],
     "window": {
         "backgroundTextStyle": "dark",
         "navigationBarBackgroundColor": "#fff",

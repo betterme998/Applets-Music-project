@@ -6,6 +6,7 @@
         "song-item-v1": "/components/song-item-v1/song-item-v1",
         "menu-area": "/components/menu-area/menu-area",
         "ranking-item": "/components/ranking-item/ranking-item",
-        "menu-list": "/components/menu-list/menu-list"
+        "menu-list": "/components/menu-list/menu-list",
+        "play-toolbar": "/components/play-toolbar/play-toolbar"
     }
 }

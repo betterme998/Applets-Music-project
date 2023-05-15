@@ -20,7 +20,7 @@
 <van-dialog id="van-dialog" />
 <view class="itemConter {{historyShow ? '':'itemConterActive'}}">
     <block wx:for="{{allitem ? mistHistoryList:historyList}}" wx:key="*this">
-        <view class="itemHistory">
+        <view class="itemHistory" data-text="{{item}}" bindtap="onHistoryItem">
             <text class="text">{{item}}</text>
         </view>
     </block>

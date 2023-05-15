@@ -6,9 +6,11 @@
     </view>
     <view class="detailList">
         <block wx:for="{{rankingInfosItem.tracks}}" wx:key="id">
-            <view class="listItem">
+            <view class="listItem {{key === index? 'active':''}}" data-index="{{index}}" data-text="{{item.name}}" bindtap="onDetailItem">
                 <text class="listIndex">{{srarch.indexAdd(index)}}</text>
-                <text>{{item.name}}</text>
+                <view class="listText">
+                    <text>{{item.name}}</text>
+                </view>
             </view>
         </block>
     </view>

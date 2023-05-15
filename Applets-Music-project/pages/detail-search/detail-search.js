@@ -3,7 +3,8 @@ import { object } from "underscore";
 import { searchPropose, search, searchRecommend } from "../../services/search"
 import { getMVRel,getMVInfo } from "../../services/video"
 import rankingStore, {rankingsIds} from "../../store/rankingStore";
-import { debounce } from "../../utils/debounce"
+import { debounce } from "../../utils/debounce";
+import playerStore from "../../store/playerStore"
 
 const app = getApp()
 let listMap = new Array()
@@ -67,10 +68,23 @@ Page({
         user:{},
         userAll:[],
         // 歌手
-        singerAll:[]
+        singerAll:[],
+
+        // 播放工具栏
+        // tabbar高度
+       tabbarHeight:0,
+
+        // 播放栏
+        playModeIndex:0,
+        playSongIndex:0,
+        playSongList:[],
+
+        // 歌曲信息
+        currentSong:{},
+        isPlaying:false
     },
     onLoad(options) {
-        this.setData({menuRight:app.globalData.menuRight})
+        this.setData({menuRight:app.globalData.menuRight,tabbarHeight: app.globalData.tabbarHeight})
         this.servicesRecommend()
 
         // 获取高度
@@ -82,12 +96,18 @@ Page({
         // store
         this.storeEnjoy()
         
+        // 共享store
+        playerStore.onStates(["playSongList","playSongIndex","playModeIndex"],this.getPlaySonginfosHandler)
+        playerStore.onStates(["currentSong","isPlaying"], this.handlePlayInfos)
     },
     onUnload(){
         clearInterval(this.data.timer),
         rankingStore.offState("newRanking",this.getRankingHanlder)
         rankingStore.offState("originRanking",this.getRankingHanlder)
         rankingStore.offState("upRanking",this.getRankingHanlder)
+
+        playerStore.offState(["currentSong","isPlaying"], this.handlePlayInfos)
+        playerStore.offState(["playSongList","playSongIndex","playModeIndex"],this.getPlaySonginfosHandler)
     },
     // 事件监听
     onPromptFn(event) {
@@ -139,11 +159,13 @@ Page({
             this.searchSong(this.data.searchValue)
         }
         if (this.data.MVAllList.length === 0 && e.detail === 3) {
+            console.log('没有数据');
             await this.searchVideo(this.data.searchValue)
             this.setData({
                 videoTabs:true
             })
         }else if (this.data.MVAllList.length !== 0 && e.detail === 3) {
+            console.log('有数据');
             this.IntersectionObserver()
         }else{
             if (this._listen) this._listen.disconnect()
@@ -173,6 +195,15 @@ Page({
         this.setData({
             historyList:[],
             historyListShow:false
+        })
+    },
+    historyItemFn(event){
+        wx.nextTick(() => {
+            let text = event.detail
+            this.setData({
+                searchValue:text
+            })
+            this.searchGetFn(event)
         })
     },
     // show生命周期
@@ -261,6 +292,7 @@ Page({
     },
     // 监听视频到指定位置播放
     IntersectionObserver() {
+        console.log('开始监听');
         let that = this
         let idArray = new Array()
         this._listen = wx.createIntersectionObserver(this,{ observeAll: true})
@@ -268,6 +300,7 @@ Page({
             .relativeTo('.relativeView')
             .observe(".videoItem",(res) =>{
                 if (res.intersectionRatio>0) {
+                    console.log(res);
                     let id = res.dataset.vid
                     idArray.push(id)
                     if (idArray.length>2) {
@@ -397,6 +430,12 @@ Page({
                     songList
                 })
             })
+            search(this.data.searchValue,5,1014).then(res => {
+                let MVList = res.data.result.videos
+                this.setData({
+                    MVList
+                })
+            })
             this.setData({Proposeresult:true,ProposeListShow:false})
         }
         if (this.data.resultTop === 0) {
@@ -470,7 +509,7 @@ Page({
         let query = wx.createSelectorQuery();
         query.select('.navCont').boundingClientRect(res =>{
             let homeTop = res.height
-            let bodyHeight = app.globalData.screeHeight - homeTop
+            let bodyHeight = app.globalData.screeHeight
             if (!this.data.Proposeresult&&!this.data.ProposeListShow) {
                 this.setData({ homeTop, bodyHeight})
             }
@@ -500,7 +539,10 @@ Page({
     },
     // 获取视频高度+nav+tab高度
     getVideoHeight() {
-        if(this.data.videoHeight > 0) return
+        if(this.data.videoHeight > 0) {
+            this.IntersectionObserver()
+            return
+        }
         let query = wx.createSelectorQuery();
         query.select('.videoItem').boundingClientRect(res =>{
         if (res) {
@@ -575,6 +617,7 @@ Page({
 
     
     // 共享store 
+    //============================== 从Store中获取数据 ==============================
     storeEnjoy(){
         // 高阶用法
         for (const key in rankingsIds) {
@@ -592,6 +635,25 @@ Page({
                newRankingInfos[key].tracks = newTracksArray
             }
             this.setData({ rankingInfos: newRankingInfos })
+        }
+    },
+    getPlaySonginfosHandler({playSongList,playSongIndex,playModeIndex}) {
+        if (playSongList) {
+            this.setData({ playSongList })
+        }
+        if (playSongIndex !== undefined) {
+            this.setData({ playSongIndex })
+        }
+        if (playModeIndex !== undefined) {
+            this.setData({ playModeIndex })
+        }
+    },
+    handlePlayInfos({ currentSong, isPlaying }) {
+        if (currentSong) {
+            this.setData({currentSong})
+        }
+        if (isPlaying !== undefined) {
+            this.setData({isPlaying})
         }
     },
 

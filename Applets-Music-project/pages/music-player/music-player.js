@@ -37,7 +37,6 @@ Page({
         pageTitles:["歌曲","歌词"],
         currentPage:0,
         contentHeight:0,
-        isSliderChanging:false,
         topBool:false,
 
         show: false
@@ -66,10 +65,8 @@ Page({
     updateprogress:throttle(function(currentTime){
         // 1.记录当前的时间
         // 2.修改sliderValue 滑块的值
-        if (!this.data.isSliderChanging) {
             const sliderValue = currentTime / this.data.durationTime * 100
             this.setData({currentTime,sliderValue}) 
-        } 
     },800,{leading:false,trailing:false}),
     // =============事件监听=============
     onNavBackTap(){
@@ -90,7 +87,7 @@ Page({
         const currentTime = value / 100 * this.data.durationTime
         // 3.设置播放器，播放计算出的时间
         audioContext.seek(currentTime / 1000)
-        this.setData({currentTime, sliderValue:value,isSliderChanging: false})
+        this.setData({currentTime, sliderValue:value})
 
         // 4.判断是否使用滑块
     },
@@ -100,12 +97,11 @@ Page({
     },
     //节流
     onSliderChanging:throttle(function(event){
-        if (this.data.isSliderChanging) return
         // 1.获取滑块到的位置的value
         const value = event.detail.value
         // 2.根据当前的值，计算出对应的时间
         const currentTime = value / 100 * this.data.durationTime
-        this.setData({ currentTime,isSliderChanging: true })
+        this.setData({ currentTime })
     },100),
     onPlayOrPauseTap() {
         // 播放暂停
@@ -179,6 +175,7 @@ Page({
             this.setData({lyricInfos})
         }
         if (durationTime !== undefined) {
+            console.log(durationTime);
             this.setData({durationTime})
         }
         if (currentTime !== undefined) {

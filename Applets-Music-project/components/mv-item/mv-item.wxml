@@ -15,7 +15,7 @@
             muted
             autoplay
         />
-        <image wx:if="{{songList.vid != videoPlay.id}}"  bindload="imageLoadFn" class="image" src="{{songList.coverUrl}}" mode="widthFix"></image>
+        <image wx:if="{{songList.vid != videoPlay.id}}" lazy-load bindload="imageLoadFn" class="image" src="{{songList.coverUrl}}" mode="widthFix"></image>
         <text wx:if="{{!videotab}}" class="iconfont icon-bofanganniu"></text>
         <text wx:if="{{videotab}}" class="mvtime">{{fmt.formatTime(songList.durationms)}}</text>
     </view>

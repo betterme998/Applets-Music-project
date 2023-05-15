@@ -34,5 +34,15 @@ App({
           },
         })
 
+    },
+    onShow() {
+        wx:wx.setKeepScreenOn({
+          keepScreenOn: true,
+          fail: () => {
+            wx:wx.setKeepScreenOn({
+              keepScreenOn: true
+            })
+          },
+        })
     }
 })

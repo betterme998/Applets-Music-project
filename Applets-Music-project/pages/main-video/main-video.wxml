@@ -7,3 +7,14 @@
         />
     </block>
 </view>
+<!-- 7.播放工具栏 -->
+<play-toolbar 
+        tabbarHeight="{{tabbarHeight}}"
+        currentSong="{{currentSong}}"
+        isPlaying="{{isPlaying}}"
+        playModeIndex="{{playModeIndex}}"
+        playSongIndex="{{playSongIndex}}"
+        playSongList="{{playSongList}}"
+    >
+    
+</play-toolbar>
