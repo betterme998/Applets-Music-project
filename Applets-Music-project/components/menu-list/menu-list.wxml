@@ -6,7 +6,7 @@
     custom-style="border-radius: 32rpx; width:90%;margin-left:5%; box-sizing: border-box;background:rgba(255,255,255,1) "
     bind:click-overlay="onClose"
     safe-area-tab-bar
-    overlay-style="background:rgba(255,255,255,0)"
+    overlay-style="background:rgba(0,0,0,.5)"
 >
     <view class="Listcontainer">
         <view class="headerList">

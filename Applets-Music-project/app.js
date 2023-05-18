@@ -9,7 +9,8 @@ App({
         playSongIndex:0,
         menuHeight:0, //音乐页面高度
         menuRight:0,
-        devicePixelRatio:2
+        devicePixelRatio:2,
+        HomeFocus:true
     },
     onLaunch() {
         // 1.获取设备信息

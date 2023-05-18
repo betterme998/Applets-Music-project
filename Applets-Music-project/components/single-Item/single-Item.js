@@ -1,4 +1,5 @@
 // components/single-Item/single-Item.js
+import playerStore from "../../store/playerStore"
 Component({
     properties: {
         singleValue:{
@@ -22,6 +23,13 @@ Component({
      * 组件的方法列表
      */
     methods: {
-
+        onSingleItem() {
+            let id = this.properties.singleValue.id
+            if(id) {
+                wx.navigateTo({
+                    url: `/pages/music-player/music-player?id=${id}`
+                })
+            }
+        }
     }
 })

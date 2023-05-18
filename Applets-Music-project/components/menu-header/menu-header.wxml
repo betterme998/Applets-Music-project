@@ -2,12 +2,14 @@
 <wxs src="/utils/format.wxs" module="format"></wxs>
 <view class="content">
     <!-- 背景 -->
-    <image class="bg-image" mode="aspectFill" src="{{itemData.coverImgUrl}}"></image>
-    <view class="bg-cover"></view>
+    <!-- <image wx:if="{{mainColor === ''}}" class="bg-image" mode="aspectFill" src="{{itemData.coverImgUrl}}"></image> -->
+    <view class="bg-view" style="background-image: linear-gradient( rgba({{mainColor[0]}},{{mainColor[1]}},{{mainColor[2]}},1), rgba({{mainColor[0]}},{{mainColor[1]}},{{mainColor[2]}},.8));"></view>
+    <canvas type="2d" class="bg-canvas" id="myCanvas"/>
+    <!-- <view wx:if="{{mainColor === ''}}"  class="bg-cover"></view> -->
 
     <!-- 内容 -->
     <view class="album">
-        <image class="image" src="{{itemData.coverImgUrl}}"></image>
+        <image bindload="onGetImageItem" class="image" src="{{itemData.coverImgUrl}}"></image>
         <view class="info">
             <view class="title">{{itemData.name}}</view>
             <view class="anthor">

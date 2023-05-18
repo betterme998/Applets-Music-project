@@ -44,6 +44,9 @@ Component({
 
             }
             this.setData({ interest: !this.data.interest})
+        },
+        onSingerItem(event) {
+            console.log(event);
         }
     }
 })

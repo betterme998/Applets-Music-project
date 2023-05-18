@@ -19,7 +19,7 @@
                 bind:blur="onBlur"
                 clear-trigger="always"
                 bind:clear="clearFn"
-                focus
+                focus="{{HomeFocus}}"
                 />
             </view>
         </view>
@@ -168,8 +168,11 @@
                             <single-Item  
                                 singleValue="{{item}}"
                                 keyWorld="{{searchValue}}"
+                                data-index="{{index}}"
+                                bindtap="onSingleItem"
                             />
                         </block>
+                        <loading loading="{{singleAll.length > 0 ? false:true}}"></loading>
                     </view>
                     <view
                         wx:if="{{item.name === 'song'}}"
@@ -179,6 +182,7 @@
                                 <singer-Item keyWorld="{{searchValue}}" songList="{{item}}"></singer-Item>
                             </view>
                         </block>
+                        <loading loading="{{songAll.length > 0 ? false:true}}"></loading>
                     </view>
                     <view
                         wx:if="{{item.name === 'video'}}"
@@ -198,6 +202,7 @@
                                 </mv-item>
                             </view>
                         </block>
+                        <loading loading="{{MVAllList.length > 0 ? false:true}}"></loading>
                     </view>
                     <view
                         wx:if="{{item.name === 'singer'}}"
@@ -208,6 +213,7 @@
                                 <singer-Item round="false" user="true" details="{{false}}" keyWorld="{{searchValue}}" songList="{{item}}"></singer-Item>
                             </view>
                         </block>
+                        <loading loading="{{singerAll.length > 0 ? false:true}}"></loading>
                     </view>
                     <view
                         wx:if="{{item.name === 'radio'}}"
@@ -218,6 +224,7 @@
                                 <singer-Item round="true" user="true" userBo="true"  keyWorld="{{searchValue}}" songList="{{item}}"></singer-Item>
                             </view>
                         </block>
+                        <loading loading="{{userAll.length > 0 ? false:true}}"></loading>
                     </view>
                 </view>
             </block>

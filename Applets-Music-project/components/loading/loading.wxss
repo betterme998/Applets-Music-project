@@ -15,29 +15,73 @@
 }
 .loading .item {
     width: 13%;
-    height: 100%;
     background-color: #fd3b35;
 }
-@keyframes itemHeight {
+.loading .item1 {
+    height: 100%;
+}
+.loading .item2 {
+    height: 50%;
+}
+.loading .item3 {
+    height: 80%;
+}
+.loading .item4 {
+    height: 70%;
+}
+@keyframes itemHeight1 {
+    0% {
+        height: 100%;
+    }
+    50% {
+        height: 0%;
+    }
+    100% {
+        height: 100%;
+    }
+}
+@keyframes itemHeight2 {
     0% {
         height: 0%;
     }
     50% {
-        height: 100%;
+        height: 50%;
+    }
+    100% {
+        height: 0%;
+    }
+}
+@keyframes itemHeight3 {
+    0% {
+        height: 80%;
+    }
+    50% {
+        height: 0%;
+    }
+    100% {
+        height: 80%;
+    }
+}
+@keyframes itemHeight4 {
+    0% {
+        height: 0%;
+    }
+    50% {
+        height: 70%;
     }
     100% {
         height: 0%;
     }
 }
 .item1 {
-    animation: itemHeight .8s linear infinite;
-}
-.item2 {
-    animation: itemHeight 1s linear infinite;
+    animation: itemHeight1 .8s linear infinite;
+} 
+ .item2 {
+    animation: itemHeight2 .8s linear infinite;
 }
 .item3 {
-    animation: itemHeight .9s linear infinite;
+    animation: itemHeight3 .8s linear infinite;
 }
 .item4 {
-    animation: itemHeight 1.1s linear infinite reverse;
+    animation: itemHeight4 .8s linear infinite reverse;
 }

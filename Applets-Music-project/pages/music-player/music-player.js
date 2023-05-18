@@ -70,6 +70,7 @@ Page({
     },800,{leading:false,trailing:false}),
     // =============事件监听=============
     onNavBackTap(){
+        app.globalData.HomeFocus = false
         wx.navigateBack()
     },
     onSwiperChange(event) {
@@ -157,7 +158,7 @@ Page({
             // 4.自然改变歌词滚动页面的位置
             if (this.data.lyricdom.length>0&&this.data.currentLyricIndex>=2&&this.data.ldindex[1] !== this.data.ldindex[0]) {
                if (this.data.currentLyricIndex <= this.data.lyricdom.length) {
-                   const lyricScrolltop = this.data.lyricdom[this.data.ldindex[1]].top - this.data.lyricdom[this.data.ldindex[0]].top
+                   const lyricScrolltop = this.data.lyricdom[this.data.ldindex[1]]?.top - this.data.lyricdom[this.data.ldindex[0]]?.top
                    this.setData({lyricScrolltop:lyricScrolltop+this.data.lyricScrolltop})
                }
            }

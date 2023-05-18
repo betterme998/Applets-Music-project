@@ -20,8 +20,10 @@
             <block wx:for="{{singleList}}" wx:key="id">
                 <single-Item
                     singleValue="{{item}}"
+                    data-index="{{index}}"
                     class="single-Item"
                     keyWorld="{{keyWorld}}"
+                    bindtap="onSingleItem"
                 />
             </block>
         </view>

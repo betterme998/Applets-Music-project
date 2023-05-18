@@ -129,6 +129,7 @@ Page({
     // 界面事件监听方法
     // 跳转搜索页面
     onSearchClick() {
+        app.globalData.HomeFocus = true
         wx.navigateTo({url: '/pages/detail-search/detail-search'})
     },
     async onBannerImageLoad(event) {

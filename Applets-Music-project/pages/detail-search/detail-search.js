@@ -37,7 +37,6 @@ Page({
         menuRight:0,
         bodyHeight:0,
         resultHeight:0,
-        heightvideoCon:false,
         tabsValue:[
             {tabTitle:'综合',name:'comprehensive'},
             {tabTitle:'单曲',name:'single'},
@@ -81,9 +80,12 @@ Page({
 
         // 歌曲信息
         currentSong:{},
-        isPlaying:false
+        isPlaying:false,
+
+        // 聚焦
+        HomeFocus:true
     },
-    onLoad(options) {
+    onLoad() {
         this.setData({menuRight:app.globalData.menuRight,tabbarHeight: app.globalData.tabbarHeight})
         this.servicesRecommend()
 
@@ -95,10 +97,15 @@ Page({
         this.getLoveSong()
         // store
         this.storeEnjoy()
-        
         // 共享store
         playerStore.onStates(["playSongList","playSongIndex","playModeIndex"],this.getPlaySonginfosHandler)
         playerStore.onStates(["currentSong","isPlaying"], this.handlePlayInfos)
+        
+    },
+    onShow(){
+        this.setData({
+            HomeFocus:app.globalData.HomeFocus
+        })
     },
     onUnload(){
         clearInterval(this.data.timer),
@@ -106,8 +113,8 @@ Page({
         rankingStore.offState("originRanking",this.getRankingHanlder)
         rankingStore.offState("upRanking",this.getRankingHanlder)
 
-        playerStore.offState(["currentSong","isPlaying"], this.handlePlayInfos)
-        playerStore.offState(["playSongList","playSongIndex","playModeIndex"],this.getPlaySonginfosHandler)
+        // playerStore.offState(["currentSong","isPlaying"], this.handlePlayInfos)
+        // playerStore.offState(["playSongList","playSongIndex","playModeIndex"],this.getPlaySonginfosHandler)
     },
     // 事件监听
     onPromptFn(event) {
@@ -149,6 +156,10 @@ Page({
         this.setData({Proposeresult:false})
     },
     onNavBackTap(){
+        if (this.data.Proposeresult || this.data.ProposeListShow) {
+            this.setData({Proposeresult:false, ProposeListShow:false, searchValue:''})
+            return
+        }
         wx.navigateBack()
     },
     async getTabItemValue(e){
@@ -180,6 +191,12 @@ Page({
         if (this.data.userAll.length === 0 && e.detail === 5) {
             await this.searchUser(this.data.searchValue)
         }
+    },
+    onSingleItem(event) {
+        let index = event.currentTarget.dataset.index
+        // 1.拿到播放列表. 放到store的第三方库中
+        playerStore.setState("playSongList",this.data.singleAll)
+        playerStore.setState("playSongIndex",index)
     },
 
 
@@ -508,7 +525,7 @@ Page({
     getNavTabHeight() {
         let query = wx.createSelectorQuery();
         query.select('.navCont').boundingClientRect(res =>{
-            let homeTop = res.height
+            let homeTop = res?.height
             let bodyHeight = app.globalData.screeHeight
             if (!this.data.Proposeresult&&!this.data.ProposeListShow) {
                 this.setData({ homeTop, bodyHeight})
@@ -519,19 +536,22 @@ Page({
     },
     // 获取搜索结果高度
     getHeight() {
-        if (this.data.heightvideoCon ) return
+        if (this.data.resultHeight > 0 && !this.data.isPlaying) return
         let query = wx.createSelectorQuery();
         query.select('.slotScroll').boundingClientRect(res =>{
             let top = res.top
             let height = app.globalData.screeHeight - top
+            if (this.data.isPlaying) {
+                height = app.globalData.screeHeight - top - this.data.tabbarHeight
+                console.log(this.data.resultHeight);
+            }
             this.setData({resultHeight:height})
-            this.data.heightvideoCon = true
         }).exec();
     },
     getSwiperHeight() {
         let query = wx.createSelectorQuery();
         query.select('.swiperConts').boundingClientRect(res =>{
-            if (res.height) {
+            if (res.height !== undefined) {
                 let swiperHeight = res.height 
                 this.setData({swiperHeight})
             }

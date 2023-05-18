@@ -184,7 +184,9 @@ const playerStore = new HYEventStore({
             const newSong = ctx.playSongList[index]
             
             // 开始播放新歌曲
-            this.dispatch("playMusicWithSongId",newSong.id)
+            if (newSong.id !== undefined) {
+                this.dispatch("playMusicWithSongId",newSong.id)
+            }
             // 4.保存最新索引值
             ctx.playSongIndex = index
             app.globalData.playSongIndex = index
