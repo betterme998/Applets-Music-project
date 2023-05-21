@@ -1,5 +1,7 @@
 /* components/nav-bar/nav-bar.wxss */
 /* 自定义导航 */
+@import "/assets/font/iconfont.wxss";
+
 .nav {
     display: flex;
     height: 44px;

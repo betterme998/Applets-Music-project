@@ -1,6 +1,8 @@
 {
+    "navigationStyle": "custom",
     "usingComponents": {
         "song-item-v2":"/components/song-item-v2/song-item-v2",
-        "menu-header": "/components/menu-header/menu-header"
+        "menu-header": "/components/menu-header/menu-header",
+        "nav-bar":"/components/nav-bar/nav-bar"
     }
 }

@@ -1,9 +1,37 @@
 <!--pages/detail-song/detail-song.wxml-->
-<view class="header" wx:if="{{type === 'menu' && songInfos.name}}">
-    <menu-header itemData="{{songInfos}}"/>
+<!-- 2.自定义导航栏 -->
+<view style="height:{{homeTop}}rpx">
+    
 </view>
-<view class="title" wx:else>{{songInfos.name}}</view>
-<view class="song-list">
+<view class="navCon">
+    <nav-bar bgColor="{{bgColor}}" bind:leftclick="onNavBackTap">
+        <view class="tabs" slot="left">
+            <text class="iconfont icon-fanhui"></text>
+        </view>
+        <view class="tabs" slot="center">
+            
+        </view>
+    </nav-bar>
+</view>
+
+<!-- 具体内容 -->
+<swiper
+    vertical
+    
+    style="height: {{bodyHeight}}rpx;"
+>
+    <swiper-item>
+        <view class="header" wx:if="{{type === 'menu' && songInfos.name}}">
+            <menu-header bind:bgColor="onBgColor" itemData="{{songInfos}}"/>
+        </view>
+        <view class="title" wx:else>{{songInfos.name}}</view>
+    </swiper-item>
+    <swiper-item>
+         
+    </swiper-item>
+    
+</swiper>
+<view style="position:absolute" class="song-list">
     <block wx:for="{{songInfos.tracks}}" wx:key="id">
         <song-item-v2 
             itemData="{{item}}" 
@@ -11,4 +39,15 @@
             data-index="{{index}}"
             bindtap="onSongItemTap"/>
     </block>
-</view>
+</view> 
+
+
+
+      
+
+
+
+
+            
+
+

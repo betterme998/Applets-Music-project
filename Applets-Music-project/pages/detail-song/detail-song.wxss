@@ -1,4 +1,12 @@
 /* pages/detail-song/detail-song.wxss */
+@import "/assets/font/iconfont.wxss";
+.navCon{
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+}
 .title {
     margin: 20rpx 30rpx 0;
     font-size: 40rpx;
@@ -7,4 +15,10 @@
 .song-list{
     padding: 20rpx;
     padding-top: 0;
+}
+
+/* 自定义导航栏 */
+
+.icon-fanhui{
+    font-size: 40rpx;
 }

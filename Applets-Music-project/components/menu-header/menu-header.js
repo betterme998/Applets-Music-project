@@ -43,6 +43,7 @@ Component({
                         this.setData({
                             mainColor
                         })
+                        this.triggerEvent("bgColor",mainColor)
                     };
                   },
                   fail(err) { console.error(err); }

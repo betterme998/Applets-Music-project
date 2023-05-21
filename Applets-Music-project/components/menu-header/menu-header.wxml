@@ -3,7 +3,7 @@
 <view class="content">
     <!-- 背景 -->
     <!-- <image wx:if="{{mainColor === ''}}" class="bg-image" mode="aspectFill" src="{{itemData.coverImgUrl}}"></image> -->
-    <view class="bg-view" style="background-image: linear-gradient( rgba({{mainColor[0]}},{{mainColor[1]}},{{mainColor[2]}},1), rgba({{mainColor[0]}},{{mainColor[1]}},{{mainColor[2]}},.8));"></view>
+    <view class="bg-view" style="background-image: linear-gradient( rgba({{mainColor[0]}},{{mainColor[1]}},{{mainColor[2]}},.9), rgba({{mainColor[0]}},{{mainColor[1]}},{{mainColor[2]}},.8));"></view>
     <canvas type="2d" class="bg-canvas" id="myCanvas"/>
     <!-- <view wx:if="{{mainColor === ''}}"  class="bg-cover"></view> -->
 

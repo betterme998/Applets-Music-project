@@ -3,14 +3,17 @@ import recommendStore from "../../store/recommendStore"
 import rankingStore, { rankingsIds } from "../../store/rankingStore"
 import { getPlaylistDetail } from "../../services/music"
 import playerStore from "../../store/playerStore"
-
+const app = getApp()
 Page({
     data: {
         type:"ranking",
         key:"newRanking",
         id:"",
-        
-        songInfos: {}
+        bgColor:[],
+        songInfos: {},
+        homeTop:0,
+        bodyHeight:0,
+        nextMargin:0
     },
     onLoad(options) {
         // 1.确定获取数据的类型
@@ -33,6 +36,9 @@ Page({
             this.data.id = id
             this.fetchMenuSongInfo()
         }
+
+        // 获取高度
+        this.getNavTabHeight()
     },
 
     async fetchMenuSongInfo() {
@@ -46,6 +52,34 @@ Page({
         playerStore.setState("playSongList", this.data.songInfos.tracks)
         playerStore.setState("playSongIndex", index)
 
+    },
+    onBgColor(event) {
+        let bgColor = event.detail
+        this.setData({
+            bgColor
+        })
+    },
+    onNavBackTap(){
+        wx.navigateBack()
+    },
+    // 获取nav+tab高度
+    getNavTabHeight() {
+        let query = wx.createSelectorQuery();
+        query.select('.navCon').boundingClientRect(res =>{
+            let homeTop = res?.height
+            let bodyHeight = app.globalData.screeHeight - homeTop
+            const dpr = wx.getWindowInfo().pixelRatio
+            let nextMargin = bodyHeight*dpr - 450
+            console.log(nextMargin);
+            console.log(dpr);
+            this.setData({
+                homeTop:homeTop*dpr,
+                bodyHeight:bodyHeight*dpr,
+                nextMargin:nextMargin
+            })
+            
+        }).exec();
+        
     },
 
     // ==============store共享数据=============

@@ -9,6 +9,10 @@ Component({
         title: {
             type:String,
             value:"导航标题"
+        },
+        bgColor:{
+            type:Array,
+            value:[248,249,253]
         }
     },
     data: {
