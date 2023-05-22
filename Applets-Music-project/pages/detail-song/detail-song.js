@@ -13,7 +13,10 @@ Page({
         songInfos: {},
         homeTop:0,
         bodyHeight:0,
-        nextMargin:0
+        nextMargin:0,
+        triggered:false,
+        headerHeight:225,
+        scrollTop:0
     },
     onLoad(options) {
         // 1.确定获取数据的类型
@@ -44,7 +47,6 @@ Page({
     async fetchMenuSongInfo() {
         const res =  await getPlaylistDetail(this.data.id)
         this.setData({songInfos: res.data.playlist})
-        console.log(res);
     },
     // ==============事件监听============
     onSongItemTap(event){
@@ -57,10 +59,28 @@ Page({
         let bgColor = event.detail
         this.setData({
             bgColor
-        })
+        }),
+        this.getHeaderHeight()
     },
     onNavBackTap(){
         wx.navigateBack()
+    },
+    bindrefresherrefresh(){
+        this.setData({
+            triggered:false
+        })
+    },
+    binddragend(event) {
+        let scrollTop = event.detail.scrollTop
+        if (scrollTop < 60) {
+            this.setData({
+                scrollTop:0
+            })
+        }else if (scrollTop<this.data.headerHeight) {
+            this.setData({
+                scrollTop:this.data.headerHeight
+            })
+        }
     },
     // 获取nav+tab高度
     getNavTabHeight() {
@@ -70,16 +90,26 @@ Page({
             let bodyHeight = app.globalData.screeHeight - homeTop
             const dpr = wx.getWindowInfo().pixelRatio
             let nextMargin = bodyHeight*dpr - 450
-            console.log(nextMargin);
-            console.log(dpr);
             this.setData({
-                homeTop:homeTop*dpr,
+                homeTop:homeTop,
                 bodyHeight:bodyHeight*dpr,
                 nextMargin:nextMargin
             })
             
         }).exec();
         
+    },
+    // 获取header高度
+    getHeaderHeight() {
+        let query = wx.createSelectorQuery();
+        wx.nextTick(()=>{
+            query.select('#header').boundingClientRect(res =>{
+                let headerHeight = res?.height
+                this.setData({
+                    headerHeight
+                })
+            }).exec();
+        })
     },
 
     // ==============store共享数据=============

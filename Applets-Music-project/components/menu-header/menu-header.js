@@ -8,7 +8,8 @@ Component({
         }
     },
     data:{
-        mainColor:[]
+        mainColor:[],
+        rgbHex:''
     },
     attached: function() {
         // 在组件实例进入页面节点树时执行
@@ -39,11 +40,14 @@ Component({
                         ctx.drawImage(img, 0, 0, width, height);
                         const imageData = ctx.getImageData(0, 0, width, height)
                         const mainColor = colorThief(imageData.data).color().get();
+                        const rgbHex = colorThief(imageData.data).color().getHex();
+                        mainColor.push(rgbHex)
                         console.log(mainColor);
+
                         this.setData({
                             mainColor
                         })
-                        this.triggerEvent("bgColor",mainColor)
+                        this.triggerEvent("bgColor",mainColor,rgbHex)
                     };
                   },
                   fail(err) { console.error(err); }

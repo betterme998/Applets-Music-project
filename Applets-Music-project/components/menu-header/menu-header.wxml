@@ -1,11 +1,8 @@
 <!--components/menu-header/menu-header.wxml-->
 <wxs src="/utils/format.wxs" module="format"></wxs>
-<view class="content">
+<view class="content" style="background-image: linear-gradient( rgba({{mainColor[0]}},{{mainColor[1]}},{{mainColor[2]}},1), rgba({{mainColor[0]}},{{mainColor[1]}},{{mainColor[2]}},.95));">
     <!-- 背景 -->
-    <!-- <image wx:if="{{mainColor === ''}}" class="bg-image" mode="aspectFill" src="{{itemData.coverImgUrl}}"></image> -->
-    <view class="bg-view" style="background-image: linear-gradient( rgba({{mainColor[0]}},{{mainColor[1]}},{{mainColor[2]}},.9), rgba({{mainColor[0]}},{{mainColor[1]}},{{mainColor[2]}},.8));"></view>
     <canvas type="2d" class="bg-canvas" id="myCanvas"/>
-    <!-- <view wx:if="{{mainColor === ''}}"  class="bg-cover"></view> -->
 
     <!-- 内容 -->
     <view class="album">
@@ -16,10 +13,11 @@
                 <image class="avatar" mode="aspectFill" src="{{itemData.creator.avatarUrl}}"></image>
                 <text class="nickname">{{itemData.creator.nickname}}</text>
             </view>
-            <view class="desc">简介：{{itemData.description}}</view>
         </view>
     </view>
-
+    <view class="desc">
+        <text>简介：{{itemData.description}}</text>
+    </view>
     <view class="operation">
         <view class="favor item">
             <text class="iconfont icon-xihuan"></text>

@@ -1,6 +1,6 @@
 <!--pages/detail-song/detail-song.wxml-->
 <!-- 2.自定义导航栏 -->
-<view style="height:{{homeTop}}rpx">
+<view style="height:{{homeTop}}px">
     
 </view>
 <view class="navCon">
@@ -15,31 +15,65 @@
 </view>
 
 <!-- 具体内容 -->
-<swiper
+<scroll-view 
+    style="height: {{bodyHeight}}rpx;" 
+    scroll-y 
+    enable-passive 
+    enhanced
+    refresher-enabled 
+    refresher-triggered="{{triggered}}" 
+    bindrefresherrefresh="bindrefresherrefresh"
+    refresher-default-style="none"
+    refresher-background="{{bgColor[3]}}"
+    scroll-top="{{scrollTop}}"
+    scroll-with-animation
+    binddragend="binddragend"
+    class="scrollViewCon"
+>
+    <view class="header" id="header">
+        <view wx:if="{{type === 'menu' && songInfos.name}}">
+            <menu-header bind:bgColor="onBgColor" itemData="{{songInfos}}"/>
+        </view>
+        <view class="title" wx:else>{{songInfos.name}}</view>
+    </view>
+    <view class="song-list" id="listSong">
+        <block wx:for="{{songInfos.tracks}}" wx:key="id">
+            <song-item-v2 
+                itemData="{{item}}" 
+                index="{{index+1}}" 
+                data-index="{{index}}"
+                bindtap="onSongItemTap"/>
+        </block>
+    </view> 
+</scroll-view>
+
+<!-- <swiper
     vertical
-    
     style="height: {{bodyHeight}}rpx;"
+    bindtransition="onBindtransition"
 >
     <swiper-item>
+        
+    </swiper-item>
+    <view>
         <view class="header" wx:if="{{type === 'menu' && songInfos.name}}">
             <menu-header bind:bgColor="onBgColor" itemData="{{songInfos}}"/>
         </view>
         <view class="title" wx:else>{{songInfos.name}}</view>
-    </swiper-item>
+    </view>
+    <view style="position:absolute" class="song-list">
+        <block wx:for="{{songInfos.tracks}}" wx:key="id">
+            <song-item-v2 
+                itemData="{{item}}" 
+                index="{{index+1}}" 
+                data-index="{{index}}"
+                bindtap="onSongItemTap"/>
+        </block>
+    </view>
     <swiper-item>
-         
-    </swiper-item>
-    
-</swiper>
-<view style="position:absolute" class="song-list">
-    <block wx:for="{{songInfos.tracks}}" wx:key="id">
-        <song-item-v2 
-            itemData="{{item}}" 
-            index="{{index+1}}" 
-            data-index="{{index}}"
-            bindtap="onSongItemTap"/>
-    </block>
-</view> 
+        
+    </swiper-item> 
+</swiper> -->
 
 
 

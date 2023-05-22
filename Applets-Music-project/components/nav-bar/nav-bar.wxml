@@ -1,6 +1,6 @@
 <!--components/nav-bar/nav-bar.wxml-->
 <!-- 自定义导航 -->
-<view class="nav-bar" style="background-color: rgba({{bgColor[0]}}, {{bgColor[1]}}, {{bgColor[2]}}, .9)">
+<view class="nav-bar" style="background-color: {{bgColor[3] ? bgColor[3]:''}}">
     <view class="status" style="height: {{statusHeight}}px;"></view>
     <view class="nav">
         <view class="left" bindtap="onLeftClick">
