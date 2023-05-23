@@ -1,6 +1,6 @@
 <!--components/single-Item/single-Item.wxml-->
 <wxs src="/utils/srarchlist.wxs" module="sra"></wxs>
-<view class="item" bindtap="onSingleItem">
+<view class="item {{underline ? 'underline':''}}" bindtap="onSingleItem">
     <view class="top">
         <view class="left">
             <view class="leftText">
@@ -37,7 +37,7 @@
             <text class="iconfont icon-diandiandianshu"></text>
         </view>
     </view>
-    <view class="bottom">
+    <view wx:if="{{underline}}" class="bottom">
         <block wx:if="{{singleValue.alia[0]}}" wx:for="{{sra.keyWordFn(singleValue.alia[0],keyWorld)}}" wx:key="text">
             <text class="text {{item.active ? 'bottomLeft':''}}">{{item.text}}</text>
         </block>

@@ -4,9 +4,11 @@
     display: flex;
     flex-direction: column;
     padding: 18rpx 0;
-    border-top: 2rpx solid #f6f6f6;
     box-sizing: border-box;
     position: relative;
+}
+.underline{
+    border-top: 2rpx solid #f6f6f6;
 }
 .top{
     display: flex;

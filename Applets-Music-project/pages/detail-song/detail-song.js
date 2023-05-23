@@ -46,6 +46,7 @@ Page({
 
     async fetchMenuSongInfo() {
         const res =  await getPlaylistDetail(this.data.id)
+        console.log(res);
         this.setData({songInfos: res.data.playlist})
     },
     // ==============事件监听============
@@ -72,7 +73,7 @@ Page({
     },
     binddragend(event) {
         let scrollTop = event.detail.scrollTop
-        if (scrollTop < 60) {
+        if (scrollTop < this.data.headerHeight * .2) {
             this.setData({
                 scrollTop:0
             })

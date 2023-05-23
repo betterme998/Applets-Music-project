@@ -1,6 +1,6 @@
 <!--pages/detail-song/detail-song.wxml-->
 <!-- 2.自定义导航栏 -->
-<view style="height:{{homeTop}}px">
+<view style="height:{{homeTop}}px;">
     
 </view>
 <view class="navCon">
@@ -38,11 +38,19 @@
     </view>
     <view class="song-list" id="listSong">
         <block wx:for="{{songInfos.tracks}}" wx:key="id">
-            <song-item-v2 
-                itemData="{{item}}" 
-                index="{{index+1}}" 
-                data-index="{{index}}"
-                bindtap="onSongItemTap"/>
+            <view class="songListCon">
+                <view class="indexList">
+                    {{index+1}}
+                </view>
+                <view class="indexListLast">
+                    <single-Item  
+                        singleValue="{{item}}"
+                        underline="{{false}}"
+                        data-index="{{index}}"
+                        bindtap="onSongItemTap"
+                    />
+                </view>
+            </view>
         </block>
     </view> 
 </scroll-view>

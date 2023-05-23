@@ -1,31 +1,55 @@
 <!--components/menu-header/menu-header.wxml-->
 <wxs src="/utils/format.wxs" module="format"></wxs>
-<view class="content" style="background-image: linear-gradient( rgba({{mainColor[0]}},{{mainColor[1]}},{{mainColor[2]}},1), rgba({{mainColor[0]}},{{mainColor[1]}},{{mainColor[2]}},.95));">
+<view class="content" style="background-image: linear-gradient( rgba({{mainColor[0]}},{{mainColor[1]}},{{mainColor[2]}},1), rgba({{mainColor[0]}},{{mainColor[1]}},{{mainColor[2]}},.9));">
     <!-- 背景 -->
     <canvas type="2d" class="bg-canvas" id="myCanvas"/>
 
     <!-- 内容 -->
     <view class="album">
-        <image bindload="onGetImageItem" class="image" src="{{itemData.coverImgUrl}}"></image>
+        <view class="imageCon">
+            <view class="imageitem"></view>
+        </view>
+        <view class="imageView">
+            <view class="imageViewItem">
+                <image bindload="onGetImageItem" class="image" src="{{itemData.coverImgUrl}}"></image>
+                <view class="imageText">
+                    <text class="iconfont icon-24gf-play"></text>
+                    <text>{{format.formatCount(itemData.playCount)}}</text>
+                </view>
+            </view>
+        </view>
         <view class="info">
             <view class="title">{{itemData.name}}</view>
             <view class="anthor">
                 <image class="avatar" mode="aspectFill" src="{{itemData.creator.avatarUrl}}"></image>
                 <text class="nickname">{{itemData.creator.nickname}}</text>
             </view>
+            <view class="expertTags">
+                <block wx:for="{{itemData.creator.expertTags}}" wx:key="*this">
+                    <view class="itemTag">
+                        <text>{{item}}</text>
+                        <text class="iconfont icon-jinru"></text>
+                    </view>
+                </block>
+            </view>
+            
         </view>
     </view>
     <view class="desc">
-        <text>简介：{{itemData.description}}</text>
+        {{itemData.description}}
     </view>
     <view class="operation">
         <view class="favor item">
-            <text class="iconfont icon-xihuan"></text>
-            <text class="text">{{format.formatCount(itemData.subscribedCount)}}</text>
+            <text class="iconfont icon-tiaoguofenxiang"></text>
+            <text class="text">{{format.formatCount(itemData.shareCount)}}</text>
         </view>
         <view class="share item">
-            <text class="iconfont icon-fenxiang"></text>
-            <text class="text">分享</text>
+            <text class="iconfont icon-duanxinxiaoxixinxi"></text>
+            <text class="text">{{format.formatCount(itemData.commentCount)}}</text>
+        </view>
+        <view class="share item">
+            <text class="iconfont icon-batch-add"></text>
+            <text class="text">{{format.formatCount(itemData.subscribedCount)}}</text>
         </view>
     </view>
 </view>

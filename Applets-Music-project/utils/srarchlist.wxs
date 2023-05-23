@@ -48,6 +48,14 @@
             }
         })
         return newArr
+    }else{
+        var textArr = [];
+        var objText = {
+            text:key,
+            active:false
+        }
+        textArr.push(objText)
+        return textArr
     }
   }
 

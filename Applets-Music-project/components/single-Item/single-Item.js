@@ -9,6 +9,10 @@ Component({
         keyWorld:{
             type:String,
             value:''
+        },
+        underline:{
+            type:Boolean,
+            value:true
         }
     },
 

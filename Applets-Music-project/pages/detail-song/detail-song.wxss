@@ -13,12 +13,28 @@
     font-weight: 700;
 }
 .song-list{
-    padding: 20rpx;
-    padding-top: 0;
+    padding: 0 30rpx;
+    border-top-left-radius: 30rpx;
+    border-top-right-radius: 30rpx;
+}
+.songListCon{
+    display: flex;
+}
+.indexList{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 30rpx;
+}
+.indexListLast{
+    flex: 1;
 }
 
 /* 自定义导航栏 */
 
 .icon-fanhui{
     font-size: 40rpx;
+}
+.scrollViewCon ::-webkit-scrollbar{
+    display: none;
 }

@@ -34,7 +34,7 @@
         height: 100%;
     }
     50% {
-        height: 0%;
+        height: 30%;
     }
     100% {
         height: 100%;
@@ -42,13 +42,13 @@
 }
 @keyframes itemHeight2 {
     0% {
-        height: 0%;
+        height: 30%;
     }
     50% {
         height: 50%;
     }
     100% {
-        height: 0%;
+        height: 30%;
     }
 }
 @keyframes itemHeight3 {
@@ -56,7 +56,7 @@
         height: 80%;
     }
     50% {
-        height: 0%;
+        height: 30%;
     }
     100% {
         height: 80%;
@@ -64,13 +64,13 @@
 }
 @keyframes itemHeight4 {
     0% {
-        height: 0%;
+        height: 30%;
     }
     50% {
         height: 70%;
     }
     100% {
-        height: 0%;
+        height: 30%;
     }
 }
 .item1 {
