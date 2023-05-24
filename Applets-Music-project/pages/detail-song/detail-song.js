@@ -13,7 +13,6 @@ Page({
         songInfos: {},
         homeTop:0,
         bodyHeight:0,
-        nextMargin:0,
         triggered:false,
         headerHeight:225,
         scrollTop:0
@@ -43,7 +42,16 @@ Page({
         // 获取高度
         this.getNavTabHeight()
     },
-
+    // onPullDownRefresh(){
+    //     // wx.startPullDownRefresh()
+    //     wx.setBackgroundColor({
+    //         backgroundColor: this.data.bgColor[3],
+    //         backgroundColorTop: this.data.bgColor[3], // 顶部窗口的背景色为白色
+    //         backgroundColorBottom: this.data.bgColor[3] // 底部窗口的背景色为白色
+    //     })
+    //     wx.stopPullDownRefresh()
+    //     console.log('下拉');
+    // },
     async fetchMenuSongInfo() {
         const res =  await getPlaylistDetail(this.data.id)
         console.log(res);
@@ -72,16 +80,19 @@ Page({
         })
     },
     binddragend(event) {
-        let scrollTop = event.detail.scrollTop
-        if (scrollTop < this.data.headerHeight * .2) {
+        console.log(event);
+        if (event.detail.scrollTop < this.data.headerHeight * .2) {
             this.setData({
                 scrollTop:0
             })
-        }else if (scrollTop<this.data.headerHeight) {
+        }else if (event.detail.scrollTop<this.data.headerHeight) {
             this.setData({
                 scrollTop:this.data.headerHeight
             })
         }
+    },
+    binddragging(event){
+        // console.log(event);
     },
     // 获取nav+tab高度
     getNavTabHeight() {
@@ -89,12 +100,9 @@ Page({
         query.select('.navCon').boundingClientRect(res =>{
             let homeTop = res?.height
             let bodyHeight = app.globalData.screeHeight - homeTop
-            const dpr = wx.getWindowInfo().pixelRatio
-            let nextMargin = bodyHeight*dpr - 450
             this.setData({
                 homeTop:homeTop,
-                bodyHeight:bodyHeight*dpr,
-                nextMargin:nextMargin
+                bodyHeight:bodyHeight
             })
             
         }).exec();
