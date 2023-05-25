@@ -15,11 +15,12 @@
 </view>
 
 <!-- 具体内容 -->
-<scroll-view 
-    style="height: {{bodyHeight}}px;" 
+<!-- <scroll-view 
+    style="height: 1200px;" 
     scroll-y 
     enable-passive 
     enhanced
+    bounces
     refresher-enabled 
     refresher-triggered="{{triggered}}" 
     bindrefresherrefresh="bindrefresherrefresh"
@@ -63,35 +64,45 @@
             </block>
         </view>
     </view> 
-</scroll-view>
+</scroll-view>  -->
 
-<!-- <swiper
-    vertical
-    style="height: {{bodyHeight}}rpx;"
-    bindtransition="onBindtransition"
->
-    <swiper-item>
-        
-    </swiper-item>
-    <view>
-        <view class="header" wx:if="{{type === 'menu' && songInfos.name}}">
+    <view class="header">
+        <view id="header" wx:if="{{type === 'menu' && songInfos.name}}">
             <menu-header bind:bgColor="onBgColor" itemData="{{songInfos}}"/>
         </view>
         <view class="title" wx:else>{{songInfos.name}}</view>
     </view>
-    <view style="position:absolute" class="song-list">
-        <block wx:for="{{songInfos.tracks}}" wx:key="id">
-            <song-item-v2 
-                itemData="{{item}}" 
-                index="{{index+1}}" 
-                data-index="{{index}}"
-                bindtap="onSongItemTap"/>
-        </block>
-    </view>
-    <swiper-item>
-        
-    </swiper-item> 
-</swiper> -->
+    <view 
+        class="song-list" 
+        id="listSong" 
+        style="background-color: rgba({{bgColor[0]}}, {{bgColor[1]}}, {{bgColor[2]}}, .9);"
+    >
+        <view class="songBig">
+            <view wx:if="{{bgColor.length > 0}}" class="listTop" style="top: {{homeTop}}px;">
+                <view class="listTopLeft">
+                    <text class="iconfont icon-24gf-play"></text>
+                    <text>播放全部({{songInfos.trackCount}})</text>
+                </view>
+                <text class="iconfont icon-24gf-playlistMusic4"></text>
+            </view>
+            <block wx:for="{{songInfos.tracks}}" wx:key="id">
+                <view class="songListCon">
+                    <view class="indexList">
+                        {{index+1}}
+                    </view>
+                    <view class="indexListLast">
+                        <single-Item  
+                            singleValue="{{item}}"
+                            underline="{{false}}"
+                            data-index="{{index}}"
+                            bindtap="onSongItemTap"
+                        />
+                    </view>
+                </view>
+            </block>
+        </view>
+</view>     
+
 
 
 

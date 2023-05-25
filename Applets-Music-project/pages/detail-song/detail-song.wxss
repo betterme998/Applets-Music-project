@@ -1,5 +1,6 @@
 /* pages/detail-song/detail-song.wxss */
 @import "/assets/font/iconfont.wxss";
+/* page{ background-color: lightblue} */
 .navCon{
     position: fixed;
     z-index: 1;
@@ -25,7 +26,6 @@
     padding-bottom: 20rpx;
     padding-top: 30rpx;
     position: sticky;
-    top: 0;
     font-size: 30rpx;
     color: #2c2f35;
     font-weight: 700;
