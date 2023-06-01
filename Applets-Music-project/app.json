@@ -7,9 +7,12 @@
         "pages/detail-search/detail-search",
         "pages/detail-song/detail-song",
         "pages/detail-menu/detail-menu",
-        "pages/music-player/music-player"
+        "pages/music-player/music-player",
+        "pages/detail-rollvide/detail-rollvide"
     ],
-    "requiredBackgroundModes": ["audio"],
+    "requiredBackgroundModes": [
+        "audio"
+    ],
     "window": {
         "backgroundTextStyle": "dark",
         "navigationBarBackgroundColor": "#fff",
@@ -17,8 +20,8 @@
         "navigationBarTextStyle": "black"
     },
     "tabBar": {
-        "color":"#95969b",
-        "selectedColor":"#fd3446",
+        "color": "#95969b",
+        "selectedColor": "#fd3446",
         "list": [
             {
                 "pagePath": "pages/main-music/main-music",

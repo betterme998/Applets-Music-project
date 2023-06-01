@@ -1,7 +1,7 @@
 // pages/detail-search/detail-search.js
 import { object } from "underscore";
 import { searchPropose, search, searchRecommend } from "../../services/search"
-import { getMVRel,getMVInfo } from "../../services/video"
+import { getMVRel,getMVInfo,getMVRelate } from "../../services/video"
 import rankingStore, {rankingsIds} from "../../store/rankingStore";
 import { debounce } from "../../utils/debounce";
 import playerStore from "../../store/playerStore"
@@ -53,6 +53,7 @@ Page({
         shiftingIndex:0,
         videoIndex:0,
         songIndex:0,
+        userIndex:0,
         // 猜你喜欢
         songList:{},
         singerList:{},
@@ -60,6 +61,8 @@ Page({
         // 视频
         MVList:[],
         MVAllList:[],
+        mvLangth:0,
+        userLangth:0,
         videoPlay:{},
         videoTabs:false,
         interest:false,
@@ -83,7 +86,10 @@ Page({
         isPlaying:false,
 
         // 聚焦
-        HomeFocus:true
+        HomeFocus:true,
+
+        // 下拉
+        scrollBottom:false
     },
     onLoad() {
         this.setData({menuRight:app.globalData.menuRight,tabbarHeight: app.globalData.tabbarHeight})
@@ -130,6 +136,7 @@ Page({
                 ProposeListShow:false,
                 loading:false,
                 values:'',
+                nolistShow:false,
                 ProposeListValue:[]
             })
         }
@@ -190,6 +197,33 @@ Page({
         }
         if (this.data.userAll.length === 0 && e.detail === 5) {
             await this.searchUser(this.data.searchValue)
+        }
+    },
+    onscrolltolowerb(e){
+        if ((e.detail === "single") && !this.data.scrollBottom) {
+            // 单曲
+            this.data.shiftingIndex = this.data.singleAll.length
+           this.searchSingle(this.data.searchValue)
+        }
+        if ((e.detail === "song")&& !this.data.scrollBottom) {
+            // 歌单
+            this.data.songIndex = this.data.songAll.length
+            this.searchSong(this.data.searchValue)
+        }
+        if ((e.detail === "video")&& !this.data.scrollBottom) {
+            // 视频
+            this.data.videoIndex = this.data.MVAllList.length
+            this.searchVideo(this.data.searchValue)
+        }
+        if ((e.detail === "singer")&& !this.data.scrollBottom) {
+            // 歌手
+            this.data.singerLangth = this.data.singerAll.length
+            this.searchSinger(this.data.searchValue)
+        }
+        if ((e.detail === "radio")&& !this.data.scrollBottom) {
+            // 用户
+            this.data.userIndex = this.data.userAll.length
+            this.searchUser(this.data.searchValue)
         }
     },
     onSingleItem(event) {
@@ -309,7 +343,6 @@ Page({
     },
     // 监听视频到指定位置播放
     IntersectionObserver() {
-        console.log('开始监听');
         let that = this
         let idArray = new Array()
         this._listen = wx.createIntersectionObserver(this,{ observeAll: true})
@@ -317,7 +350,6 @@ Page({
             .relativeTo('.relativeView')
             .observe(".videoItem",(res) =>{
                 if (res.intersectionRatio>0) {
-                    console.log(res);
                     let id = res.dataset.vid
                     idArray.push(id)
                     if (idArray.length>2) {
@@ -337,7 +369,7 @@ Page({
         await searchRecommend().then(res => {
             this.setData({RecommendList:res.data.result.hots})
         })
-        this.RecommendNum()
+        // this.RecommendNum()
     },
     ServicesPromptFn(event){
         var loadingTime = setTimeout(()=>{
@@ -360,7 +392,7 @@ Page({
         })
     },
     searchGetFn(event){//搜索结果函数
-        this.setData({singleList:[],singleAll:[],songAll:[],MVAllList:[],singerAll:[],userAll:[]})
+        this.setData({singleList:[],singleAll:[],songAll:[],MVAllList:[],singerAll:[],userAll:[],nolistShow:false})
         let keyWord = ''
         if (typeof(event.detail) === 'object') {
             keyWord = event.detail.keyword
@@ -368,6 +400,7 @@ Page({
             keyWord = event.detail
         }
         if (keyWord) {
+            console.log(1);
             listMap.unshift(keyWord)
             if (listMap.length>10) {
                 listMap.pop()
@@ -404,14 +437,15 @@ Page({
                     songList
                 })
             })
-            search(keyWord,5,1014).then(res => {
-                let MVList = res.data.result.videos
+            search(keyWord,5,1004).then(res => {
+                let MVList = res.data.result.mvs
                 this.setData({
                     MVList
                 })
             })
 
         }else {
+            console.log(2);
             listMap.unshift(this.data.RecommendText)
             if (listMap.length>10) {
                 listMap.pop()
@@ -447,8 +481,8 @@ Page({
                     songList
                 })
             })
-            search(this.data.searchValue,5,1014).then(res => {
-                let MVList = res.data.result.videos
+            search(this.data.searchValue,5,1004).then(res => {
+                let MVList = res.data.result.mvs
                 this.setData({
                     MVList
                 })
@@ -461,65 +495,150 @@ Page({
         this.getHeight()
     },
     // 歌曲上拉下拉
-    searchSingle(keyWord){
-        search(keyWord,30,1,this.data.shiftingIndex * 30).then(res => {
-            let singleAll = res.data.result.songs
+    async searchSingle(keyWord){
+        this.setData({
+            scrollBottom:true
+        })
+        await search(keyWord,30,1,this.data.shiftingIndex).then(res => {
+            // 2.将新数据追加到原数据后面
+            console.log(res);
+            const newSingleAll = [...this.data.singleAll,...res.data.result.songs]
+            // 3.设置全新数据
+            this.setData({singleAll:newSingleAll})
+        }).catch(()=>{
             this.setData({
-                singleAll
+                scrollBottom:false
             })
+        })
+        this.setData({
+            scrollBottom:false
         })
     },
     // 歌单上拉下拉
-    searchSong(keyWord){
-        search(keyWord,30,1000,this.data.songIndex * 30).then(res => {
+    async searchSong(keyWord){
+        this.setData({
+            scrollBottom:true
+        })
+        await search(keyWord,30,1000,this.data.songIndex).then(res => {
             console.log(res);
             let songList = this.handleValue(res,1000,keyWord)
+            const newSingleAll = [...this.data.songAll,...songList]
             this.setData({
-                songAll:songList
+                songAll:newSingleAll
             })
+        }).catch(()=>{
+            this.setData({
+                scrollBottom:false
+            })
+        })
+        this.setData({
+            scrollBottom:false
         })
     },
     //视频上拉下拉
-    searchVideo(keyWord){
-        search(keyWord,10,1014,this.data.videoIndex * 10).then(res => {
-            console.log(res);
-            let MVAllList = res.data.result.videos
+    async searchVideo(keyWord){
+        this.setData({
+            scrollBottom:true
+        })
+        if ((this.data.mvLangth == this.data.MVAllList.length)&&this.data.mvLangth>0) {
             this.setData({
-                MVAllList
+                scrollBottom:false
             })
+            console.log('到底');
+            return
+        }
+        await search(keyWord,10,1004,this.data.videoIndex).then(res => {
+            console.log(res);
+            let MVAllList = res.data.result.mvs
+            let mvLangth = res.data.result.mvCount
+            const newMVAllList = [...this.data.MVAllList,...MVAllList]
+            this.data.mvLangth = mvLangth
+            this.setData({
+                MVAllList:newMVAllList
+            })
+        }).catch(()=>{
+            this.setData({
+                scrollBottom:false
+            })
+        })
+        this.setData({
+            scrollBottom:false
         })
     },
     //歌手上拉下拉
     searchSinger(keyWord){
-        search(keyWord,20,100,this.data.videoIndex * 20).then(res => {
+        this.setData({
+            scrollBottom:true
+        })
+        if ((this.data.singerLangth == this.data.singerAll.length)&&this.data.singerLangth>0) {
+            this.setData({
+                scrollBottom:false
+            })
+            console.log('到底');
+            return
+        }
+        search(keyWord,20,100,this.data.singerLangth).then(res => {
             console.log(res);
             let a = true
             let singerAll = this.handleValue(res,100,keyWord,a)
+            let singerLangth = res.data.result.artistCount
+            const newSingerAll = [...this.data.singerAll,...singerAll]
+            this.data.singerLangth = singerLangth
             this.setData({
-                singerAll
+                singerAll:newSingerAll
             })
+        }).catch(()=>{
+            this.setData({
+                scrollBottom:false
+            })
+        })
+        this.setData({
+            scrollBottom:false
         })
     },
     //用户上拉下拉
-    searchUser(keyWord){
-        search(keyWord,20,1002,this.data.videoIndex * 20).then(res => {
+    async searchUser(keyWord){
+        this.setData({
+            scrollBottom:true
+        })
+        if ((this.data.userLangth == this.data.userAll.length)&&this.data.userLangth>0) {
+            this.setData({
+                scrollBottom:false
+            })
+            console.log('到底');
+            return
+        }
+        await search(keyWord,20,1002,this.data.userIndex).then(res => {
             console.log(res);
             let userAll  = res.data.result.userprofiles
+            let userLangth = res.data.result.userprofileCount
+            const newUserAll = [...this.data.userAll,...userAll]
+            this.data.userLangth = userLangth
             this.setData({
-                userAll
+                userAll:newUserAll
             })
+        }).catch(()=>{
+            this.setData({
+                scrollBottom:false
+            })
+        })
+        this.setData({
+            scrollBottom:false
         })
     },
     // 视频播放
     searchVideoPlay:debounce((id,that)=>{
+        // 包含字符串的id
+        // let re = /^(?![^a-zA-Z]+$)(?!\D+$)/
+        console.log(id);
         getMVRel(id).then(res => {
-            let videoPlay = res.data.data
             console.log(res);
+            let videoPlay = res.data.data
             that.setData({
                 videoPlay
             })
         })
-    },1000,true),
+    },1000),
     // 视频控件
     // 获取nav+tab高度
     getNavTabHeight() {
@@ -557,6 +676,14 @@ Page({
             }
         }).exec();
     },
+    mvPlay(event){
+        let id = event.currentTarget.dataset.vid
+        let index = event.currentTarget.dataset.index
+        let mvlist = encodeURIComponent(JSON.stringify(this.data.MVAllList))
+        wx.navigateTo({
+            url: `/pages/detail-rollvide/detail-rollvide?id=${id}&index=${index}&mvlist=${mvlist}&keyworld=${this.data.searchValue}`,
+        })
+    },
     // 获取视频高度+nav+tab高度
     getVideoHeight() {
         if(this.data.videoHeight > 0) {
@@ -575,17 +702,26 @@ Page({
         }).exec();
     },
     getvideoItem(index) {
-        setTimeout(()=>{
-            let classItem = '.mvItem'+index
-            let query = wx.createSelectorQuery().in(this.selectComponent(classItem));
-            query.select('.video').boundingClientRect(res =>{
-                let videoContext = wx.createVideoContext('video',this.selectComponent(classItem))
-                clearInterval(this.setInters)
-                this.setInters = setInterval(()=>{
-                    videoContext.seek(0)
-                },10000)
-            }).exec();
-        },2000)
+        // setTimeout(()=>{
+        //     let classItem = '.mvItem'+index
+        //     let query = wx.createSelectorQuery().in(this.selectComponent(classItem));
+        //     query.select('.video').boundingClientRect(res =>{
+        //         let videoContext = wx.createVideoContext('video',this.selectComponent(classItem))
+        //         clearInterval(this.setInters)
+        //         this.setInters = setInterval(()=>{
+        //             videoContext.seek(0)
+        //         },10000)
+        //     }).exec();
+        // },2000)
+        let classItem = '.mvItem'+index
+        let query = wx.createSelectorQuery().in(this.selectComponent(classItem));
+        query.select('.video').boundingClientRect(res =>{
+            let videoContext = wx.createVideoContext('video',this.selectComponent(classItem))
+            clearInterval(this.setInters)
+            this.setInters = setInterval(()=>{
+                videoContext.seek(0)
+            },10000)
+        }).exec();
     },
 
     // 本地记录

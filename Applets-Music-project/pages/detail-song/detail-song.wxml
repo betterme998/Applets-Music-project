@@ -15,8 +15,8 @@
 </view>
 
 <!-- 具体内容 -->
-<!-- <scroll-view 
-    style="height: 1200px;" 
+<scroll-view 
+    style="height: {{bodyHeight}}px;" 
     scroll-y 
     enable-passive 
     enhanced
@@ -28,8 +28,7 @@
     refresher-background="{{bgColor[3]}}"
     scroll-top="{{scrollTop}}"
     scroll-with-animation
-    binddragend="binddragend"
-    binddragging="binddragging"
+    bindscroll="bindscroll"
     class="scrollViewCon"
 >
     <view class="header">
@@ -64,9 +63,9 @@
             </block>
         </view>
     </view> 
-</scroll-view>  -->
+</scroll-view> 
 
-    <view class="header">
+    <!-- <view class="header">
         <view id="header" wx:if="{{type === 'menu' && songInfos.name}}">
             <menu-header bind:bgColor="onBgColor" itemData="{{songInfos}}"/>
         </view>
@@ -101,9 +100,19 @@
                 </view>
             </block>
         </view>
-</view>     
+</view>      -->
 
-
+<!-- 7.播放工具栏 -->
+<play-toolbar 
+        tabbarHeight="{{tabbarHeight}}"
+        currentSong="{{currentSong}}"
+        isPlaying="{{isPlaying}}"
+        playModeIndex="{{playModeIndex}}"
+        playSongIndex="{{playSongIndex}}"
+        playSongList="{{playSongList}}"
+    >
+    
+</play-toolbar>
 
 
       

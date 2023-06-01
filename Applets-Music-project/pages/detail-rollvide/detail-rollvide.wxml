@@ -1,0 +1,44 @@
+<!--pages/detail-rollvide/detail-rollvide.wxml-->
+
+<!-- 1.背景展示 -->
+
+
+<!-- 2.自定义导航栏 -->
+<view class="navCon">
+    <nav-bar bind:leftclick="onNavBackTap">
+        <view class="tabs" slot="left">
+            <text class="iconfont icon-fanhui"></text>
+        </view>
+        <view class="tabs" slot="center">
+            
+        </view>
+    </nav-bar>
+</view>
+
+
+<swiper vertical
+        class="swiper"
+        bindchange="bindchange"
+        current="{{index}}"
+>
+    <block wx:for="{{mvlist}}" wx:key="id">
+        <swiper-item>
+            <view class="imageCon">
+                <video 
+                    src="{{(mvlist[current].id === item.id)? videoPlay.url : ''}}"
+                    controls="{{false}}"
+                    class="video"
+                    id="video"
+                    object-fit="fill"
+                    loop
+                    muted
+                    autoplay
+                    bindplay="mvplay"
+                />
+                <image wx:if="{{imageShow}}" class="image" src="{{item.cover}}" mode="aspectFit"></image>
+            </view>
+        </swiper-item>
+    </block>
+</swiper>
+
+

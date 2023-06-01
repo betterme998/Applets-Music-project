@@ -13,7 +13,7 @@
     >
         <block wx:for="{{tabsValue}}" wx:key="name">
             <van-tab title="{{item.tabTitle}}">
-                <scroll-view class="listC" scroll-y="true" style="height: {{resultHeight}}px;" enable-passive>
+                <scroll-view class="listC" scroll-y  bindscrolltolower="bindscrolltolower" data-name="{{item.name}}" style="height: {{resultHeight}}px;" enable-passive>
                     <slot name="{{item.name}}"></slot>
                 </scroll-view>
             </van-tab>

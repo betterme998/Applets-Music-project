@@ -15,6 +15,10 @@ Component({
         loading:{
             type:Boolean,
             value:false
+        },
+        top:{
+            type:Number,
+            value:125
         }
     },
 

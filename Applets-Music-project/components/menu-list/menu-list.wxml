@@ -11,19 +11,19 @@
     <view class="Listcontainer">
         <view class="headerList">
             <view class="headertop">
-                <text>当前播放</text>
-                <text>{{ '(' + playSongList.length + ')' }}</text>
+                <text class="textLeft">当前播放</text>
+                <text class="textRight">{{ '(' + playSongList.length + ')' }}</text>
             </view>
             <view class="hraderbottom">
                 <text 
                     class="iconfont {{modeNames[playModeIndex]}}"
                     bindtap="onModeBtnTap"
                 ></text>
-                <text>{{modeName[playModeIndex]}}</text>
+                <text class="text">{{modeName[playModeIndex]}}</text>
             </view>
         </view>
         <view class="bodyList">
-            <scroll-view class="listC" scroll-y="true" style="height: 606.352617rpx;" enable-passive>
+            <scroll-view class="listC" scroll-y="true" enhanced	show-scrollbar style="height: 606.352617rpx;" enable-passive>
                 <block wx:for="{{playSongList}}" wx:key="id">
                     <view class="listCont"  data-id="{{item.id}}" data-index="{{index}}" bindtap="onlistMenuFn">
                         <view class="listItem">

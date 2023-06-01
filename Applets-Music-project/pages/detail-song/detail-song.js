@@ -2,8 +2,8 @@
 import recommendStore from "../../store/recommendStore"
 import rankingStore, { rankingsIds } from "../../store/rankingStore"
 import { getPlaylistDetail } from "../../services/music"
-import playerStore from "../../store/playerStore"
 import { debounce } from "../../utils/debounce"
+import playerStore from "../../store/playerStore"
 const app = getApp()
 let startY = 0;//起始坐标
 let moveY = 0;//移动坐标
@@ -20,9 +20,21 @@ Page({
         triggered:false,
         headerHeight:225,
         scrollTop:0,
-        pullDown:true
+        pullDown:true,
+        // 歌单数据
+        rankingInfos:{},
+        // 播放工具栏
+        // tabbar高度
+       tabbarHeight:0,
+       playModeIndex:0,
+       playSongIndex:0,
+       playSongList:[],
+       // 歌曲信息
+       currentSong:{},
+       isPlaying:false,
     },
     onLoad(options) {
+        this.setData({tabbarHeight: app.globalData.tabbarHeight})
         // 1.确定获取数据的类型
         // type:ranking ->榜单数据
         // type:recommend -> 推荐数据
@@ -43,14 +55,17 @@ Page({
             this.data.id = id
             this.fetchMenuSongInfo()
         }
-
         // 获取高度
         this.getNavTabHeight()
+
+        // 共享store
+        playerStore.onStates(["playSongList","playSongIndex","playModeIndex"],this.getPlaySonginfosHandler)
+        playerStore.onStates(["currentSong","isPlaying"], this.handlePlayInfos)
     },
-    onPageScroll(event){
-        let that = this
-        this.PageScrollFn(event,that)
-    },
+    // onPageScroll(event){
+    //     let that = this
+    //     this.PageScrollFn(event,that)
+    // },
     onPullDownRefresh(){
         wx.stopPullDownRefresh()
     },
@@ -79,6 +94,7 @@ Page({
         this.getHeaderHeight()
     },
     onNavBackTap(){
+        app.globalData.HomeFocus = false
         wx.navigateBack()
     },
     bindrefresherrefresh(){
@@ -86,50 +102,10 @@ Page({
             triggered:false
         })
     },
-    // binddragend(event) {
-    //     console.log(event);
-    //     if (event.detail.scrollTop < this.data.headerHeight * .2) {
-    //         this.setData({
-    //             scrollTop:0
-    //         })
-    //     }else if (event.detail.scrollTop<this.data.headerHeight) {
-    //         this.setData({
-    //             scrollTop:this.data.headerHeight
-    //         })
-    //     }
-    // },
-    // binddragging(event){
-        
-    // },
-    // handleTouchStart(e) {
-    //     let query = wx.createSelectorQuery();
-    //     query.select('.scrollViewCon').boundingClientRect(res =>{
-    //        let aaa = this.selectComponent('.scrollViewCon')
-    //        console.log(aaa);
-    //     }).exec();
-    //     // this.scrollView = this.selectComponent('.scrollViewCon')
-    //     this.setData({
-    //         coverTranstion:''
-    //     })
-    //     // 手指起始坐标
-    //     startY = e.touches[0].clientY;
-    //     console.log(startY);
-    // },
-    // handleTouchMove(e) {
-    //     moveY = e.touches[0].clientY;
-    //     moveDistance = moveY - startY
-    //     if (moveDistance<=0) return
-    //     if ((this.data.scrollTop === 0)&&this.data.pullDown) {
-    //         this.data.pullDown = false
-    //         wx.startPullDownRefresh()
-    //         console.log('下拉');
-    //     }
-
-    // },
-    // handleTouchEnd(e) {
-    //     this.data.pullDown = true
-    //     wx.stopPullDownRefresh()
-    // },
+    bindscroll(event){
+        let that = this
+        this.PageScrollFn(event,that)
+    },
     // 获取nav+tab高度
     getNavTabHeight() {
         let query = wx.createSelectorQuery();
@@ -149,7 +125,6 @@ Page({
         let query = wx.createSelectorQuery();
         wx.nextTick(()=>{
             query.select('#header').boundingClientRect(res =>{
-                console.log(res);
                 let headerHeight = res?.height
                 this.setData({
                     headerHeight
@@ -159,18 +134,23 @@ Page({
     },
     // 滚动
     PageScrollFn:debounce((event,that) =>{
-        console.log(event.scrollTop,that.data.headerHeight);
-
-        if ( event.scrollTop < that.data.headerHeight*.3) {
-            wx.pageScrollTo({
-                scrollTop: 0,
-                duration: 300
+        let scrollTop = event.detail.scrollTop
+        if ( scrollTop < that.data.headerHeight*.3) {
+            that.setData({
+                scrollTop:0
             })
-        }else if (event.scrollTop < that.data.headerHeight) {
-            wx.pageScrollTo({
-                scrollTop: that.data.headerHeight,
-                duration: 300
+            // wx.pageScrollTo({
+            //     scrollTop: 0,
+            //     duration: 300
+            // })
+        }else if (scrollTop < that.data.headerHeight) {
+            that.setData({
+                scrollTop:that.data.headerHeight
             })
+            // wx.pageScrollTo({
+            //     scrollTop: that.data.headerHeight,
+            //     duration: 300
+            // })
         }
     },100),
 
@@ -185,7 +165,31 @@ Page({
           title: value.name,
         })
     },
+    // 共享store 
+    //============================== 从Store中获取数据 ==============================
+    getPlaySonginfosHandler({playSongList,playSongIndex,playModeIndex}) {
+        if (playSongList) {
+            this.setData({ playSongList })
+        }
+        if (playSongIndex !== undefined) {
+            this.setData({ playSongIndex })
+        }
+        if (playModeIndex !== undefined) {
+            this.setData({ playModeIndex })
+        }
+    },
+    handlePlayInfos({ currentSong, isPlaying }) {
+        if (currentSong) {
+            this.setData({currentSong})
+        }
+        if (isPlaying !== undefined) {
+            this.setData({isPlaying})
+        }
+    },
+
     onUnload() {
+        // playerStore.offState(["currentSong","isPlaying"], this.handlePlayInfos)
+        // playerStore.offState(["playSongList","playSongIndex","playModeIndex"],this.getPlaySonginfosHandler)
         if (this.data.type === "ranking") {
             rankingStore.offState(this.data.key, this.handleRanking)
         }else if (this.data.type === "recommend") {

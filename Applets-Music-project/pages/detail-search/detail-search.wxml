@@ -30,7 +30,7 @@
     </nav-bar>
     <!-- 搜索提示 -->
     <prompt-list
-        wx:if="{{ProposeListShow}}"
+        wx:if="{{ProposeListShow&&!Proposeresult}}"
         loading = "{{loading}}"
         ProposeListValue = "{{ProposeListValue}}"
         values = "{{values}}"
@@ -52,6 +52,7 @@
         <search-scroll 
             tabsValue="{{tabsValue}}"
             resultHeight="{{resultHeight}}"
+            bind:onscrolltolowerb="onscrolltolowerb"
             bind:getTabItemValue="getTabItemValue"
             class="aaaaa"
         >
@@ -164,25 +165,25 @@
                     <view
                         wx:if="{{item.name === 'single'}}"
                     >
-                        <block wx:for="{{singleAll}}" wx:key="id">
+                        <block wx:for="{{singleAll}}" wx:for-index="inden" wx:for-item="iten" wx:key="id">
                             <single-Item  
-                                singleValue="{{item}}"
+                                singleValue="{{iten}}"
                                 keyWorld="{{searchValue}}"
-                                data-index="{{index}}"
+                                data-index="{{inden}}"
                                 bindtap="onSingleItem"
                             />
                         </block>
-                        <loading loading="{{singleAll.length > 0 ? false:true}}"></loading>
+                        <loading top="{{singleAll.length > 0 ? 0:125}}" loading="{{scrollBottom}}"></loading>
                     </view>
                     <view
                         wx:if="{{item.name === 'song'}}"
                     >
-                        <block wx:for="{{songAll}}" wx:key="id">
+                        <block wx:for="{{songAll}}" wx:for-index="inden" wx:for-item="iten" wx:key="id">
                             <view class="iddleItem">
-                                <singer-Item keyWorld="{{searchValue}}" songList="{{item}}"></singer-Item>
+                                <singer-Item keyWorld="{{searchValue}}" songList="{{iten}}"></singer-Item>
                             </view>
                         </block>
-                        <loading loading="{{songAll.length > 0 ? false:true}}"></loading>
+                        <loading top="{{songAll.length > 0 ? 0:125}}" loading="{{scrollBottom}}"></loading>
                     </view>
                     <view
                         wx:if="{{item.name === 'video'}}"
@@ -190,48 +191,48 @@
                     >
                         <view class="relativeView" style="width: 100%; height: 2rpx; opacity: 0; background-color: #fff; position: fixed; top: {{videoHeight}}px; z-index: -1;">   
                         </view>
-                        <block wx:for="{{MVAllList}}" wx:key="vid">
-                            <view class="videoItem" data-index="{{index}}" data-vid="{{item.vid}}">
+                        <block wx:for="{{MVAllList}}" wx:for-index="inden" wx:for-item="iten" wx:key="id">
+                            <view class="videoItem" bindtap="mvPlay" data-index="{{inden}}" data-vid="{{iten.id}}">
                                 <mv-item 
                                     videoPlay="{{videoPlay}}" 
                                     bind:imageLoadComplete="getVideoHeight" videotab="{{true}}" 
-                                    keyWorld="{{searchValue}}" songList="{{item}}"
+                                    keyWorld="{{searchValue}}" songList="{{iten}}"
                                     active="{{true}}"
-                                    class="mvItem{{index}}"
+                                    class="mvItem{{inden}}"
                                 >
                                 </mv-item>
                             </view>
                         </block>
-                        <loading loading="{{MVAllList.length > 0 ? false:true}}"></loading>
+                        <loading top="{{MVAllList.length > 0 ? 0:125}}" loading="{{scrollBottom}}"></loading>
                     </view>
                     <view
                         wx:if="{{item.name === 'singer'}}"
                         class="videoCon"
                     >
-                        <block wx:for="{{singerAll}}" wx:key="id">
+                        <block wx:for="{{singerAll}}" wx:for-index="inden" wx:for-item="iten" wx:key="id">
                             <view class="videoItem">
-                                <singer-Item round="false" user="true" details="{{false}}" keyWorld="{{searchValue}}" songList="{{item}}"></singer-Item>
+                                <singer-Item round="false" user="true" details="{{false}}" keyWorld="{{searchValue}}" songList="{{iten}}"></singer-Item>
                             </view>
                         </block>
-                        <loading loading="{{singerAll.length > 0 ? false:true}}"></loading>
+                        <loading top="{{songAll.length > 0 ? 0:125}}" loading="{{scrollBottom}}"></loading>
                     </view>
                     <view
                         wx:if="{{item.name === 'radio'}}"
                         class="videoCon"
                     >
-                        <block wx:for="{{userAll}}" wx:key="userId">
+                        <block wx:for="{{userAll}}" wx:for-index="inden" wx:for-item="iten" wx:key="userId">
                             <view class="videoItem">
-                                <singer-Item round="true" user="true" userBo="true"  keyWorld="{{searchValue}}" songList="{{item}}"></singer-Item>
+                                <singer-Item round="true" user="true" userBo="true"  keyWorld="{{searchValue}}" songList="{{iten}}"></singer-Item>
                             </view>
                         </block>
-                        <loading loading="{{userAll.length > 0 ? false:true}}"></loading>
+                        <loading top="{{songAll.length > 0 ? 0:125}}" loading="{{scrollBottom}}"></loading>
                     </view>
                 </view>
             </block>
         </search-scroll>
     </view>
 </view>
-<scroll-view class="listC" scroll-y="true" style="height: {{(!Proposeresult&&!ProposeListShow) ? bodyHeight:bodyHeight}}px;" enable-passive>
+<scroll-view class="listC" scroll-y="true" style="height: {{bodyHeight}}px;" enable-passive>
     <!-- 搜索首页 -->
     <view
         wx:if="{{!Proposeresult&&!ProposeListShow&&homeTop>0}}"
@@ -293,7 +294,6 @@
         playSongIndex="{{playSongIndex}}"
         playSongList="{{playSongList}}"
     >
-    
 </play-toolbar>
 
 

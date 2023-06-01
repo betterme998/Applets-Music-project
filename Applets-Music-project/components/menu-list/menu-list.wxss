@@ -17,12 +17,12 @@
     justify-content: space-around;
     border-bottom: 2rpx solid #e6e6e6;
 }
-.headerList .headertop text:first-child{
+.headerList .headertop .textLeft{
     font-size: 40rpx;
     font-weight: 700;
     color: #333333;
 }
-.headerList .headertop text:last-child{
+.headerList .headertop .textRight{
     font-size: 30rpx;
     color: #9a9a9a;
 }
@@ -31,18 +31,18 @@
     align-items: center;
     
 }
-.headerList .hraderbottom text:first-child{
+.headerList .hraderbottom .iconfont{
     font-size: 38rpx;
     color: #989898;
     margin-right: 12rpx;
 }
-.headerList .hraderbottom text:last-child{
+.headerList .hraderbottom .text{
     font-size: 33rpx;
     color: #303030;
 }
-.bodyList .listC ::-webkit-scrollbar{
+/* .bodyList .listC ::-webkit-scrollbar{
     display: none;
-}
+} */
 .bodyList .listCont {
     display: flex;
     justify-content: space-between;

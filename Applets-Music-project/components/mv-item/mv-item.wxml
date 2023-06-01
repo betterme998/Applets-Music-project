@@ -3,10 +3,10 @@
 
 <view class="itemCon">
     <view
-        wx:if="{{songList.coverUrl}}" 
+        wx:if="{{songList.cover}}" 
         class="itemLeft {{active? 'active':''}}">
         <video 
-            wx:if="{{songList.vid == videoPlay.id}}" 
+            wx:if="{{songList.id == videoPlay.id}}" 
             src="{{videoPlay.url}}"
             controls="{{false}}"
             class="video"
@@ -15,23 +15,23 @@
             muted
             autoplay
         />
-        <image wx:if="{{songList.vid != videoPlay.id}}" lazy-load bindload="imageLoadFn" class="image" src="{{songList.coverUrl}}" mode="widthFix"></image>
+        <image wx:if="{{songList.id != videoPlay.id}}" lazy-load bindload="imageLoadFn" class="image" src="{{songList.cover}}" mode="widthFix"></image>
         <text wx:if="{{!videotab}}" class="iconfont icon-bofanganniu"></text>
-        <text wx:if="{{videotab}}" class="mvtime">{{fmt.formatTime(songList.durationms)}}</text>
+        <text wx:if="{{videotab}}" class="mvtime">{{fmt.formatTime(songList.duration)}}</text>
     </view>
     <view class="itemRight">
         <view class="rightTopText">
             <block
-                wx:for="{{sct.keyWordFn(songList.title,keyWorld)}}" wx:key="text"
+                wx:for="{{sct.keyWordFn(songList.name,keyWorld)}}" wx:key="text"
             >
                 <text class="{{item.active ? 'active' : ''}}">{{item.text}}</text>
             </block>
         </view>
         <view class="rightBomText">
-            <text>{{fmt.formatTime(songList.durationms)}},{{' '}}</text>
-            <block wx:for="{{songList.creator}}" wx:for-item="iten" wx:key="userId">
+            <text>{{fmt.formatTime(songList.duration)}},{{' '}}</text>
+            <block wx:for="{{songList.artists}}" wx:for-item="iten" wx:key="id">
                 <block 
-                wx:for="{{sct.keyWordFn(iten.userName,keyWorld)}}" wx:key="text"
+                wx:for="{{sct.keyWordFn(iten.name,keyWorld)}}" wx:key="text"
                 >
                     <text class="{{item.active ? 'active' : ''}}">{{item.text}}</text>
                 </block>

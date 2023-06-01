@@ -5,6 +5,7 @@
         "song-item-v2":"/components/song-item-v2/song-item-v2",
         "menu-header": "/components/menu-header/menu-header",
         "nav-bar":"/components/nav-bar/nav-bar",
-        "single-Item":"/components/single-Item/single-Item"
+        "single-Item":"/components/single-Item/single-Item",
+        "play-toolbar":"/components/play-toolbar/play-toolbar"
     }
 }

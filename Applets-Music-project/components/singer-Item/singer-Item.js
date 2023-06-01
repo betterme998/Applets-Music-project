@@ -46,7 +46,10 @@ Component({
             this.setData({ interest: !this.data.interest})
         },
         onSingerItem(event) {
-            console.log(event);
+            const id = this.properties.songList.id
+            wx.navigateTo({
+              url: `/pages/detail-song/detail-song?type=menu&id=${id}`,
+            })
         }
     }
 })

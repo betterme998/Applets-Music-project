@@ -26,7 +26,7 @@ Page({
         // 时间
         var expiredTime =wx.getStorageSync('EXPIREDTIME')
         var now = +new Date()
-        if (now - expiredTime <=1*1*60*60*1000) {
+        if ((now - expiredTime <=1*1*60*60*1000)&&videoList.length>0) {
             console.log("提前渲染视频");
             that.setData({
                 videoList

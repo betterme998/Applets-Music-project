@@ -7,6 +7,8 @@
         scroll-x 
         enable-flex
         style="width: {{screenWidth}}px;"
+        show-scrollbar
+        enhanced
     >
         <block wx:for="{{menuList}}" wx:key="id">
         <view class="item">
