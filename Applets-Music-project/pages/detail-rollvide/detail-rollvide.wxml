@@ -31,7 +31,6 @@
                     id="video"
                     object-fit="fill"
                     loop
-                    muted
                     autoplay
                     bindplay="mvplay"
                 />

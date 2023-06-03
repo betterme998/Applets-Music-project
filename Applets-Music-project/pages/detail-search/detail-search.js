@@ -369,7 +369,7 @@ Page({
         await searchRecommend().then(res => {
             this.setData({RecommendList:res.data.result.hots})
         })
-        // this.RecommendNum()
+        this.RecommendNum()
     },
     ServicesPromptFn(event){
         var loadingTime = setTimeout(()=>{
