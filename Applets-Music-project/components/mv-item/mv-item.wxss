@@ -59,6 +59,8 @@
     color: #507bab;
 }
 .rightBomText{
+    display: flex;
+    flex-direction: column;
     font-size: 25rpx;
     color: #9a9a9c;
 }

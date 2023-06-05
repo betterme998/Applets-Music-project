@@ -28,15 +28,18 @@
             </block>
         </view>
         <view class="rightBomText">
-            <text>{{fmt.formatTime(songList.duration)}},{{' '}}</text>
-            <block wx:for="{{songList.artists}}" wx:for-item="iten" wx:key="id">
-                <block 
-                wx:for="{{sct.keyWordFn(iten.name,keyWorld)}}" wx:key="text"
-                >
-                    <text class="{{item.active ? 'active' : ''}}">{{item.text}}</text>
+            <view wx:if="{{songList.playCount>0}}">
+                <text>{{fmt.formatCount(songList.playCount)}}播放</text>
+            </view>
+            <view>
+                <block wx:for="{{songList.artists}}" wx:for-item="iten" wx:key="id">
+                    <block 
+                    wx:for="{{sct.keyWordFn(iten.name,keyWorld)}}" wx:key="text"
+                    >
+                        <text class="{{item.active ? 'active' : ''}}">{{item.text}}</text>
+                    </block>
                 </block>
-            </block>
-            <!-- <text>{{fmt.formatTime(songList.durationms)}}</text> -->
+            </view>
         </view>
     </view>
 </view>

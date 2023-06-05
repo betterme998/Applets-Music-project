@@ -39,7 +39,8 @@ Page({
         contentHeight:0,
         topBool:false,
 
-        show: false
+        show: false,
+        sliderBom:false
     },
     onLoad(options) {
         // 0.获取设备信息
@@ -81,16 +82,18 @@ Page({
         this.setData({currentPage:index})
     },
     onSliderChange(event) {
-        // this.data.isWaiting = true
-        // 1.获取点击的滑块位置对应的值
-        const value = event.detail.value
-        // 2.计算出要播放的时间
-        const currentTime = value / 100 * this.data.durationTime
+        // 判断是否滑动
+        if (!this.data.sliderBom) {
+           // 1.获取滑块到的位置的value
+            const value = event.detail.value
+            // 2.根据当前的值，计算出对应的时间
+            const currentTime = value / 100 * this.data.durationTime
+            this.setData({ currentTime,sliderValue:value })
+        }
+        this.data.sliderBom = false  
         // 3.设置播放器，播放计算出的时间
-        audioContext.seek(currentTime / 1000)
-        this.setData({currentTime, sliderValue:value})
+        audioContext.seek(this.data.currentTime / 1000)
 
-        // 4.判断是否使用滑块
     },
     showPopup(){
         // 音乐列表显示
@@ -98,11 +101,14 @@ Page({
     },
     //节流
     onSliderChanging:throttle(function(event){
+        if (!this.data.sliderBom) {
+            this.data.sliderBom = true   
+        }
         // 1.获取滑块到的位置的value
         const value = event.detail.value
         // 2.根据当前的值，计算出对应的时间
         const currentTime = value / 100 * this.data.durationTime
-        this.setData({ currentTime })
+        this.setData({ currentTime,sliderValue:value })
     },100),
     onPlayOrPauseTap() {
         // 播放暂停

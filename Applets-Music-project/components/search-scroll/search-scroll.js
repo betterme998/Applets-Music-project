@@ -1,4 +1,5 @@
 // components/search-scroll/search-scroll.js
+import { debounce } from "../../utils/debounce"
 Component({
     // 多个插槽要加上这个
     options:{
@@ -29,6 +30,13 @@ Component({
         bindscrolltolower(event){
             let name = event.currentTarget.dataset.name
             this.triggerEvent('onscrolltolowerb',name)
+        },
+        videoBindscroll:debounce((that)=>{
+            that.triggerEvent('videoEvent')
+        },500),
+        videoEvent() {
+            let that = this
+            this.videoBindscroll(that)
         }
     }
 })

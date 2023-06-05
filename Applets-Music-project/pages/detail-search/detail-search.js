@@ -114,7 +114,7 @@ Page({
         })
     },
     onUnload(){
-        clearInterval(this.data.timer),
+        clearInterval(this.timer),
         rankingStore.offState("newRanking",this.getRankingHanlder)
         rankingStore.offState("originRanking",this.getRankingHanlder)
         rankingStore.offState("upRanking",this.getRankingHanlder)
@@ -177,14 +177,12 @@ Page({
             this.searchSong(this.data.searchValue)
         }
         if (this.data.MVAllList.length === 0 && e.detail === 3) {
-            console.log('没有数据');
             await this.searchVideo(this.data.searchValue)
             this.setData({
                 videoTabs:true
             })
         }else if (this.data.MVAllList.length !== 0 && e.detail === 3) {
-            console.log('有数据');
-            this.IntersectionObserver()
+
         }else{
             if (this._listen) this._listen.disconnect()
             clearInterval(this.setInters)
@@ -199,7 +197,10 @@ Page({
             await this.searchUser(this.data.searchValue)
         }
     },
-    onscrolltolowerb(e){
+    videoEvent(){
+        console.log("停止滚动");
+    },
+    async onscrolltolowerb(e){
         if ((e.detail === "single") && !this.data.scrollBottom) {
             // 单曲
             this.data.shiftingIndex = this.data.singleAll.length
@@ -213,7 +214,8 @@ Page({
         if ((e.detail === "video")&& !this.data.scrollBottom) {
             // 视频
             this.data.videoIndex = this.data.MVAllList.length
-            this.searchVideo(this.data.searchValue)
+            await this.searchVideo(this.data.searchValue)
+            this.IntersectionObserver()
         }
         if ((e.detail === "singer")&& !this.data.scrollBottom) {
             // 歌手
@@ -264,7 +266,7 @@ Page({
             RecommendText:this.data.RecommendList[0].first
         });
         //定时器  函数赋值给timer  方便clearInterval（）使用
-        let timer = setInterval(()=>{
+        this.timer = setInterval(()=>{
             if (this.data.focus) {
                 this.setData({
                     RecommendText:this.data.RecommendList[index].first
@@ -275,9 +277,6 @@ Page({
                 }
             }
         },5000);
-        this.setData({
-            timer
-        });
     },
     // 猜你喜欢
     async getLoveSong(){
@@ -331,7 +330,6 @@ Page({
             return playList
         }
         if (num === 100 && a) {
-            console.log(a);
             let playList = res.data.result.artists
             playList.map((item)=> {
                 let key = item.name
@@ -341,28 +339,33 @@ Page({
             return playList
         }
     },
-    // 监听视频到指定位置播放
+    // 监听视频到指定位置
     IntersectionObserver() {
         let that = this
-        let idArray = new Array()
         this._listen = wx.createIntersectionObserver(this,{ observeAll: true})
         this._listen
             .relativeTo('.relativeView')
             .observe(".videoItem",(res) =>{
-                if (res.intersectionRatio>0) {
-                    let id = res.dataset.vid
-                    idArray.push(id)
-                    if (idArray.length>2) {
-                        idArray.shift()
-                    }
-                    if (idArray[0] !== idArray[1]) {
-                        this.setData({videoPlay:{}})
-                        this.searchVideoPlay(id,that)
-                        this.getvideoItem(res.dataset.index)   
-                    }
-                }
+                this.playVideo(res,that)
             })
     },
+    // 视频播放前几秒
+    playVideo:debounce((res,that)=>{
+        console.log(res);
+        let idArray = new Array()
+        if (res.intersectionRatio>0) {
+            let id = res.dataset.vid
+            idArray.push(id)
+            if (idArray.length>2) {
+                idArray.shift()
+            }
+            if (idArray[0] !== idArray[1]) {
+                that.setData({videoPlay:{}})
+                that.searchVideoPlay(id,that)
+                that.getvideoItem(res.dataset.index)   
+            }
+        }
+    },500),
 
     // 网络请求
     async servicesRecommend(){
@@ -400,7 +403,6 @@ Page({
             keyWord = event.detail
         }
         if (keyWord) {
-            console.log(1);
             listMap.unshift(keyWord)
             if (listMap.length>10) {
                 listMap.pop()
@@ -425,7 +427,6 @@ Page({
                 })
             })
             search(keyWord,1,1002).then(res => {
-                console.log(res);
                 let user = res.data.result.userprofiles
                 this.setData({
                     user
@@ -445,7 +446,6 @@ Page({
             })
 
         }else {
-            console.log(2);
             listMap.unshift(this.data.RecommendText)
             if (listMap.length>10) {
                 listMap.pop()
@@ -501,7 +501,6 @@ Page({
         })
         await search(keyWord,30,1,this.data.shiftingIndex).then(res => {
             // 2.将新数据追加到原数据后面
-            console.log(res);
             const newSingleAll = [...this.data.singleAll,...res.data.result.songs]
             // 3.设置全新数据
             this.setData({singleAll:newSingleAll})
@@ -520,7 +519,6 @@ Page({
             scrollBottom:true
         })
         await search(keyWord,30,1000,this.data.songIndex).then(res => {
-            console.log(res);
             let songList = this.handleValue(res,1000,keyWord)
             const newSingleAll = [...this.data.songAll,...songList]
             this.setData({
@@ -544,11 +542,9 @@ Page({
             this.setData({
                 scrollBottom:false
             })
-            console.log('到底');
             return
         }
         await search(keyWord,10,1004,this.data.videoIndex).then(res => {
-            console.log(res);
             let MVAllList = res.data.result.mvs
             let mvLangth = res.data.result.mvCount
             const newMVAllList = [...this.data.MVAllList,...MVAllList]
@@ -574,11 +570,9 @@ Page({
             this.setData({
                 scrollBottom:false
             })
-            console.log('到底');
             return
         }
         search(keyWord,20,100,this.data.singerLangth).then(res => {
-            console.log(res);
             let a = true
             let singerAll = this.handleValue(res,100,keyWord,a)
             let singerLangth = res.data.result.artistCount
@@ -605,11 +599,9 @@ Page({
             this.setData({
                 scrollBottom:false
             })
-            console.log('到底');
             return
         }
         await search(keyWord,20,1002,this.data.userIndex).then(res => {
-            console.log(res);
             let userAll  = res.data.result.userprofiles
             let userLangth = res.data.result.userprofileCount
             const newUserAll = [...this.data.userAll,...userAll]
@@ -630,9 +622,7 @@ Page({
     searchVideoPlay:debounce((id,that)=>{
         // 包含字符串的id
         // let re = /^(?![^a-zA-Z]+$)(?!\D+$)/
-        console.log(id);
         getMVRel(id).then(res => {
-            console.log(res);
             let videoPlay = res.data.data
             that.setData({
                 videoPlay
@@ -662,7 +652,6 @@ Page({
             let height = app.globalData.screeHeight - top
             if (this.data.isPlaying) {
                 height = app.globalData.screeHeight - top - this.data.tabbarHeight
-                console.log(this.data.resultHeight);
             }
             this.setData({resultHeight:height})
         }).exec();
@@ -686,20 +675,19 @@ Page({
     },
     // 获取视频高度+nav+tab高度
     getVideoHeight() {
-        if(this.data.videoHeight > 0) {
-            this.IntersectionObserver()
-            return
+        if(this.data.videoHeight === 0) {
+            console.log(11132);
+            let query = wx.createSelectorQuery();
+            query.select('.videoItem').boundingClientRect(res =>{
+            if (res) {
+                let videoHeight = res.height * .5 + res.top
+                this.setData({
+                    videoHeight
+                })   
+                this.IntersectionObserver()
+            }
+            }).exec();
         }
-        let query = wx.createSelectorQuery();
-        query.select('.videoItem').boundingClientRect(res =>{
-        if (res) {
-            let videoHeight = res.height * .5 + res.top
-            this.setData({
-                videoHeight
-            })   
-            this.IntersectionObserver()
-        }
-        }).exec();
     },
     getvideoItem(index) {
         // setTimeout(()=>{

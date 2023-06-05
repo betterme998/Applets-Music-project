@@ -1,5 +1,5 @@
 <!--pages/detail-rollvide/detail-rollvide.wxml-->
-
+<wxs src="/utils/format.wxs" module="fmt"></wxs>
 <!-- 1.背景展示 -->
 
 
@@ -25,6 +25,7 @@
         <swiper-item>
             <view class="imageCon">
                 <video 
+                    wx:if="{{mvlist[current].id === item.id}}"
                     src="{{(mvlist[current].id === item.id)? videoPlay.url : ''}}"
                     controls="{{false}}"
                     class="video"
@@ -32,9 +33,29 @@
                     object-fit="fill"
                     loop
                     autoplay
+                    data-time="{{item.duration}}"
                     bindplay="mvplay"
+                    style="height: {{videoHeight}}px; margin-top: {{videoTop}}px;"
                 />
-                <image wx:if="{{imageShow}}" class="image" src="{{item.cover}}" mode="aspectFit"></image>
+                <image style="margin-top: {{videoTop}}px;" wx:if="{{imageShow}}" bindload="imageLoad" class="image" src="{{item.cover}}" mode="aspectFit"></image>
+                <view class="sliderCon">
+                    <view wx:if="{{!sliderb}}" class="videoTime">
+                        <text class="itemTime">{{fmt.formatTime(videoTime)}}</text>
+                        <text class="active">/</text>
+                        <text>{{fmt.formatTime(newTime)}}</text>
+                    </view>
+                    <slider 
+                        class="slider" 
+                        block-size="12" 
+                        value="{{sliderValue}}"
+                        backgroundColor="#797979"
+                        block-color="{{!sliderb ? '#ffffff':'#6e6e6e'}}"
+                        activeColor="{{!sliderb ? '#e8e8e8':'#828282'}}"
+                        data-time="{{item.duration}}"
+                        bindchanging="bindchanging"
+                        bindchange="onSliderChange"
+                    />
+                </view>
             </view>
         </swiper-item>
     </block>

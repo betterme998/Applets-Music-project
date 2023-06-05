@@ -16,8 +16,7 @@
     display: flex;
     position: relative;
     justify-content: center;
-    align-items: center;
-    background-color: red;
+    background-color: #000000;
 }
 .image{
     width: 100%;
@@ -25,6 +24,30 @@
 }
 .video{
     width: 100%;
+}
+
+/* 进度条 */
+.sliderCon{
+    position: absolute;
+    left: 0;right: 0;bottom: 100rpx;
+}
+.videoTime{
+    color: #333333;
+    font-size: 38rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 100rpx;
+}
+.videoTime .active{
+    font-size: 30rpx;
+    padding: 0 10rpx;
+}
+.itemTime{
+    color: #f9f9f9;
+}
+.slider{
+    margin:10px 0
 }
 
 

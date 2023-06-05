@@ -54,6 +54,7 @@
             resultHeight="{{resultHeight}}"
             bind:onscrolltolowerb="onscrolltolowerb"
             bind:getTabItemValue="getTabItemValue"
+            bind:videoEvent="videoEvent"
             class="aaaaa"
         >
             <block wx:for="{{tabsValue}}" wx:key="name">
