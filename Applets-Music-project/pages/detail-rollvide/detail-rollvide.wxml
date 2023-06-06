@@ -38,6 +38,29 @@
                     style="height: {{videoHeight}}px; margin-top: {{videoTop}}px;"
                 />
                 <image style="margin-top: {{videoTop}}px;" wx:if="{{imageShow}}" bindload="imageLoad" class="image" src="{{item.cover}}" mode="aspectFit"></image>
+                <view class="MvleftInfo">
+                    <view class="mvLeftTop">
+                        <view class="imageItemCon">
+                            <image class="mvimage" src="{{mvInfo.artists[0].img1v1Url}}" mode="aspectFill"/>
+                        </view>
+                        <text class="artistName">{{mvInfo.artists[0].name}}</text>
+                        <text class="iconfont icon-jiahao1"></text>
+                    </view>
+                    <view class="mvLeftBottom">
+                        <view class="mvName">
+                            <!-- <text class="mvIcon">MV</text> -->
+                            <text>{{mvInfo.name}}</text>
+                            <text wx:if="{{mvInfo.desc !== ''&&iconText}}" bindtap="onIconText" class="iconfont icon-zhankai"></text>
+                        </view>
+                        <view wx:if="{{!iconText && mvInfo.desc}}" class="mvDesc">
+                            <text>{{mvInfo.desc}}</text>
+                            <text bindtap="onIconText" style="transform: rotate(180deg); display: inline-block;" class="iconfont icon-zhankai"></text>
+                        </view>
+                        <view class="releaseTime">
+                            <text>{{mvInfo.publishTime}}</text>
+                        </view>
+                    </view>
+                </view>
                 <view class="sliderCon">
                     <view wx:if="{{!sliderb}}" class="videoTime">
                         <text class="itemTime">{{fmt.formatTime(videoTime)}}</text>

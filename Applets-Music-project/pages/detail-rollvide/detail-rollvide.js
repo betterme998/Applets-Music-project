@@ -1,5 +1,5 @@
 // pages/detail-rollvide/detail-rollvide.js
-import { getMVRel,getTopMVL } from "../../services/video"
+import { getMVRel,getTopMVL,getMVInfo } from "../../services/video"
 import { debounce } from "../../utils/debounce"
 import hythrottle from "../../utils/throttle"
 const app = getApp()
@@ -20,12 +20,14 @@ Page({
         videoTop:0,
         sliderBom:false,
         sliderb:true,
-        sliderValue:0
+        sliderValue:0,
+        mvInfo:{},
+        iconText:true
     },
-    onLoad(options) {
+    async onLoad(options) {
         // 设置视频高度
         let videoHeight = app.globalData.screeWidth / 1.777
-        let videoTop = app.globalData.screeHeight * 0.3
+        
         let a = decodeURIComponent(options.mvlist)
         let mvlist = JSON.parse(a)
         let id = options.id
@@ -37,11 +39,14 @@ Page({
             index,
             current:index,
             key,
-            videoHeight,
-            videoTop
+            videoHeight
         })
+        
         this.getMv()
         this.getPreloadMv(this.getMvParameter())
+        this.getMVInfoFn(id)
+        await this.getNavbar()
+        this.getHeightImage()
     },
     onShow() {
 
@@ -55,7 +60,7 @@ Page({
     },
     bindchange(event){
         let current = event.detail.current
-        this.setData({current})
+        this.setData({current,mvInfo:{},iconText:true})
         this.setData({
             mvComplete:false,
             imageShow:true,
@@ -66,11 +71,29 @@ Page({
         })
         this.getMv()
 
-        // 时间
-        // this.formatTime(event.timeStamp)
+        // 获取mv详情
+        let mvid = this.data.mvlist[this.data.current].id
+        this.getMVInfoFn(mvid)
     },
     imageLoad(event){
         
+    },
+    getHeightImage(){
+        let query = wx.createSelectorQuery();
+        query.select('.image').boundingClientRect(res =>{
+            let height = res.height
+            let videoTop = (app.globalData.screeHeight / 2 - height) + this.data.navHeight
+            this.setData({
+                videoTop
+            })
+        }).exec();
+    },
+    getNavbar(){
+        let query = wx.createSelectorQuery();
+        query.select('.navCon').boundingClientRect(res =>{
+            let navHeight = res.height
+            this.setData({navHeight})
+        }).exec();
     },
     mvplay(event){
         let that = this
@@ -86,6 +109,12 @@ Page({
             that.videoContext = wx.createVideoContext('video',that)
         }).exec();
     },
+    // 收缩文章
+    onIconText() {
+        this.setData({
+            iconText:!this.data.iconText
+        })
+    },
     // 网络请求
     async getMv() {
         const res = await getMVRel(this.data.id)
@@ -96,6 +125,15 @@ Page({
             })
         }
         // this.setData({mvInfos: res.data.playlist})
+    },
+    getMVInfoFn(id){
+        console.log(id);
+        getMVInfo(id).then(res =>{
+            let mvInfo = res.data.data
+            this.setData({
+                mvInfo
+            })
+        })
     },
 
     // 预加载视频

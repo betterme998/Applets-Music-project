@@ -13,9 +13,7 @@
 .imageCon{
     width: 100%;
     height: 100%;
-    display: flex;
     position: relative;
-    justify-content: center;
     background-color: #000000;
 }
 .image{
@@ -26,10 +24,69 @@
     width: 100%;
 }
 
+/* mv信息 */
+.MvleftInfo{
+    position: absolute;
+    margin-left: 20rpx;
+    bottom: 200rpx;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    font-size: 28rpx;
+}
+.mvLeftTop{
+    display: flex;
+    color: #fff;
+    align-items: center;
+    margin-bottom: 28rpx;
+}
+.artistName{
+    margin: 0 20rpx;
+}
+.imageItemCon{
+    border-radius: 50%;
+    background-color: #fff;
+    padding: 2rpx;
+    overflow: hidden;
+    width: 70rpx;
+    height: 70rpx;
+}
+.mvimage{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+.icon-jiahao1{
+    font-size: 25rpx;
+    margin-top: 4rpx;
+    border-radius: 20rpx;
+    padding: 6rpx 10rpx;
+    background-color: #fe3a3b;
+}
+.mvLeftBottom{
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+}
+.mvName{
+    display: flex;
+    align-items: center;
+}
+.icon-zhankai{
+    margin-left: 16rpx;
+}
+.mvIcon{
+    padding: 2rpx 10rpx;
+    background-color: #333333;
+    border-radius: 4rpx;
+    margin-right: 10rpx;
+    font-size: 25rpx;
+}
+
 /* 进度条 */
 .sliderCon{
     position: absolute;
-    left: 0;right: 0;bottom: 100rpx;
+    left: 0;right: 0;bottom: 80rpx;
 }
 .videoTime{
     color: #333333;
@@ -48,6 +105,11 @@
 }
 .slider{
     margin:10px 0
+}
+.releaseTime{
+    color: #999999;
+    font-size: 20rpx;
+    margin-top: 20rpx;
 }
 
 
