@@ -61,6 +61,27 @@
                         </view>
                     </view>
                 </view>
+                <view class="nameRoll">
+                    <text class="iconfont icon-icon-test"></text>
+                    
+                    <view class="rollText">
+                        <view class="rollItem rollstart" style="height: {{RollHeight}}px;">
+                        
+                        </view>
+                        <view style="animation-duration: {{speedtime}}ms;" class="{{(rollLoopBom&&speedtime>0) ? 'rollName':''}}">
+                        <view class="textCons">
+                            <text class="rollNameText">{{mvInfo.name}} - {{mvInfo.artistName}}</text>
+                            <text class="rollNameText">{{mvInfo.name}} - {{mvInfo.artistName}}</text>
+                        </view>
+                        </view>
+                        <view class="rollItem rollLast" style="height: {{RollHeight}}px;">
+                        
+                        </view>
+                    </view>
+                    
+                    <text class="iconfont icon-aixin"></text>
+                    
+                </view>
                 <view class="sliderCon">
                     <view wx:if="{{!sliderb}}" class="videoTime">
                         <text class="itemTime">{{fmt.formatTime(videoTime)}}</text>

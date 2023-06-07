@@ -18,11 +18,15 @@ Page({
         videoTime:'00:00',
         videoHeight:0,
         videoTop:0,
+        RollHeight:15,
         sliderBom:false,
         sliderb:true,
         sliderValue:0,
         mvInfo:{},
-        iconText:true
+        iconText:true,
+        rollNameWidth:0,
+        rollLoopBom:false,
+        speedtime:0
     },
     async onLoad(options) {
         // 设置视频高度
@@ -44,9 +48,10 @@ Page({
         
         this.getMv()
         this.getPreloadMv(this.getMvParameter())
-        this.getMVInfoFn(id)
+        await this.getMVInfoFn(id)
         await this.getNavbar()
         this.getHeightImage()
+        this.getRollHeight()
     },
     onShow() {
 
@@ -60,7 +65,7 @@ Page({
     },
     bindchange(event){
         let current = event.detail.current
-        this.setData({current,mvInfo:{},iconText:true})
+        this.setData({current,mvInfo:{},iconText:true,speedtime:0})
         this.setData({
             mvComplete:false,
             imageShow:true,
@@ -81,11 +86,13 @@ Page({
     getHeightImage(){
         let query = wx.createSelectorQuery();
         query.select('.image').boundingClientRect(res =>{
-            let height = res.height
-            let videoTop = (app.globalData.screeHeight / 2 - height) + this.data.navHeight
-            this.setData({
-                videoTop
-            })
+            if (res.height) {
+                let height = res.height
+                let videoTop = (app.globalData.screeHeight / 2 - height) + this.data.navHeight
+                this.setData({
+                    videoTop
+                })
+            }
         }).exec();
     },
     getNavbar(){
@@ -95,6 +102,38 @@ Page({
             this.setData({navHeight})
         }).exec();
     },
+    getRollHeight(){
+        let query = wx.createSelectorQuery();
+        query.select('.nameRoll').boundingClientRect(res =>{
+            if (res.height) {
+                let RollHeight = res.height
+                this.setData({RollHeight})
+            }
+        }).exec();
+    },
+    getRollNameHeight(){
+        let query = wx.createSelectorQuery();
+        query.select('.textCons').boundingClientRect(res =>{
+            if (res.width) {
+                let rollNameWidth = res.width
+                let speedtime = Math.floor(rollNameWidth / 80) * 1000
+                this.setData({
+                    speedtime
+                })
+                console.log(this.data.speedtime);
+                // 动态控制文本跑马灯效果停顿
+                clearInterval(this.rollLoop)
+                this.rollLoop = setInterval(() => {
+                    console.log("dadada",this.data.speedtime);
+                        this.setData({
+                            rollLoopBom:!this.data.rollLoopBom
+                        })
+                },speedtime)
+            }
+        }).exec();
+    },
+    
+
     mvplay(event){
         let that = this
         let videoTime = event.currentTarget.dataset.time
@@ -126,14 +165,17 @@ Page({
         }
         // this.setData({mvInfos: res.data.playlist})
     },
-    getMVInfoFn(id){
+    async getMVInfoFn(id){
         console.log(id);
-        getMVInfo(id).then(res =>{
+        await getMVInfo(id).then( async res =>{
             let mvInfo = res.data.data
             this.setData({
                 mvInfo
             })
+            await this.getRollNameHeight()
+            this.setRollStop()
         })
+        
     },
 
     // 预加载视频
