@@ -27,21 +27,22 @@
 /* mv信息 */
 .MvleftInfo{
     position: absolute;
-    margin-left: 20rpx;
-    bottom: 200rpx;
-    width: 80%;
+    margin-left: 30rpx;
+    bottom: 220rpx;
+    width: 75%;
     display: flex;
     flex-direction: column;
-    font-size: 28rpx;
+    font-size: 32rpx;
 }
 .mvLeftTop{
     display: flex;
     color: #fff;
     align-items: center;
-    margin-bottom: 28rpx;
+    margin-bottom: 20rpx;
 }
 .artistName{
     margin: 0 20rpx;
+    font-weight: 700;
 }
 .imageItemCon{
     border-radius: 50%;
@@ -72,6 +73,19 @@
     display: flex;
     align-items: center;
 }
+.scrollViewCon ::-webkit-scrollbar{
+    display: none;
+}
+.masking{
+    position: absolute;
+    background-color: red;
+    opacity: .5;
+    width: 100%;
+    height: 100%;
+}
+.active{
+    opacity: 0;
+}
 .icon-zhankai{
     margin-left: 16rpx;
 }
@@ -91,8 +105,8 @@
     width: 340rpx;
     align-items: center;
     color: #fff;
-    font-size: 28rpx;
-    margin-left: 18rpx;
+    font-size: 32rpx;
+    margin-left: 28rpx;
     left: 0;right: 0;bottom: 150rpx;
 }
 /* .rollCon{
@@ -105,8 +119,6 @@
 .rollItem{
     width: 20rpx;
     flex-shrink:0;
-    background-color: #fff;
-    opacity: .5;
     flex-grow:0;
     z-index: 5;
 }
@@ -124,17 +136,21 @@
     position: absolute;
     left: 0;
     bottom: 0;
-    /* opacity: .9; */
-    background-image: linear-gradient(to right,rgba(0,0,0,.9),rgba(0,0,0,.6));
+    background-image: linear-gradient(to right,rgba(0,0,0,1),rgba(0,0,0,.1));
 }
 .rollLast{
     position: absolute;
     right: 0;
     bottom: 0;
+    background-image: linear-gradient(to right,rgba(0,0,0,.1),rgba(0,0,0,1));
 }
 .icon-icon-test{
     position: relative;
 }
+.icon-aixin{
+    font-size: 38rpx;
+}
+
 
 /* 进度条 */
 .sliderCon{
@@ -161,17 +177,25 @@
 }
 .releaseTime{
     color: #999999;
-    font-size: 20rpx;
-    margin-top: 20rpx;
+    font-size: 26rpx;
+    margin-top: 15rpx;
 }
 .rollName{
-    animation: roll linear infinite;
+    animation:linear infinite;
 }
 .rollNameText{
     margin-right: 60rpx;
 }
 
 @keyframes roll {
+    0% {
+      transform: translateX(0px);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+}
+@keyframes rolls {
     0% {
       transform: translateX(0px);
     }

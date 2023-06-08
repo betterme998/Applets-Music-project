@@ -15,7 +15,7 @@ Page({
         mvComplete:false,
         imageShow:true,
         newTime:'',
-        videoTime:'00:00',
+        videoTime:0,
         videoHeight:0,
         videoTop:0,
         RollHeight:15,
@@ -26,7 +26,10 @@ Page({
         iconText:true,
         rollNameWidth:0,
         rollLoopBom:false,
-        speedtime:0
+        animationName:'',
+        noeRoll:false,
+        speedtime:0,
+        descHeight:0
     },
     async onLoad(options) {
         // 设置视频高度
@@ -57,7 +60,7 @@ Page({
 
     },
     onUnload() {
-
+        clearInterval(this.rollLoop)
     },
     onNavBackTap(){
         app.globalData.HomeFocus = false
@@ -65,20 +68,26 @@ Page({
     },
     bindchange(event){
         let current = event.detail.current
-        this.setData({current,mvInfo:{},iconText:true,speedtime:0})
+        this.setData({current,mvInfo:{},iconText:true,speedtime:0,rollLoopBom:false,descHeight:0,animationName:''})
         this.setData({
             mvComplete:false,
             imageShow:true,
             videoPlay:{},
-            videoTime:"00:00",
+            videoTime:0,
             sliderValue:0,
             id:this.data.mvlist[this.data.current].id
         })
         this.getMv()
 
         // 获取mv详情
-        let mvid = this.data.mvlist[this.data.current].id
-        this.getMVInfoFn(mvid)
+        this.getMVInfoFn(this.data.id)
+    },
+    onImageClick(){
+        if (!this.data.iconText) {
+            this.setData({
+                iconText:true
+            })   
+        }
     },
     imageLoad(event){
         
@@ -114,22 +123,35 @@ Page({
     getRollNameHeight(){
         let query = wx.createSelectorQuery();
         query.select('.textCons').boundingClientRect(res =>{
-            if (res.width) {
-                let rollNameWidth = res.width
-                let speedtime = Math.floor(rollNameWidth / 80) * 1000
-                this.setData({
-                    speedtime
-                })
-                console.log(this.data.speedtime);
-                // 动态控制文本跑马灯效果停顿
-                clearInterval(this.rollLoop)
-                this.rollLoop = setInterval(() => {
-                    console.log("dadada",this.data.speedtime);
-                        this.setData({
-                            rollLoopBom:!this.data.rollLoopBom
-                        })
-                },speedtime)
+            let rollNameWidth = res.width
+            if (rollNameWidth < 80) {
+                rollNameWidth = 80
             }
+            let speedtime = (Math.floor(rollNameWidth / 80) * 1000)
+            this.setData({
+                speedtime
+            })
+            console.log(this.data.speedtime);
+            // 动态控制文本跑马灯效果停顿
+            clearInterval(this.rollLoop)
+            this.rollLoop = setInterval(() => {
+                if (!this.data.noeRoll) {
+                    this.setData({
+                        noeRoll:true
+                    })
+                }
+                this.data.rollLoopBom = !this.data.rollLoopBom
+                if (this.data.rollLoopBom) {
+                    this.setData({
+                        animationName:'roll'
+                    })
+                }else{
+                    this.setData({
+                        animationName:'rolls'             
+                    })
+                }
+                    
+            },speedtime+2000)
         }).exec();
     },
     
@@ -151,7 +173,28 @@ Page({
     // 收缩文章
     onIconText() {
         this.setData({
-            iconText:!this.data.iconText
+            iconText:false
+        })
+        console.log(this.data.iconText);
+        let query = wx.createSelectorQuery();
+        query.select('.textDesc').boundingClientRect(res =>{
+            let descHeight  = res.height
+            if ((descHeight > 250) && !this.data.iconText) {
+                this.setData({
+                    descHeight:250
+                })
+            }else{
+                this.setData({
+                    descHeight
+                })
+            }
+        }).exec();
+
+        
+    },
+    onIconTextContract(){
+        this.setData({
+            iconText:true
         })
     },
     // 网络请求
@@ -165,15 +208,15 @@ Page({
         }
         // this.setData({mvInfos: res.data.playlist})
     },
-    async getMVInfoFn(id){
+    getMVInfoFn(id){
         console.log(id);
-        await getMVInfo(id).then( async res =>{
+        getMVInfo(id).then(res =>{
             let mvInfo = res.data.data
             this.setData({
                 mvInfo
             })
-            await this.getRollNameHeight()
-            this.setRollStop()
+            this.getRollNameHeight()
+            // this.setRollStop()
         })
         
     },
@@ -230,6 +273,7 @@ Page({
         }
         this.data.sliderBom = false  
         // 3.设置播放器，播放计算出的时间
+        console.log(this.data.videoTime / 1000);
         this.videoContext.seek(this.data.videoTime / 1000) 
     },
     setSliderStyle:debounce((res,that) =>{
@@ -240,7 +284,9 @@ Page({
         }
     },2000),
     setVideoTime:hythrottle((res,that) =>{
-        that.data.sliderBom = true
+        if (!that.data.sliderBom) {
+            that.data.sliderBom = true
+        }
         const time = res.currentTarget.dataset.time
         // 1.获取点击的滑块位置对应的值
         const value = res.detail.value

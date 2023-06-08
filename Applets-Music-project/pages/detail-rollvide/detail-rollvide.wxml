@@ -23,7 +23,7 @@
 >
     <block wx:for="{{mvlist}}" wx:key="id">
         <swiper-item>
-            <view class="imageCon">
+            <view class="imageCon" bindtap="onImageClick">
                 <video 
                     wx:if="{{mvlist[current].id === item.id}}"
                     src="{{(mvlist[current].id === item.id)? videoPlay.url : ''}}"
@@ -50,11 +50,15 @@
                         <view class="mvName">
                             <!-- <text class="mvIcon">MV</text> -->
                             <text>{{mvInfo.name}}</text>
-                            <text wx:if="{{mvInfo.desc !== ''&&iconText}}" bindtap="onIconText" class="iconfont icon-zhankai"></text>
+                            <text wx:if="{{mvInfo.desc !== ''&& iconText}}" catchtap="onIconText" class="iconfont icon-zhankai"></text>
                         </view>
                         <view wx:if="{{!iconText && mvInfo.desc}}" class="mvDesc">
-                            <text>{{mvInfo.desc}}</text>
-                            <text bindtap="onIconText" style="transform: rotate(180deg); display: inline-block;" class="iconfont icon-zhankai"></text>
+                            <scroll-view scroll-y="true" class="scrollViewCon" style="height: {{descHeight}}px;">
+                                <view class="textDesc">
+                                    <text>{{mvInfo.desc}}</text>
+                                    <text bindtap="onIconTextContract" style="transform: rotate(180deg); display: inline-block;" class="iconfont icon-zhankai"></text>
+                                </view>
+                            </scroll-view>
                         </view>
                         <view class="releaseTime">
                             <text>{{mvInfo.publishTime}}</text>
@@ -68,8 +72,14 @@
                         <view class="rollItem rollstart" style="height: {{RollHeight}}px;">
                         
                         </view>
-                        <view style="animation-duration: {{speedtime}}ms;" class="{{(rollLoopBom&&speedtime>0) ? 'rollName':''}}">
+                        <!-- <view style="animation-duration: {{speedtime}}ms; animation-name: {{roll}};" class="{{(rollLoopBom&&speedtime>0) ? 'rollName':''}}"> -->
+                        <view style="animation-duration: {{speedtime}}ms; animation-name: {{animationName}}; animation-delay: 2000ms;" class="{{noeRoll ? 'rollName':''}}">
+
                         <view class="textCons">
+                            <text class="rollNameText">{{mvInfo.name}} - {{mvInfo.artistName}}</text>
+                            <text class="rollNameText">{{mvInfo.name}} - {{mvInfo.artistName}}</text>
+                            <text class="rollNameText">{{mvInfo.name}} - {{mvInfo.artistName}}</text>
+                            <text class="rollNameText">{{mvInfo.name}} - {{mvInfo.artistName}}</text>
                             <text class="rollNameText">{{mvInfo.name}} - {{mvInfo.artistName}}</text>
                             <text class="rollNameText">{{mvInfo.name}} - {{mvInfo.artistName}}</text>
                         </view>
