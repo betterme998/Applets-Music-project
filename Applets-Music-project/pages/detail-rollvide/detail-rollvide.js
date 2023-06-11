@@ -20,6 +20,7 @@ Page({
         videoTop:0,
         RollHeight:15,
         sliderBom:false,
+        sliderDebounce:true,
         sliderb:true,
         sliderValue:0,
         mvInfo:{},
@@ -50,7 +51,7 @@ Page({
         })
         
         this.getMv()
-        this.getPreloadMv(this.getMvParameter())
+        // this.getPreloadMv(this.getMvParameter())
         await this.getMVInfoFn(id)
         await this.getNavbar()
         this.getHeightImage()
@@ -165,10 +166,25 @@ Page({
         })
 
         // 操作视频
+        that.videoContext = undefined
         let query = wx.createSelectorQuery();
         query.select('#video').boundingClientRect(res =>{
+            console.log(res);
             that.videoContext = wx.createVideoContext('video',that)
-        }).exec();
+        }).exec((res)=>{
+            console.log(res);
+        });
+    },
+    onBindtimeupdate:hythrottle((event,that)=>{
+        let sliderTime = (event.detail.currentTime / event.detail.duration) * 100
+        console.log('自动',sliderTime);
+        // that.setData({
+        //     sliderValue:sliderTime
+        // }) 
+    },1000),
+    setSliderTimeFn(event){
+        let that = this
+        this.onBindtimeupdate(event,that)
     },
     // 收缩文章
     onIconText() {
@@ -222,31 +238,31 @@ Page({
     },
 
     // 预加载视频
-    getPreloadMv(fn) {
-        let newMv = fn
-        newMv.forEach(async (res) =>{
-            await getMVRel(res.id).then(item=>{
-                this.data.PreloadMv.push(item.data.data)
-            }).catch(()=>{
-                PreloadMv.push('undefined')
-            })
+    // getPreloadMv(fn) {
+    //     let newMv = fn
+    //     newMv.forEach(async (res) =>{
+    //         await getMVRel(res.id).then(item=>{
+    //             this.data.PreloadMv.push(item.data.data)
+    //         }).catch(()=>{
+    //             PreloadMv.push('undefined')
+    //         })
 
-        })
-    },
-    // 预加载视频参数
-    getMvParameter() {
-        if (this.data.current >= 10) {
-            let str = this.data.current - 10
-            let end = this.data.current + 10
-            let ParameterList = this.data.mvlist.slice(str,end)
-            return ParameterList
-        }else{
-            let str = 0
-            let end = this.data.current + 11
-            let ParameterList = this.data.mvlist.slice(str,end)
-            return ParameterList
-        }
-    },
+    //     })
+    // },
+    // // 预加载视频参数
+    // getMvParameter() {
+    //     if (this.data.current >= 10) {
+    //         let str = this.data.current - 10
+    //         let end = this.data.current + 10
+    //         let ParameterList = this.data.mvlist.slice(str,end)
+    //         return ParameterList
+    //     }else{
+    //         let str = 0
+    //         let end = this.data.current + 11
+    //         let ParameterList = this.data.mvlist.slice(str,end)
+    //         return ParameterList
+    //     }
+    // },
     // 滑块
     bindchanging(res) {
         let that = this
@@ -254,15 +270,11 @@ Page({
         this.setSliderStyle(res,that)
     },
     onSliderChange(res) {
+        this.videoContext.pause()
+        console.log('手动',res.detail.value);
         // 判断是否滑动
         if (!this.data.sliderBom) {
-            let that = this
             const time = res.currentTarget.dataset.time
-            this.setData({
-                sliderb:false
-            })
-            this.setSliderStyle(res,that)
-
             // 1.获取点击的滑块位置对应的值
             const value = res.detail.value
             // 2.计算出要播放的时间
@@ -273,8 +285,8 @@ Page({
         }
         this.data.sliderBom = false  
         // 3.设置播放器，播放计算出的时间
-        console.log(this.data.videoTime / 1000);
         this.videoContext.seek(this.data.videoTime / 1000) 
+        this.videoContext.play()
     },
     setSliderStyle:debounce((res,that) =>{
         if (!that.data.sliderBom) {

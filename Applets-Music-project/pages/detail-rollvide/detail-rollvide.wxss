@@ -70,8 +70,8 @@
     color: #fff;
 }
 .mvName{
-    display: flex;
-    align-items: center;
+    /* display: flex;
+    align-items: center; */
 }
 .scrollViewCon ::-webkit-scrollbar{
     display: none;
@@ -88,6 +88,7 @@
 }
 .icon-zhankai{
     margin-left: 16rpx;
+    padding: 10rpx 0;
 }
 .mvIcon{
     padding: 2rpx 10rpx;
@@ -155,7 +156,26 @@
 /* 进度条 */
 .sliderCon{
     position: absolute;
+    width: 100vw;
     left: 0;right: 0;bottom: 80rpx;
+}
+.sliderData{
+    position: relative;
+}
+.loadCon{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    top: 50%;
+    height: 1px;
+}
+.loadConItem{
+    height: 1px;
+    width: 60%;
+    opacity: .9;
+    background-color: #fff;
+    animation:load .4s linear infinite;
 }
 .videoTime{
     color: #333333;
@@ -203,7 +223,18 @@
       transform: translateX(-50%);
     }
 }
-
+@keyframes load {
+    0% {
+        width: 60%;
+        opacity: .9;
+        background-color: #fff;
+    }
+    100% {
+        width: 100%;
+        opacity: .5;
+        background-color: rgb(202, 202, 202);
+    }
+}
 
 
 

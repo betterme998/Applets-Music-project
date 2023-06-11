@@ -35,10 +35,11 @@
                     autoplay
                     data-time="{{item.duration}}"
                     bindplay="mvplay"
+                    bindtimeupdate="setSliderTimeFn"
                     style="height: {{videoHeight}}px; margin-top: {{videoTop}}px;"
                 />
                 <image style="margin-top: {{videoTop}}px;" wx:if="{{imageShow}}" bindload="imageLoad" class="image" src="{{item.cover}}" mode="aspectFit"></image>
-                <view class="MvleftInfo">
+                <view class="MvleftInfo" wx:if="{{(mvInfo.artists[0].img1v1Url || mvInfo.artists[0].name) && sliderb}}">
                     <view class="mvLeftTop">
                         <view class="imageItemCon">
                             <image class="mvimage" src="{{mvInfo.artists[0].img1v1Url}}" mode="aspectFill"/>
@@ -65,7 +66,7 @@
                         </view>
                     </view>
                 </view>
-                <view class="nameRoll">
+                <view class="nameRoll" wx:if="{{(mvInfo.name || mvInfo.artistName) && sliderb}}">
                     <text class="iconfont icon-icon-test"></text>
                     
                     <view class="rollText">
@@ -76,12 +77,10 @@
                         <view style="animation-duration: {{speedtime}}ms; animation-name: {{animationName}}; animation-delay: 2000ms;" class="{{noeRoll ? 'rollName':''}}">
 
                         <view class="textCons">
-                            <text class="rollNameText">{{mvInfo.name}} - {{mvInfo.artistName}}</text>
-                            <text class="rollNameText">{{mvInfo.name}} - {{mvInfo.artistName}}</text>
-                            <text class="rollNameText">{{mvInfo.name}} - {{mvInfo.artistName}}</text>
-                            <text class="rollNameText">{{mvInfo.name}} - {{mvInfo.artistName}}</text>
-                            <text class="rollNameText">{{mvInfo.name}} - {{mvInfo.artistName}}</text>
-                            <text class="rollNameText">{{mvInfo.name}} - {{mvInfo.artistName}}</text>
+                            <text class="rollNameText">{{mvInfo.name + ' - '}} {{mvInfo.artistName}}</text>
+                            <text class="rollNameText">{{mvInfo.name + ' - '}} {{mvInfo.artistName}}</text>
+                            <text class="rollNameText">{{mvInfo.name + ' - '}} {{mvInfo.artistName}}</text>
+                            <text class="rollNameText">{{mvInfo.name + ' - '}} {{mvInfo.artistName}}</text>
                         </view>
                         </view>
                         <view class="rollItem rollLast" style="height: {{RollHeight}}px;">
@@ -98,17 +97,26 @@
                         <text class="active">/</text>
                         <text>{{fmt.formatTime(newTime)}}</text>
                     </view>
-                    <slider 
-                        class="slider" 
-                        block-size="12" 
-                        value="{{sliderValue}}"
-                        backgroundColor="#797979"
-                        block-color="{{!sliderb ? '#ffffff':'#6e6e6e'}}"
-                        activeColor="{{!sliderb ? '#e8e8e8':'#828282'}}"
-                        data-time="{{item.duration}}"
-                        bindchanging="bindchanging"
-                        bindchange="onSliderChange"
-                    />
+                    <view class="sliderData">
+                        <slider 
+                            class="slider" 
+                            block-size="12" 
+                            value="{{sliderValue}}"
+                            backgroundColor="#797979"
+                            disabled="{{imageShow}}"
+                            block-color="{{!sliderb ? '#ffffff':'#6e6e6e'}}"
+                            activeColor="{{!sliderb ? '#e8e8e8':'#828282'}}"
+                            data-time="{{item.duration}}"
+                            bindchanging="bindchanging"
+                            bindchange="onSliderChange"
+                        />
+                        <view wx:if="{{imageShow}}" class="loadCon">
+                            <view class="loadConItem">
+                                
+                            </view>
+                        </view>
+                    </view>
+                    
                 </view>
             </view>
         </swiper-item>
