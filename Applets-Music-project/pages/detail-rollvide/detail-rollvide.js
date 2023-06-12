@@ -20,6 +20,7 @@ Page({
         videoTop:0,
         RollHeight:15,
         sliderBom:false,
+        clickSlider:false,
         sliderDebounce:true,
         sliderb:true,
         sliderValue:0,
@@ -67,9 +68,10 @@ Page({
         app.globalData.HomeFocus = false
         wx.navigateBack()
     },
-    bindchange(event){
+    bindchangeSwiper(event){
         let current = event.detail.current
-        this.setData({current,mvInfo:{},iconText:true,speedtime:0,rollLoopBom:false,descHeight:0,animationName:''})
+        this.data.clickSlider = false
+        this.setData({current,mvInfo:{},iconText:true,speedtime:0,rollLoopBom:false,descHeight:0,animationName:'',sliderb:true})
         this.setData({
             mvComplete:false,
             imageShow:true,
@@ -132,7 +134,7 @@ Page({
             this.setData({
                 speedtime
             })
-            console.log(this.data.speedtime);
+
             // 动态控制文本跑马灯效果停顿
             clearInterval(this.rollLoop)
             this.rollLoop = setInterval(() => {
@@ -166,21 +168,21 @@ Page({
         })
 
         // 操作视频
-        that.videoContext = undefined
+        this.videoContext = undefined
         let query = wx.createSelectorQuery();
         query.select('#video').boundingClientRect(res =>{
-            console.log(res);
+            console.log('bof');
             that.videoContext = wx.createVideoContext('video',that)
         }).exec((res)=>{
-            console.log(res);
+
         });
     },
     onBindtimeupdate:hythrottle((event,that)=>{
         let sliderTime = (event.detail.currentTime / event.detail.duration) * 100
-        console.log('自动',sliderTime);
-        // that.setData({
-        //     sliderValue:sliderTime
-        // }) 
+        if (that.data.clickSlider || !that.data.sliderb) return
+        that.setData({
+            sliderValue:sliderTime
+        }) 
     },1000),
     setSliderTimeFn(event){
         let that = this
@@ -191,7 +193,6 @@ Page({
         this.setData({
             iconText:false
         })
-        console.log(this.data.iconText);
         let query = wx.createSelectorQuery();
         query.select('.textDesc').boundingClientRect(res =>{
             let descHeight  = res.height
@@ -225,7 +226,6 @@ Page({
         // this.setData({mvInfos: res.data.playlist})
     },
     getMVInfoFn(id){
-        console.log(id);
         getMVInfo(id).then(res =>{
             let mvInfo = res.data.data
             this.setData({
@@ -269,9 +269,9 @@ Page({
         this.setVideoTime(res,that)
         this.setSliderStyle(res,that)
     },
-    onSliderChange(res) {
-        this.videoContext.pause()
-        console.log('手动',res.detail.value);
+    bindchange(res){
+        this.data.clickSlider = true
+
         // 判断是否滑动
         if (!this.data.sliderBom) {
             const time = res.currentTarget.dataset.time
@@ -283,10 +283,14 @@ Page({
             // audioContext.seek(currentTime / 1000)
             this.setData({videoTime:currentTime})
         }
-        this.data.sliderBom = false  
+        this.data.sliderBom = false
+        setTimeout(() =>{
+            this.data.clickSlider = false
+        },2000)
         // 3.设置播放器，播放计算出的时间
-        this.videoContext.seek(this.data.videoTime / 1000) 
-        this.videoContext.play()
+        this.videoContext.seek(this.data.videoTime / 1000)
+
+        // this.onSliderChange(res,that)
     },
     setSliderStyle:debounce((res,that) =>{
         if (!that.data.sliderBom) {
@@ -304,11 +308,12 @@ Page({
         const value = res.detail.value
         // 2.计算出要播放的时间
         const currentTime = value / 100 * time
+
         that.setData({videoTime:currentTime})
         if (that.data.sliderb) {
             that.setData({
                 sliderb:false
             })   
         }
-    },200)
+    },500)
 })

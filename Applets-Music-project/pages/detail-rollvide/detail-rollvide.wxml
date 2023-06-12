@@ -18,7 +18,7 @@
 
 <swiper vertical
         class="swiper"
-        bindchange="bindchange"
+        bindchange="bindchangeSwiper"
         current="{{index}}"
 >
     <block wx:for="{{mvlist}}" wx:key="id">
@@ -108,7 +108,7 @@
                             activeColor="{{!sliderb ? '#e8e8e8':'#828282'}}"
                             data-time="{{item.duration}}"
                             bindchanging="bindchanging"
-                            bindchange="onSliderChange"
+                            bindchange="bindchange"
                         />
                         <view wx:if="{{imageShow}}" class="loadCon">
                             <view class="loadConItem">
