@@ -52,7 +52,7 @@
 .itemHistory{
     border-radius: 30rpx;
     background-color: #ffffff;
-    padding: 6rpx 30rpx;
+    padding: 8rpx 30rpx;
     margin-right: 16rpx;
     font-size: 28rpx;
     margin-bottom: 20rpx;

@@ -172,7 +172,7 @@
 }
 .loadConItem{
     height: 1px;
-    width: 60%;
+    width: 0;
     opacity: .9;
     background-color: #fff;
     animation:load .4s linear infinite;
@@ -225,7 +225,7 @@
 }
 @keyframes load {
     0% {
-        width: 60%;
+        width: 0%;
         opacity: .9;
         background-color: #fff;
     }

@@ -25,7 +25,7 @@
         <swiper-item>
             <view class="imageCon" bindtap="onImageClick">
                 <video 
-                    wx:if="{{mvlist[current].id === item.id}}"
+                    wx:if="{{(mvlist[current].id === item.id) && videoPlay.url}}"
                     src="{{(mvlist[current].id === item.id)? videoPlay.url : ''}}"
                     controls="{{false}}"
                     class="video"
@@ -38,7 +38,7 @@
                     bindtimeupdate="setSliderTimeFn"
                     style="height: {{videoHeight}}px; margin-top: {{videoTop}}px;"
                 />
-                <image style="margin-top: {{videoTop}}px;" wx:if="{{imageShow}}" bindload="imageLoad" class="image" src="{{item.cover}}" mode="aspectFit"></image>
+                <image style="margin-top: {{videoTop}}px;" wx:if="{{imageShow || (mvlist[current].id !== item.id)}}" id="image{{index}}" class="image" src="{{item.cover}}" mode="aspectFit"></image>
                 <view class="MvleftInfo" wx:if="{{(mvInfo.artists[0].img1v1Url || mvInfo.artists[0].name) && sliderb}}">
                     <view class="mvLeftTop">
                         <view class="imageItemCon">
@@ -93,7 +93,7 @@
                 </view>
                 <view class="sliderCon">
                     <view wx:if="{{!sliderb}}" class="videoTime">
-                        <text class="itemTime">{{fmt.formatTime(videoTime)}}</text>
+                        <text class="itemTime">{{fmt.formatTime(videoMaxTime)}}</text>
                         <text class="active">/</text>
                         <text>{{fmt.formatTime(newTime)}}</text>
                     </view>

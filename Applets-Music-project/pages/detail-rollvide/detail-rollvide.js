@@ -16,6 +16,7 @@ Page({
         imageShow:true,
         newTime:'',
         videoTime:0,
+        videoMaxTime:0,
         videoHeight:0,
         videoTop:0,
         RollHeight:15,
@@ -31,7 +32,8 @@ Page({
         animationName:'',
         noeRoll:false,
         speedtime:0,
-        descHeight:0
+        descHeight:0,
+        getVideoBom:false
     },
     async onLoad(options) {
         // 设置视频高度
@@ -71,12 +73,14 @@ Page({
     bindchangeSwiper(event){
         let current = event.detail.current
         this.data.clickSlider = false
+        this.data.getVideoBom = false
         this.setData({current,mvInfo:{},iconText:true,speedtime:0,rollLoopBom:false,descHeight:0,animationName:'',sliderb:true})
         this.setData({
             mvComplete:false,
             imageShow:true,
             videoPlay:{},
             videoTime:0,
+            videoMaxTime:0,
             sliderValue:0,
             id:this.data.mvlist[this.data.current].id
         })
@@ -92,7 +96,7 @@ Page({
             })   
         }
     },
-    imageLoad(event){
+    getImageInfo(event){
         
     },
     getHeightImage(){
@@ -110,8 +114,10 @@ Page({
     getNavbar(){
         let query = wx.createSelectorQuery();
         query.select('.navCon').boundingClientRect(res =>{
-            let navHeight = res.height
-            this.setData({navHeight})
+            if (res.height) {
+                let navHeight = res.height
+                this.setData({navHeight})
+            }
         }).exec();
     },
     getRollHeight(){
@@ -160,29 +166,20 @@ Page({
     
 
     mvplay(event){
-        let that = this
         let videoTime = event.currentTarget.dataset.time
         this.setData({
             imageShow:false,
             newTime:videoTime
         })
-
-        // 操作视频
-        this.videoContext = undefined
-        let query = wx.createSelectorQuery();
-        query.select('#video').boundingClientRect(res =>{
-            console.log('bof');
-            that.videoContext = wx.createVideoContext('video',that)
-        }).exec((res)=>{
-
-        });
     },
     onBindtimeupdate:hythrottle((event,that)=>{
         let sliderTime = (event.detail.currentTime / event.detail.duration) * 100
-        if (that.data.clickSlider || !that.data.sliderb) return
-        that.setData({
-            sliderValue:sliderTime
-        }) 
+        console.log(!that.data.clickSlider,that.data.sliderb);
+        if (!that.data.clickSlider || that.data.sliderb){
+            that.setData({
+                sliderValue:sliderTime
+            }) 
+        }
     },1000),
     setSliderTimeFn(event){
         let that = this
@@ -195,7 +192,10 @@ Page({
         })
         let query = wx.createSelectorQuery();
         query.select('.textDesc').boundingClientRect(res =>{
-            let descHeight  = res.height
+            let descHeight  = 0
+            if (res.height) {
+                descHeight = res.height
+            }
             if ((descHeight > 250) && !this.data.iconText) {
                 this.setData({
                     descHeight:250
@@ -271,26 +271,42 @@ Page({
     },
     bindchange(res){
         this.data.clickSlider = true
-
         // 判断是否滑动
-        if (!this.data.sliderBom) {
-            const time = res.currentTarget.dataset.time
-            // 1.获取点击的滑块位置对应的值
-            const value = res.detail.value
-            // 2.计算出要播放的时间
-            const currentTime = value / 100 * time
-            // 3.设置播放器，播放计算出的时间
-            // audioContext.seek(currentTime / 1000)
-            this.setData({videoTime:currentTime})
-        }
+
+        const time = res.currentTarget.dataset.time
+        // 1.获取点击的滑块位置对应的值
+        const value = res.detail.value
+        // 2.计算出要播放的时间
+        const currentTime = value / 100 * time
+        // 3.设置播放器，播放计算出的时间
+        // audioContext.seek(currentTime / 1000)
+        this.setData({videoTime:currentTime})
+        
         this.data.sliderBom = false
+        this.setVideoContext()
         setTimeout(() =>{
             this.data.clickSlider = false
         },2000)
-        // 3.设置播放器，播放计算出的时间
-        this.videoContext.seek(this.data.videoTime / 1000)
+        
 
-        // this.onSliderChange(res,that)
+    },
+    setVideoContext(){
+        console.log('快速滑动');
+        // 操作视频
+        if (this.data.getVideoBom) {
+            let videoContext = wx.createVideoContext('video')
+            console.log(this.data.videoTime);
+            videoContext.seek(this.data.videoTime / 1000)
+        }else {
+            let query = wx.createSelectorQuery();
+            query.select('#video').boundingClientRect(res =>{
+                let videoContext = wx.createVideoContext('video')
+                // 3.设置播放器，播放计算出的时间
+                console.log(this.data.videoTime);
+                videoContext.seek(this.data.videoTime / 1000)
+                this.data.getVideoBom = true
+            }).exec();
+        }
     },
     setSliderStyle:debounce((res,that) =>{
         if (!that.data.sliderBom) {
@@ -309,11 +325,14 @@ Page({
         // 2.计算出要播放的时间
         const currentTime = value / 100 * time
 
-        that.setData({videoTime:currentTime})
+        that.setData({videoMaxTime:currentTime})
         if (that.data.sliderb) {
             that.setData({
                 sliderb:false
             })   
+        }
+        if (!that.data.clickSlider) {
+            that.data.clickSlider = true
         }
     },500)
 })
