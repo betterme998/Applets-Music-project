@@ -18,7 +18,6 @@ Page({
         videoTime:0,
         videoMaxTime:0,
         videoHeight:0,
-        videoTop:0,
         RollHeight:15,
         sliderBom:false,
         clickSlider:false,
@@ -33,12 +32,14 @@ Page({
         noeRoll:false,
         speedtime:0,
         descHeight:0,
-        getVideoBom:false
+        getVideoBom:false,
+        bottomHeight:0,
+        sliderConHeight:0
     },
     async onLoad(options) {
         // 设置视频高度
         let videoHeight = app.globalData.screeWidth / 1.777
-        
+        let bottomHeight = app.globalData.tabbarHeight
         let a = decodeURIComponent(options.mvlist)
         let mvlist = JSON.parse(a)
         let id = options.id
@@ -50,14 +51,15 @@ Page({
             index,
             current:index,
             key,
-            videoHeight
+            videoHeight,
+            bottomHeight
         })
         
         this.getMv()
+        this.getSliderCon()
         // this.getPreloadMv(this.getMvParameter())
         await this.getMVInfoFn(id)
         await this.getNavbar()
-        this.getHeightImage()
         this.getRollHeight()
     },
     onShow() {
@@ -97,20 +99,23 @@ Page({
         }
     },
     getImageInfo(event){
-        
-    },
-    getHeightImage(){
         let query = wx.createSelectorQuery();
-        query.select('.image').boundingClientRect(res =>{
-            if (res.height) {
-                let height = res.height
-                let videoTop = (app.globalData.screeHeight / 2 - height) + this.data.navHeight
-                this.setData({
-                    videoTop
-                })
-            }
+        query.select('#video').boundingClientRect(res =>{
+            console.log(res);
         }).exec();
     },
+    // getHeightImage(){
+    //     let query = wx.createSelectorQuery();
+    //     query.select('.image').boundingClientRect(res =>{
+    //         if (res.height) {
+    //             let height = res.height
+    //             let videoTop = (app.globalData.screeHeight / 2 - height) + this.data.navHeight
+    //             this.setData({
+    //                 videoTop
+    //             })
+    //         }
+    //     }).exec();
+    // },
     getNavbar(){
         let query = wx.createSelectorQuery();
         query.select('.navCon').boundingClientRect(res =>{
@@ -126,6 +131,16 @@ Page({
             if (res.height) {
                 let RollHeight = res.height
                 this.setData({RollHeight})
+            }
+        }).exec();
+    },
+    getSliderCon() {
+        let query = wx.createSelectorQuery();
+        query.select('.sliderCon').boundingClientRect(res =>{
+            if (res.height) {
+                let sliderConHeight = res.height / -2
+                this.setData({sliderConHeight})
+
             }
         }).exec();
     },
@@ -168,13 +183,11 @@ Page({
     mvplay(event){
         let videoTime = event.currentTarget.dataset.time
         this.setData({
-            imageShow:false,
             newTime:videoTime
         })
     },
     onBindtimeupdate:hythrottle((event,that)=>{
         let sliderTime = (event.detail.currentTime / event.detail.duration) * 100
-        console.log(!that.data.clickSlider,that.data.sliderb);
         if (!that.data.clickSlider || that.data.sliderb){
             that.setData({
                 sliderValue:sliderTime
@@ -184,6 +197,14 @@ Page({
     setSliderTimeFn(event){
         let that = this
         this.onBindtimeupdate(event,that)
+    },
+    bindloadedmetadata(event) {
+        let videoHeightItem = (event.detail.height / event.detail.width) * app.globalData.screeWidth
+        this.setData({
+            videoHeightItem:videoHeightItem,
+            imageShow:false
+        })
+        console.log(videoHeightItem);
     },
     // 收缩文章
     onIconText() {
@@ -217,6 +238,7 @@ Page({
     // 网络请求
     async getMv() {
         const res = await getMVRel(this.data.id)
+        console.log(res);
         if (res.data.data.url) {
             this.setData({
                 mvComplete:true,

@@ -10,11 +10,27 @@
     width: 100%;
     height: 100vh;
 }
-.imageCon{
+.swiperItemComs{
+    display: flex;
     width: 100%;
     height: 100%;
-    position: relative;
+    flex-direction: column;
     background-color: #000000;
+}
+.imageCon{
+    display: flex;
+    /* align-items: center; */
+    width: 100%;
+    flex: 1;
+    position: relative;
+}
+.imageVideoCom{
+    position: relative;
+    display: flex;
+    align-items: center;
+    align-self: center;
+    width: 100%;
+    height: 100px;
 }
 .image{
     width: 100%;
@@ -25,14 +41,18 @@
 }
 
 /* mv信息 */
-.MvleftInfo{
+.MvleftInfoCom{
     position: absolute;
+    bottom: 0;
     margin-left: 30rpx;
-    bottom: 220rpx;
     width: 75%;
+    margin-bottom: 30rpx;
+}
+.MvleftInfo{
     display: flex;
     flex-direction: column;
     font-size: 32rpx;
+    margin-bottom: 20rpx;
 }
 .mvLeftTop{
     display: flex;
@@ -100,15 +120,12 @@
 
 /* 滚动 */
 .nameRoll{
-    position: absolute;
     display: flex;
     flex-wrap: nowrap;
     width: 340rpx;
     align-items: center;
     color: #fff;
     font-size: 32rpx;
-    margin-left: 28rpx;
-    left: 0;right: 0;bottom: 150rpx;
 }
 /* .rollCon{
     display: flex;
@@ -157,7 +174,7 @@
 .sliderCon{
     position: absolute;
     width: 100vw;
-    left: 0;right: 0;bottom: 80rpx;
+    left: 0;right: 0;bottom: 0;
 }
 .sliderData{
     position: relative;
@@ -234,6 +251,11 @@
         opacity: .5;
         background-color: rgb(202, 202, 202);
     }
+}
+
+/* 底部 */
+.bottomItemCom{
+    width: 100%;
 }
 
 
