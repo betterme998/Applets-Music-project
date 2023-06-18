@@ -26,6 +26,7 @@ Page({
         sliderValue:0,
         mvInfo:{},
         iconText:true,
+        PauseBom:false,
         rollNameWidth:0,
         rollLoopBom:false,
         animationName:'',
@@ -34,7 +35,9 @@ Page({
         descHeight:0,
         getVideoBom:false,
         bottomHeight:0,
-        sliderConHeight:0
+        sliderConHeight:0,
+        navHeight:0,
+        isPlaying:true
     },
     async onLoad(options) {
         // 设置视频高度
@@ -92,11 +95,66 @@ Page({
         this.getMVInfoFn(this.data.id)
     },
     onImageClick(){
+        let query = wx.createSelectorQuery();
+        if (this.data.PauseBom) {
+            query.select('#video').boundingClientRect(res =>{
+                console.log(res);
+                let videoContext = wx.createVideoContext('video')
+                // 3.设置播放器，播放计算出的时间
+                videoContext.play()
+                this.setData({
+                    PauseBom:false
+                })   
+                console.log('播放');
+            }).exec();
+
+        }else{
+            query.select('#video').boundingClientRect(res =>{
+                console.log(res);
+                let videoContext = wx.createVideoContext('video')
+                // 3.设置播放器，播放计算出的时间
+                videoContext.pause()
+                this.setData({
+                    PauseBom:true
+                })   
+                console.log('暂停');
+            }).exec();
+        }
+
+
+
+        // if (this.data.PauseBom && this.data.iconText) {
+        //     query.select('#video').boundingClientRect(res =>{
+        //         console.log(res);
+        //         let videoContext = wx.createVideoContext('video')
+        //         // 3.设置播放器，播放计算出的时间
+        //         videoContext.play()
+        //         this.setData({
+        //             PauseBom:true
+        //         })   
+        //     }).exec();
+        // }else{
+        //     query.select('#video').boundingClientRect(res =>{
+        //         console.log(res);
+        //         let videoContext = wx.createVideoContext('video')
+        //         // 3.设置播放器，播放计算出的时间
+        //         videoContext.pause()
+        //         this.setData({
+        //             PauseBom:false
+        //         }) 
+        //     }).exec();
+        // }
+        
         if (!this.data.iconText) {
             this.setData({
                 iconText:true
-            })   
+            })    
         }
+    },
+    onPause(){
+        this.setData({
+            PauseBom:!this.data.PauseBom
+        })
     },
     getImageInfo(event){
         let query = wx.createSelectorQuery();
@@ -120,7 +178,7 @@ Page({
         let query = wx.createSelectorQuery();
         query.select('.navCon').boundingClientRect(res =>{
             if (res.height) {
-                let navHeight = res.height
+                let navHeight = res.height / 2
                 this.setData({navHeight})
             }
         }).exec();

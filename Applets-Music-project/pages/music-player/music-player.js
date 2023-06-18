@@ -40,7 +40,8 @@ Page({
         topBool:false,
 
         show: false,
-        sliderBom:false
+        sliderBom:false,
+        sliderAwait:true
     },
     onLoad(options) {
         // 0.获取设备信息
@@ -67,7 +68,10 @@ Page({
         // 1.记录当前的时间
         // 2.修改sliderValue 滑块的值
             const sliderValue = currentTime / this.data.durationTime * 100
-            this.setData({currentTime,sliderValue}) 
+            if (this.data.sliderAwait) {
+                this.setData({sliderValue}) 
+            }
+            this.setData({currentTime}) 
     },800,{leading:false,trailing:false}),
     // =============事件监听=============
     onNavBackTap(){
@@ -88,9 +92,13 @@ Page({
             const value = event.detail.value
             // 2.根据当前的值，计算出对应的时间
             const currentTime = value / 100 * this.data.durationTime
-            this.setData({ currentTime,sliderValue:value })
+            this.setData({ currentTime })
         }
         this.data.sliderBom = false  
+        this.data.sliderAwait = false
+        setTimeout(() =>{
+            this.data.sliderAwait = true
+        },1000)
         // 3.设置播放器，播放计算出的时间
         audioContext.seek(this.data.currentTime / 1000)
 
@@ -101,6 +109,9 @@ Page({
     },
     //节流
     onSliderChanging:throttle(function(event){
+        if (this.data.sliderAwait) {
+            this.data.sliderAwait = false
+        }
         if (!this.data.sliderBom) {
             this.data.sliderBom = true   
         }
@@ -108,7 +119,7 @@ Page({
         const value = event.detail.value
         // 2.根据当前的值，计算出对应的时间
         const currentTime = value / 100 * this.data.durationTime
-        this.setData({ currentTime,sliderValue:value })
+        this.setData({ currentTime})
     },100),
     onPlayOrPauseTap() {
         // 播放暂停
@@ -175,7 +186,7 @@ Page({
         if (lyricdom) {
             this.setData({lyricdom})
         }
-        if (sliderValue) {
+        if (sliderValue && this.data.sliderAwait) {
             this.setData({sliderValue})
         }
         if (lyricInfos) {

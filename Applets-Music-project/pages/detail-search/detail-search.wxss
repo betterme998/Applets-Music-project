@@ -96,5 +96,9 @@ page {
 }
 
 
+.van-icon{
+    margin: 12rpx 12rpx;
+}
+
 
 

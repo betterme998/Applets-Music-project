@@ -32,7 +32,7 @@
                             controls="{{false}}"
                             class="video"
                             id="video"
-                            style="height:{{videoHeightItem}}px"
+                            style="height:{{videoHeightItem}}px;margin-bottom: {{navHeight}}px;"
                             object-fit="fill"
                             loop
                             autoplay
@@ -42,7 +42,16 @@
                             bindtimeupdate="setSliderTimeFn"
                             
                         />
-                        <image wx:if="{{imageShow || (mvlist[current].id !== item.id)}}" id="image{{index}}" class="image" src="{{item.cover}}" mode="aspectFit"></image>
+                        <image wx:if="{{imageShow || (mvlist[current].id !== item.id)}}" 
+                            id="image{{index}}" class="image" 
+                            src="{{item.cover}}" mode="aspectFit"
+                            style="margin-bottom: {{navHeight}}px;"
+                        ></image>
+                        <text wx:if="{{PauseBom}}" 
+                            class="iconfont icon-24gf-play textPause" 
+                            style="margin-bottom: {{navHeight}}px;"
+                            catchtap="onPause"
+                        ></text>
                     </view>
                     <view class="MvleftInfoCom">
                         <view class="MvleftInfo" wx:if="{{(mvInfo.artists[0].img1v1Url || mvInfo.artists[0].name) && sliderb}}">
@@ -96,6 +105,31 @@
                             
                             <text class="iconfont icon-aixin"></text>
                             
+                        </view>
+                    </view>
+                    <view class="rightItemCom">
+                        <view class="rightItem">
+                            <text class="iconfont icon-dianzan2"></text>
+                            <text>{{fmt.formatCount(mvInfo.subCount)}}</text>
+                        </view>
+                        <view class="rightItem">
+                            <text class="iconfont icon-duanxinxiaoxixinxi"></text>
+                            <text>{{fmt.formatCount(mvInfo.commentCount)}}</text>
+                        </view>
+                        <view class="rightItem">
+                            <text class="iconfont icon-tiaoguofenxiang"></text>
+                            <text>{{fmt.formatCount(mvInfo.shareCount)}}</text>
+                        </view>
+                        <view class="rightItem">
+                            <text class="iconfont icon-batch-add"></text>
+                            <text>收藏</text>
+                        </view>
+                        <view  class="rotateCon">
+                            <image class="rotaeImage album-anim" 
+                                    src="{{mvInfo.cover}}" 
+                                    mode="aspectFill"
+                                    style="animation-play-state: {{ isPlaying ? 'running':'paused' }}"
+                            />
                         </view>
                     </view>
                     <view class="sliderCon" style="bottom:{{sliderConHeight}}px;">
