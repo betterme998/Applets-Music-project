@@ -435,7 +435,7 @@ Page({
         query.select('#video').boundingClientRect(res =>{
             let videoContext = wx.createVideoContext('video')
             // 3.设置播放器，播放计算出的时间
-            videoContext.requestFullScreen({direction:90})
+            videoContext.requestFullScreen()
             console.log('事件12');
         }).exec();
     }
