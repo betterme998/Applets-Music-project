@@ -96,29 +96,37 @@ Page({
     },
     onImageClick(){
         let query = wx.createSelectorQuery();
-        if (this.data.PauseBom) {
-            query.select('#video').boundingClientRect(res =>{
-                console.log(res);
-                let videoContext = wx.createVideoContext('video')
-                // 3.设置播放器，播放计算出的时间
-                videoContext.play()
-                this.setData({
-                    PauseBom:false
-                })   
-                console.log('播放');
-            }).exec();
-
+        if (this.data.iconText) {
+            if (this.data.PauseBom) {
+                query.select('#video').boundingClientRect(res =>{
+                    console.log(res);
+                    let videoContext = wx.createVideoContext('video')
+                    // 3.设置播放器，播放计算出的时间
+                    videoContext.play()
+                    this.setData({
+                        PauseBom:false,
+                        isPlaying:true
+                    })   
+                    console.log('播放');
+                }).exec();
+    
+            }else{
+                query.select('#video').boundingClientRect(res =>{
+                    console.log(res);
+                    let videoContext = wx.createVideoContext('video')
+                    // 3.设置播放器，播放计算出的时间
+                    videoContext.pause()
+                    this.setData({
+                        PauseBom:true,
+                        isPlaying:false
+                    })   
+                    console.log('暂停');   
+                }).exec();
+            }
         }else{
-            query.select('#video').boundingClientRect(res =>{
-                console.log(res);
-                let videoContext = wx.createVideoContext('video')
-                // 3.设置播放器，播放计算出的时间
-                videoContext.pause()
-                this.setData({
-                    PauseBom:true
-                })   
-                console.log('暂停');
-            }).exec();
+            this.setData({
+                iconText:true
+            })
         }
 
 
@@ -145,16 +153,18 @@ Page({
         //     }).exec();
         // }
         
-        if (!this.data.iconText) {
-            this.setData({
-                iconText:true
-            })    
-        }
+
     },
     onPause(){
-        this.setData({
-            PauseBom:!this.data.PauseBom
-        })
+        let query = wx.createSelectorQuery();
+        query.select('#video').boundingClientRect(res =>{
+            let videoContext = wx.createVideoContext('video')
+            // 3.设置播放器，播放计算出的时间
+            videoContext.play()
+            this.setData({
+                PauseBom:false
+            })   
+        }).exec();
     },
     getImageInfo(event){
         let query = wx.createSelectorQuery();
@@ -344,6 +354,9 @@ Page({
     //     }
     // },
     // 滑块
+    onSliderCon(){
+
+    },
     bindchanging(res) {
         let that = this
         this.setVideoTime(res,that)
@@ -414,5 +427,16 @@ Page({
         if (!that.data.clickSlider) {
             that.data.clickSlider = true
         }
-    },500)
+    },500),
+
+    // 全屏
+    onFullScreen() {
+        let query = wx.createSelectorQuery();
+        query.select('#video').boundingClientRect(res =>{
+            let videoContext = wx.createVideoContext('video')
+            // 3.设置播放器，播放计算出的时间
+            videoContext.requestFullScreen({direction:90})
+            console.log('事件12');
+        }).exec();
+    }
 })

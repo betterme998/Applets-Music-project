@@ -132,7 +132,7 @@
                             />
                         </view>
                     </view>
-                    <view class="sliderCon" style="bottom:{{sliderConHeight}}px;">
+                    <view catchtap="onSliderCon" class="sliderCon" style="bottom:{{sliderConHeight}}px;">
                         <view wx:if="{{!sliderb}}" class="videoTime">
                             <text class="itemTime">{{fmt.formatTime(videoMaxTime)}}</text>
                             <text class="active">/</text>
@@ -161,7 +161,8 @@
                     </view>
                 </view>
                 <view class="bottomItemCom" style="height:{{bottomHeight}}px;">
-                        <text>听说爱评论的人粉丝多</text>
+                        <text class="review">听说爱评论的人粉丝多</text>
+                        <text catchtap="onFullScreen" class="iconfont icon-quanping"></text>
                 </view>
             </view>
         </swiper-item>
