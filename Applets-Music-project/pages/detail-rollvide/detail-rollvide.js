@@ -37,7 +37,8 @@ Page({
         bottomHeight:0,
         sliderConHeight:0,
         navHeight:0,
-        isPlaying:true
+        isPlaying:true,
+        newMvList:[]
     },
     async onLoad(options) {
         // 设置视频高度
@@ -45,11 +46,13 @@ Page({
         let bottomHeight = app.globalData.tabbarHeight
         let a = decodeURIComponent(options.mvlist)
         let mvlist = JSON.parse(a)
+        this.setMvListData(mvlist,0)
+        this.data.mvlist = mvlist
         let id = options.id
         let index = options.index
         let key = options.keyworld
         this.setData({
-            mvlist, 
+            mvlist,
             id,
             index,
             current:index,
@@ -70,6 +73,12 @@ Page({
     },
     onUnload() {
         clearInterval(this.rollLoop)
+    },
+    // 处理数据
+    setMvListData(mvlist,start){
+        let newStart = start * 10
+        let minList = mvlist.slice(newStart,newStart+10)
+        console.log(minList);
     },
     onNavBackTap(){
         app.globalData.HomeFocus = false
@@ -100,9 +109,9 @@ Page({
             if (this.data.PauseBom) {
                 query.select('#video').boundingClientRect(res =>{
                     console.log(res);
-                    let videoContext = wx.createVideoContext('video')
+                    this.videoContext = wx.createVideoContext('video')
                     // 3.设置播放器，播放计算出的时间
-                    videoContext.play()
+                    this.videoContext.play()
                     this.setData({
                         PauseBom:false,
                         isPlaying:true
@@ -113,9 +122,9 @@ Page({
             }else{
                 query.select('#video').boundingClientRect(res =>{
                     console.log(res);
-                    let videoContext = wx.createVideoContext('video')
+                    this.videoContext = wx.createVideoContext('video')
                     // 3.设置播放器，播放计算出的时间
-                    videoContext.pause()
+                    this.videoContext.pause()
                     this.setData({
                         PauseBom:true,
                         isPlaying:false
@@ -158,11 +167,12 @@ Page({
     onPause(){
         let query = wx.createSelectorQuery();
         query.select('#video').boundingClientRect(res =>{
-            let videoContext = wx.createVideoContext('video')
+            this.videoContext = wx.createVideoContext('video')
             // 3.设置播放器，播放计算出的时间
-            videoContext.play()
+            this.videoContext.play()
             this.setData({
-                PauseBom:false
+                PauseBom:false,
+                isPlaying:true
             })   
         }).exec();
     },
@@ -387,16 +397,16 @@ Page({
         console.log('快速滑动');
         // 操作视频
         if (this.data.getVideoBom) {
-            let videoContext = wx.createVideoContext('video')
+            this.videoContext = wx.createVideoContext('video')
             console.log(this.data.videoTime);
-            videoContext.seek(this.data.videoTime / 1000)
+            this.videoContext.seek(this.data.videoTime / 1000)
         }else {
             let query = wx.createSelectorQuery();
             query.select('#video').boundingClientRect(res =>{
-                let videoContext = wx.createVideoContext('video')
+                this.videoContext = wx.createVideoContext('video')
                 // 3.设置播放器，播放计算出的时间
                 console.log(this.data.videoTime);
-                videoContext.seek(this.data.videoTime / 1000)
+                this.videoContext.seek(this.data.videoTime / 1000)
                 this.data.getVideoBom = true
             }).exec();
         }
@@ -433,9 +443,9 @@ Page({
     onFullScreen() {
         let query = wx.createSelectorQuery();
         query.select('#video').boundingClientRect(res =>{
-            let videoContext = wx.createVideoContext('video')
+            this.videoContext = wx.createVideoContext('video')
             // 3.设置播放器，播放计算出的时间
-            videoContext.requestFullScreen()
+            this.videoContext.requestFullScreen()
             console.log('事件12');
         }).exec();
     }

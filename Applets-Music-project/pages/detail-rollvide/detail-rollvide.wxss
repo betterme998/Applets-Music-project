@@ -151,9 +151,9 @@
     height: 90rpx;
     border-radius: 50%;
     padding: 14rpx;
-    background: linear-gradient(217deg, rgba(46, 45, 45, 0.9), rgba(255,0,0,0) 70.71%),            
-                linear-gradient(127deg, rgba(53, 52, 52, 0.9), rgba(0,255,0,0) 70.71%),            
-                linear-gradient(336deg, rgba(43, 40, 40, 0.9), rgba(0,0,255,0) 70.71%);
+    background: linear-gradient(217deg, rgba(46, 45, 45, 0.9), rgba(0, 0, 0, 0.5) 70.71%),            
+                linear-gradient(127deg, rgba(53, 52, 52, 0.9), rgba(27, 27, 27, 0.5) 70.71%),            
+                linear-gradient(336deg, rgba(43, 40, 40, 0.9), rgba(0, 0, 0, 0.5) 70.71%);
     overflow: hidden;
     box-sizing: border-box;
 }
