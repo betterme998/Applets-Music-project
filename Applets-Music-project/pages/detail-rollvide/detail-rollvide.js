@@ -1,5 +1,6 @@
 // pages/detail-rollvide/detail-rollvide.js
 import { getMVRel,getTopMVL,getMVInfo } from "../../services/video"
+import { search } from "../../services/search"
 import { debounce } from "../../utils/debounce"
 import hythrottle from "../../utils/throttle"
 const app = getApp()
@@ -38,21 +39,24 @@ Page({
         sliderConHeight:0,
         navHeight:0,
         isPlaying:true,
-        newMvList:[]
+        newMvList:[],
+        swiperPullBom:true
     },
     async onLoad(options) {
         // 设置视频高度
+        let that = this
         let videoHeight = app.globalData.screeWidth / 1.777
         let bottomHeight = app.globalData.tabbarHeight
         let a = decodeURIComponent(options.mvlist)
         let mvlist = JSON.parse(a)
         this.setMvListData(mvlist,0)
         this.data.mvlist = mvlist
+        let newMvList = mvlist.slice(0,10)
         let id = options.id
         let index = options.index
         let key = options.keyworld
         this.setData({
-            mvlist,
+            newMvList,
             id,
             index,
             current:index,
@@ -61,10 +65,10 @@ Page({
             bottomHeight
         })
         
-        this.getMv()
+        this.getMv(that)
         this.getSliderCon()
         // this.getPreloadMv(this.getMvParameter())
-        await this.getMVInfoFn(id)
+        await this.getMVInfoFn(id,that)
         await this.getNavbar()
         this.getRollHeight()
     },
@@ -78,17 +82,47 @@ Page({
     setMvListData(mvlist,start){
         let newStart = start * 10
         let minList = mvlist.slice(newStart,newStart+10)
-        console.log(minList);
+    },
+    // 轮播下拉获取mv数据
+    async swiperPullDown(){
+        //视频上拉下拉
+        if (this.data.swiperPullBom) {
+            this.data.swiperPullBom = false
+            await search(this.data.key,10,1004,this.data.mvlist.length).then(res => {
+                let newMvData = res.data.result.mvs
+                let mvData = this.data.mvlist
+                mvData.push(...newMvData)
+                this.data.mvlist = mvData
+                this.data.swiperPullBom = true
+            })   
+        }
     },
     onNavBackTap(){
         app.globalData.HomeFocus = false
         wx.navigateBack()
     },
-    bindchangeSwiper(event){
+    async bindchangeSwiper(event){
+        // 获取剩余mv数据
         let current = event.detail.current
+        this.setData({current})
+        if (current === 7) {
+            await this.swiperPullDown()
+            let start = (this.data.mvlist.length / 10 - 1) * 5
+            let mvlist = this.data.mvlist
+            let newMvList = mvlist.slice(start,start+10)
+            this.setData({
+                newMvList,
+                index:2,
+                current:2
+            })
+            console.log('全部mv',this.data.mvlist);
+            console.log('新增mv',this.data.newMvList);
+            console.log('当前滑块',this.data.current,this.data.index);
+        }
+        let that = this
         this.data.clickSlider = false
         this.data.getVideoBom = false
-        this.setData({current,mvInfo:{},iconText:true,speedtime:0,rollLoopBom:false,descHeight:0,animationName:'',sliderb:true})
+        this.setData({mvInfo:{},iconText:true,speedtime:0,rollLoopBom:false,descHeight:0,animationName:'',sliderb:true})
         this.setData({
             mvComplete:false,
             imageShow:true,
@@ -96,19 +130,19 @@ Page({
             videoTime:0,
             videoMaxTime:0,
             sliderValue:0,
-            id:this.data.mvlist[this.data.current].id
+            id:this.data.newMvList[this.data.current].id
         })
-        this.getMv()
 
+        this.getMv(that)
         // 获取mv详情
-        this.getMVInfoFn(this.data.id)
+        this.getMVInfoFn(this.data.id,that)
+        console.log(current);
     },
     onImageClick(){
         let query = wx.createSelectorQuery();
         if (this.data.iconText) {
             if (this.data.PauseBom) {
                 query.select('#video').boundingClientRect(res =>{
-                    console.log(res);
                     this.videoContext = wx.createVideoContext('video')
                     // 3.设置播放器，播放计算出的时间
                     this.videoContext.play()
@@ -116,12 +150,10 @@ Page({
                         PauseBom:false,
                         isPlaying:true
                     })   
-                    console.log('播放');
                 }).exec();
     
             }else{
                 query.select('#video').boundingClientRect(res =>{
-                    console.log(res);
                     this.videoContext = wx.createVideoContext('video')
                     // 3.设置播放器，播放计算出的时间
                     this.videoContext.pause()
@@ -129,7 +161,6 @@ Page({
                         PauseBom:true,
                         isPlaying:false
                     })   
-                    console.log('暂停');   
                 }).exec();
             }
         }else{
@@ -179,7 +210,7 @@ Page({
     getImageInfo(event){
         let query = wx.createSelectorQuery();
         query.select('#video').boundingClientRect(res =>{
-            console.log(res);
+            
         }).exec();
     },
     // getHeightImage(){
@@ -282,7 +313,6 @@ Page({
             videoHeightItem:videoHeightItem,
             imageShow:false
         })
-        console.log(videoHeightItem);
     },
     // 收缩文章
     onIconText() {
@@ -314,28 +344,26 @@ Page({
         })
     },
     // 网络请求
-    async getMv() {
-        const res = await getMVRel(this.data.id)
-        console.log(res);
+    getMv:debounce(async (that)=>{
+        const res = await getMVRel(that.data.id)
         if (res.data.data.url) {
-            this.setData({
+            that.setData({
                 mvComplete:true,
                 videoPlay:res.data.data
             })
         }
         // this.setData({mvInfos: res.data.playlist})
-    },
-    getMVInfoFn(id){
+    },500,true),
+    getMVInfoFn:debounce((id,that) => {
         getMVInfo(id).then(res =>{
             let mvInfo = res.data.data
-            this.setData({
+            that.setData({
                 mvInfo
             })
-            this.getRollNameHeight()
+            that.getRollNameHeight()
             // this.setRollStop()
         })
-        
-    },
+    },500,true),
 
     // 预加载视频
     // getPreloadMv(fn) {
@@ -394,18 +422,15 @@ Page({
 
     },
     setVideoContext(){
-        console.log('快速滑动');
         // 操作视频
         if (this.data.getVideoBom) {
             this.videoContext = wx.createVideoContext('video')
-            console.log(this.data.videoTime);
             this.videoContext.seek(this.data.videoTime / 1000)
         }else {
             let query = wx.createSelectorQuery();
             query.select('#video').boundingClientRect(res =>{
                 this.videoContext = wx.createVideoContext('video')
                 // 3.设置播放器，播放计算出的时间
-                console.log(this.data.videoTime);
                 this.videoContext.seek(this.data.videoTime / 1000)
                 this.data.getVideoBom = true
             }).exec();
@@ -446,7 +471,6 @@ Page({
             this.videoContext = wx.createVideoContext('video')
             // 3.设置播放器，播放计算出的时间
             this.videoContext.requestFullScreen()
-            console.log('事件12');
         }).exec();
     }
 })

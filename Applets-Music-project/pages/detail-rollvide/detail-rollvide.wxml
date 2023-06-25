@@ -21,14 +21,14 @@
         bindchange="bindchangeSwiper"
         current="{{index}}"
 >
-    <block wx:for="{{mvlist}}" wx:key="id">
+    <block wx:for="{{newMvList}}" wx:key="id">
         <swiper-item>
             <view class="swiperItemComs">
                 <view class="imageCon" bindtap="onImageClick">
                     <view class="imageVideoCom">
                         <video 
-                            wx:if="{{(mvlist[current].id === item.id) && videoPlay.url}}"
-                            src="{{(mvlist[current].id === item.id)? videoPlay.url : ''}}"
+                            wx:if="{{(newMvList[current].id === item.id) && videoPlay.url}}"
+                            src="{{(newMvList[current].id === item.id)? videoPlay.url : ''}}"
                             controls="{{false}}"
                             class="video"
                             id="video"
@@ -42,7 +42,7 @@
                             bindtimeupdate="setSliderTimeFn"
                             
                         />
-                        <image wx:if="{{imageShow || (mvlist[current].id !== item.id)}}" 
+                        <image wx:if="{{imageShow || (newMvList[current].id !== item.id)}}" 
                             id="image{{index}}" class="image" 
                             src="{{item.cover}}" mode="aspectFit"
                             style="margin-bottom: {{navHeight}}px;"
