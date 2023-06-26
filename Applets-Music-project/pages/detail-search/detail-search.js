@@ -62,6 +62,7 @@ Page({
         MVList:[],
         MVAllList:[],
         mvLangth:0,
+        mvCount:0,
         userLangth:0,
         videoPlay:{},
         videoTabs:false,
@@ -545,10 +546,12 @@ Page({
             return
         }
         await search(keyWord,10,1004,this.data.videoIndex).then(res => {
+            let mvCount = res.data.result.mvCount
             let MVAllList = res.data.result.mvs
             let mvLangth = res.data.result.mvCount
             const newMVAllList = [...this.data.MVAllList,...MVAllList]
             this.data.mvLangth = mvLangth
+            this.data.mvCount = mvCount
             this.setData({
                 MVAllList:newMVAllList
             })
@@ -670,7 +673,7 @@ Page({
         let index = event.currentTarget.dataset.index
         let mvlist = encodeURIComponent(JSON.stringify(this.data.MVAllList))
         wx.navigateTo({
-            url: `/pages/detail-rollvide/detail-rollvide?id=${id}&index=${index}&mvlist=${mvlist}&keyworld=${this.data.searchValue}`,
+            url: `/pages/detail-rollvide/detail-rollvide?id=${id}&index=${index}&mvlist=${mvlist}&keyworld=${this.data.searchValue}&mvCount=${this.data.mvCount}`,
         })
     },
     // 获取视频高度+nav+tab高度

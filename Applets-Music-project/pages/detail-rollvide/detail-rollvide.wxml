@@ -32,7 +32,7 @@
                             controls="{{false}}"
                             class="video"
                             id="video"
-                            style="height:{{videoHeightItem}}px;margin-bottom: {{navHeight}}px;"
+                            style="height:{{videoHeightItem}}px;max-height: {{bodyHeight}}px;"
                             object-fit="fill"
                             loop
                             autoplay
@@ -45,15 +45,13 @@
                         <image wx:if="{{imageShow || (newMvList[current].id !== item.id)}}" 
                             id="image{{index}}" class="image" 
                             src="{{item.cover}}" mode="aspectFit"
-                            style="margin-bottom: {{navHeight}}px;"
                         ></image>
                         <text wx:if="{{PauseBom}}" 
                             class="iconfont icon-24gf-play textPause" 
-                            style="margin-bottom: {{navHeight}}px;"
                             catchtap="onPause"
                         ></text>
                     </view>
-                    <view class="MvleftInfoCom">
+                    <view class="MvleftInfoCom" wx:if="{{(newMvList[current].id === item.id) && videoPlay.url}}">
                         <view class="MvleftInfo" wx:if="{{(mvInfo.artists[0].img1v1Url || mvInfo.artists[0].name) && sliderb}}">
                             <view class="mvLeftTop">
                                 <view class="imageItemCon">
@@ -107,7 +105,7 @@
                             
                         </view>
                     </view>
-                    <view class="rightItemCom">
+                    <view class="rightItemCom" wx:if="{{(newMvList[current].id === item.id) && videoPlay.url}}">
                         <view class="rightItem">
                             <text class="iconfont icon-dianzan2"></text>
                             <text>{{fmt.formatCount(mvInfo.subCount)}}</text>
