@@ -41,9 +41,10 @@ Page({
         isPlaying:true,
         newMvList:[],
         swiperPullBom:true,
-        addMvIndex:0,
+        addMvIndex:1,
         mvCount:0,
-        requestMv:true
+        startIndex:0,
+        storeCurrent:[]
     },
     async onLoad(options) {
         // 设置视频高度
@@ -61,9 +62,14 @@ Page({
         let index = options.index
         let mvCount = options.mvCount
         this.data.mvCount = mvCount
-        let newIndex = Number(index) - (Math.floor(Number(index) / 10) * 10)
-        let multiple = Math.ceil(Number(index) / 10) * 10
-        let newMvList = mvlist.slice(multiple===0 ? 0:multiple-10,multiple===0 ? multiple+10:multiple)
+        // let newIndex = Number(index) - (Math.floor(Number(index) / 10) * 10)
+        // let multiple = Math.ceil(Number(index) / 10) * 10
+        // let newMvList = mvlist.slice(multiple===0 ? 0:multiple-10,multiple===0 ? multiple+10:multiple)
+
+        let newMvList = mvlist.slice(index>=3 ? index-3:0,index+4)
+        let newIndex = index >= 3 ? 3:index
+        this.data.storeCurrent.push(newIndex)
+        this.data.startIndex = Number(index)
         let id = options.id
         let key = options.keyworld
         this.setData({
@@ -97,16 +103,15 @@ Page({
     // 轮播下拉获取mv数据
     async swiperPullDown(){
         //视频上拉下拉
-        this.data.requestMv = false
         if (this.data.swiperPullBom) {
             this.data.swiperPullBom = false
             await search(this.data.key,10,1004,this.data.mvlist.length).then(res => {
+                console.log(res);
                 let newMvData = res.data.result.mvs
                 let mvData = this.data.mvlist
                 mvData.push(...newMvData)
                 this.data.mvlist = mvData
                 this.data.swiperPullBom = true
-                this.data.addMvIndex = this.data.addMvIndex +1
             })   
         }
     },
@@ -117,26 +122,43 @@ Page({
     bindchangeSwiper(event){
         // 获取剩余mv数据
         let current = event.detail.current
+        this.data.storeCurrent.push(current)
+        if (this.data.storeCurrent.length>2) {
+            this.data.storeCurrent.shift()
+        }
+        this.data.startIndex = this.data.startIndex + (this.data.storeCurrent[1] - this.data.storeCurrent[0])
         this.setData({current})
-        if (current === 7 && this.data.mvlist.length !== this.data.mvCount && this.data.requestMv) {
+        if (this.data.mvlist.length !== Number(this.data.mvCount) &&this.data.startIndex === this.data.mvlist.length - 1) {
             this.swiperPullDown()
         }
-        if (current === this.data.newMvList.length - 1 && this.data.swiperPullBom) {
-            let start = current
+        if ((Math.floor(this.data.mvCount/9)*9) === this.data.addMvIndex*9 && (current === this.data.newMvList.length - 1) &&(Math.floor(this.data.mvCount/9)*9)<this.data.mvlist.length) {
+            console.log('可事后');
             let mvlist = this.data.mvlist
-            let newMvList = mvlist.slice((this.data.addMvIndex - 1)*10 + start, (this.data.addMvIndex - 1)*10 + start+10)
+            // 剩余mv
+            let end = this.data.mvlist.length
+            let start = this.data.addMvIndex * 9 
+            let newMvList = mvlist.slice(start, end)
+            console.log(start,end,newMvList,this.data.mvCount);
             this.setData({
                 newMvList,
                 index:0,
                 current:0
             })
-            this.data.requestMv = true
         }
-        if (current === this.data.newMvList.length - 1) {
-            let index = Math.floor(this.data.mvlist.length/10)
-            console.log(index);
+        if (current === this.data.newMvList.length - 1 && this.data.swiperPullBom && (Math.floor(this.data.mvCount/9)*9) !== this.data.addMvIndex*9) {
+            console.log('之前');
+            let mvlist = this.data.mvlist
+            let start = this.data.addMvIndex * 9
+            let end = (this.data.addMvIndex+1) * 9 +1
+            let newMvList = mvlist.slice(start, end)
+            this.setData({
+                newMvList,
+                index:0,
+                current:0
+            })
+            this.data.addMvIndex = this.data.addMvIndex +1
         }
-        console.log(current,this.data.newMvList.length - 1,this.data.newMvList);
+        console.log('第:',this.data.addMvIndex,'阶段',current,this.data.mvCount,this.data.newMvList);
         let that = this
         this.data.clickSlider = false
         this.data.getVideoBom = false
@@ -341,6 +363,7 @@ Page({
     },
     // 网络请求
     getMv:debounce(async (that)=>{
+        console.log('请求啦');
         const res = await getMVRel(that.data.id)
         if (res.data.data.url) {
             that.setData({
@@ -351,6 +374,7 @@ Page({
         // this.setData({mvInfos: res.data.playlist})
     },500,true),
     getMVInfoFn:debounce((id,that) => {
+        console.log('请求啦');
         getMVInfo(id).then(res =>{
             let mvInfo = res.data.data
             that.setData({
