@@ -42,9 +42,6 @@
     opacity: .7;
     font-size: 120rpx;
 }
-.video{
-    width: 100%;
-}
 
 /* mv信息 */
 .MvleftInfoCom{
@@ -330,15 +327,15 @@
 
 
 
-/* .bg-image, .bg-cover{
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
+/* 全屏 */
+.fullVideo{
+    width: 100vw;
+    height: 100vh;
+    background-color: red;
+    opacity: 0;
+    z-index: -10;
 }
-.bg-cover {
-    background-color: rgba(0, 0, 0, .4);
-    backdrop-filter: blur(20px);
-} */
+.fullActive{
+    opacity: .5;
+    z-index: 0;
+}

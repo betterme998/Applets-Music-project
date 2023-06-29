@@ -5,11 +5,13 @@
 }
 .itemLeft{
     width: 120rpx;
-    height: auto;
+    height: 120rpx;
+    /* overflow: hidden; */
     margin-right: 24rpx;
 }
 .image {
     width: 120rpx;
+    height: 120rpx;
     border-radius: 30rpx;    
     background-size: cover;
     border: 1rpx solid #f6f6f6;

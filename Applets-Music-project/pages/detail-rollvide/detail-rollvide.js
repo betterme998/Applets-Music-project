@@ -37,6 +37,7 @@ Page({
         getVideoBom:false,
         bottomHeight:0,
         bodyHeight:0,
+        bodyWidth:0,
         sliderConHeight:0,
         isPlaying:true,
         newMvList:[],
@@ -45,7 +46,8 @@ Page({
         startIndex:0,
         startSlice:true,
         storeCurrent:[],
-        getMVTime:''
+        getMVTime:'',
+        Full:false
     },
     async onLoad(options) {
         // 设置视频高度
@@ -53,12 +55,12 @@ Page({
         let videoHeight = app.globalData.screeWidth / 1.777
         let bottomHeight = app.globalData.tabbarHeight
         let bodyHeight = app.globalData.screeHeight - app.globalData.tabbarHeight
+        let bodyWidth = app.globalData.screeWidth
         // 处理传过来的数据
         let a = decodeURIComponent(options.mvlist)
         let mvlist = JSON.parse(a)
         this.setMvListData(mvlist,0)
         this.data.mvlist = mvlist
-
         // 计算裁剪后的10个mv数据及当前播放
         let index = options.index
         let mvCount = options.mvCount
@@ -80,6 +82,7 @@ Page({
             current:newIndex,
             key,
             videoHeight,
+            bodyWidth,
             bottomHeight,
             bodyHeight
         })
@@ -317,8 +320,10 @@ Page({
     },
     bindloadedmetadata(event) {
         let videoHeightItem = (event.detail.height / event.detail.width) * app.globalData.screeWidth
+        let videoFullWidth = app.globalData.screeWidth/(event.detail.height / event.detail.width)
         this.setData({
-            videoHeightItem:videoHeightItem,
+            videoHeightItem,
+            videoFullWidth,
             imageShow:false
         })
     },
@@ -482,6 +487,9 @@ Page({
             this.videoContext = wx.createVideoContext('video')
             // 3.设置播放器，播放计算出的时间
             this.videoContext.requestFullScreen()
+            this.setData({
+                Full:true
+            })
         }).exec();
     }
 })
