@@ -47,7 +47,8 @@ Page({
         startSlice:true,
         storeCurrent:[],
         getMVTime:'',
-        Full:false
+        Full:false,
+        scliderTimeout:''
     },
     async onLoad(options) {
         // 设置视频高度
@@ -308,12 +309,12 @@ Page({
     },
     onBindtimeupdate:hythrottle((event,that)=>{
         let sliderTime = (event.detail.currentTime / event.detail.duration) * 100
-        if (!that.data.clickSlider || that.data.sliderb){
+        if (!that.data.clickSlider){
             that.setData({
                 sliderValue:sliderTime
             }) 
         }
-    },1000),
+    },2000),
     setSliderTimeFn(event){
         let that = this
         this.onBindtimeupdate(event,that)
@@ -427,15 +428,19 @@ Page({
         const currentTime = value / 100 * time
         // 3.设置播放器，播放计算出的时间
         // audioContext.seek(currentTime / 1000)
-        this.setData({videoTime:currentTime})
+        // this.setData({videoTime:currentTime})
+        this.data.videoTime = currentTime
         
         this.data.sliderBom = false
         this.setVideoContext()
-        setTimeout(() =>{
+        if (this.data.scliderTimeout){
+            console.log('hahah');
+            clearTimeout(this.data.scliderTimeout)
+        } 
+        this.data.scliderTimeout = setTimeout(() =>{
             this.data.clickSlider = false
+            console.log('延迟打印');
         },2000)
-        
-
     },
     setVideoContext(){
         // 操作视频
@@ -487,9 +492,19 @@ Page({
             this.videoContext = wx.createVideoContext('video')
             // 3.设置播放器，播放计算出的时间
             this.videoContext.requestFullScreen()
+        }).exec();
+    },
+    bindfullscreenchange(event) {
+        console.log(event);
+        let fullScreen = event.detail.fullScreen
+        if(fullScreen){
             this.setData({
                 Full:true
             })
-        }).exec();
+        }else{
+            this.setData({
+                Full:false
+            })
+        }
     }
 })
