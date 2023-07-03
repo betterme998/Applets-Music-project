@@ -48,7 +48,8 @@ Page({
         storeCurrent:[],
         getMVTime:'',
         Full:false,
-        scliderTimeout:''
+        scliderTimeout:'',
+        FullCurrentTime:0
     },
     async onLoad(options) {
         // 设置视频高度
@@ -313,6 +314,11 @@ Page({
             that.setData({
                 sliderValue:sliderTime
             }) 
+        }
+        if (that.data.Full) {
+            that.setData({
+                FullCurrentTime:event.detail.currentTime
+            })
         }
     },2000),
     setSliderTimeFn(event){
