@@ -67,6 +67,13 @@
     margin: 0 20rpx;
     font-weight: 700;
 }
+.redIcon.icon-jiahao1{
+    font-size: 25rpx;
+    margin-top: 4rpx;
+    border-radius: 20rpx;
+    padding: 6rpx 10rpx;
+    background-color: #fe3a3b;
+}
 .imageItemCon{
     border-radius: 50%;
     background-color: #fff;
@@ -331,19 +338,23 @@
 .fullVideo{
     width: 100vw;
     height: 100vh;
-    background-color: red;
     box-sizing: border-box;
     display: flex;
-    opacity: .1;
     flex-direction: column;
     justify-content: space-between;
-
+    color: #fff;
 }
 .fullActive{
 
 }
 .bottomHeight{
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.fullTopRight{
+    display: flex;
+    align-items: center;
     justify-content: space-between;
 }
 .fullTopRight .topItemInterval{
@@ -352,6 +363,7 @@
 
 .fullBottom{
     display: flex;
+    align-items: center;
     justify-content: space-between;
 }
 .sliderItemCom{
