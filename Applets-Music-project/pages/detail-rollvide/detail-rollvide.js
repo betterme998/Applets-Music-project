@@ -49,7 +49,8 @@ Page({
         getMVTime:'',
         Full:false,
         scliderTimeout:'',
-        FullCurrentTime:0
+        FullCurrentTime:0,
+        fullSliderBottom:0
     },
     async onLoad(options) {
         // 设置视频高度
@@ -507,6 +508,16 @@ Page({
             this.setData({
                 Full:true
             })
+            if (this.data.fullSliderBottom === 0) {
+                let query = wx.createSelectorQuery();
+                query.select('.mvLeftBottom').boundingClientRect(res =>{
+                    console.log(res);
+                    let height = res.height / 2
+                    this.setData({
+                        fullSliderBottom:this.data.bottomHeight - height
+                    })
+                }).exec();       
+            }
         }else{
             this.setData({
                 Full:false
