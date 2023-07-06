@@ -344,8 +344,9 @@
     justify-content: space-between;
     color: #fff;
 }
-.fullActive{
-
+.conItemFull{
+    display: flex;
+    align-items: center;
 }
 .bottomHeight{
     display: flex;

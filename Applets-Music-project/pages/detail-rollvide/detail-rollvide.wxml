@@ -42,44 +42,50 @@
                             bindtimeupdate="setSliderTimeFn"    
                             bindfullscreenchange="bindfullscreenchange"
                         >
-                            <view class="fullVideo {{Full ? 'fullActive':''}}" wx:if="{{Full}}" style="padding: {{bottomHeight}}px;">
-                                <view class="bottomHeight">
-                                    <view class="fullTopLeft">
-                                        <text class="iconfont icon-fanhui"></text>
-                                        <text>{{mvInfo.name}}</text>
-                                    </view>
-                                    <view class="fullTopRight">
-                                        <view class="mvLeftTop topItemInterval">
-                                            <view class="imageItemCon">
-                                                <image class="mvimage" src="{{mvInfo.artists[0].img1v1Url}}" mode="aspectFill"/>
-                                            </view>
-                                            <text class="artistName">{{mvInfo.artists[0].name}}</text>
-                                            <text class="iconfont icon-jiahao1 redIcon"></text>
+                            <view class="fullVideo {{Full ? 'fullActive':''}}" wx:if="{{Full}}" style="padding: 0 {{bottomHeight}}px;">
+                                <view class="conItemFull" style="height: {{bottomHeight}}px;">
+                                    <view class="bottomHeight">
+                                        <view class="fullTopLeft">
+                                            <text class="iconfont icon-fanhui"></text>
+                                            <text>{{mvInfo.name}}</text>
                                         </view>
-                                        <text class="iconfont icon-dianzan2 topItemInterval"></text>
-                                        <text class="iconfont icon-tiaoguofenxiang topItemInterval"></text>
-                                        <text class="iconfont icon-batch-add"></text>
+                                        <view class="fullTopRight">
+                                            <view class="mvLeftTop topItemInterval">
+                                                <view class="imageItemCon">
+                                                    <image class="mvimage" src="{{mvInfo.artists[0].img1v1Url}}" mode="aspectFill"/>
+                                                </view>
+                                                <text class="artistName">{{mvInfo.artists[0].name}}</text>
+                                                <text class="iconfont icon-jiahao1 redIcon"></text>
+                                            </view>
+                                            <text class="iconfont icon-dianzan2 topItemInterval"></text>
+                                            <text class="iconfont icon-tiaoguofenxiang topItemInterval"></text>
+                                            <text class="iconfont icon-batch-add"></text>
+                                        </view>
                                     </view>
                                 </view>
-                                <view class="fullBottom">
-                                    <view class="sliderItemCom">
-                                        <text class="itemTime">{{fmt.formatTime(FullCurrentTime)}}</text>
-                                        <slider 
-                                            class="slider" 
-                                            block-size="12" 
-                                            value="{{sliderValue}}"
-                                            backgroundColor="#797979"
-                                            disabled="{{imageShow}}"
-                                            block-color="{{!sliderb ? '#ffffff':'#6e6e6e'}}"
-                                            activeColor="{{!sliderb ? '#e8e8e8':'#828282'}}"
-                                            data-time="{{item.duration}}"
-                                            bindchanging="bindchanging"
-                                            bindchange="bindchange"
-                                        />
-                                        <text>{{fmt.formatTime(newTime)}}</text>
-                                    </view>
-                                    <text class="Resolution">高清</text>
+                                <view class="conItemFull">
+                                    <view class="fullBottom">
+                                        <view class="sliderItemCom">
+                                            <text class="itemTime">{{fmt.formatTime(FullCurrentTime)}}</text>
+                                            <slider 
+                                                class="slider" 
+                                                block-size="12" 
+                                                value="{{sliderValue}}"
+                                                backgroundColor="#797979"
+                                                disabled="{{imageShow}}"
+                                                block-color="{{!sliderb ? '#ffffff':'#6e6e6e'}}"
+                                                activeColor="{{!sliderb ? '#e8e8e8':'#828282'}}"
+                                                data-time="{{item.duration}}"
+                                                bindchanging="bindchanging"
+                                                bindchange="bindchange"
+                                            />
+                                            <text>{{fmt.formatTime(newTime)}}</text>
+                                        </view>
+                                        <text class="Resolution">高清</text>
+                                        </view>
                                 </view>
+                                
+                                
                             </view>
                         </video>
                         <image wx:if="{{imageShow || (newMvList[current].id !== item.id)}}" 
