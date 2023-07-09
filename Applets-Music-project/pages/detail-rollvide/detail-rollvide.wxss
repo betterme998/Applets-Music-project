@@ -63,17 +63,14 @@
     align-items: center;
     margin-bottom: 20rpx;
 }
+.topItemInterval .redIcon .icon-jiahao1{
+    font-size: 36rpx;
+}
 .artistName{
     margin: 0 20rpx;
     font-weight: 700;
 }
-.redIcon.icon-jiahao1{
-    font-size: 25rpx;
-    margin-top: 4rpx;
-    border-radius: 20rpx;
-    padding: 6rpx 10rpx;
-    background-color: #fe3a3b;
-}
+
 .imageItemCon{
     border-radius: 50%;
     background-color: #fff;
@@ -234,10 +231,14 @@
 .sliderCon{
     position: absolute;
     width: 100vw;
-    left: 0;right: 0;bottom: 0;
+    height: 12rpx;
+    left: 0;right: 0;bottom: -6rpx;
+    display: flex;
+    align-items: center;
 }
 .sliderData{
     position: relative;
+    flex: 1;
 }
 .loadCon{
     position: absolute;
@@ -255,12 +256,14 @@
     animation:load .4s linear infinite;
 }
 .videoTime{
+    position: absolute;
+    width: 100vw;
+    left: 0;right: 0;bottom: 100rpx;
     color: #333333;
     font-size: 38rpx;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 100rpx;
 }
 .videoTime .active{
     font-size: 30rpx;
@@ -342,29 +345,63 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    position: relative;
     color: #fff;
+    font-size: 36rpx;
 }
-.fullActive{
+.fullTopBottomCom{
+    position: absolute;
+    display: flex;
+    align-items: center;
+}
 
+.FullActiveTop{
+    animation:fullReveallTop 1s linear forwards;
 }
+.FullActiveBottom{
+    animation:fullReveallBottom 1s linear forwards;
+}
+.FullActivesTop{
+    animation:fulllHideTop 1s linear forwards;
+}
+.FullActivesBottom{
+    animation:fulllHideBottom 1s linear forwards;
+}
+
 .bottomHeight{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex: 1;
 }
 .fullTopRight{
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
+.fullTopLeft{
+    display: flex;
+    align-items: center;
+}
+.fullTopLeft .icon-fanhui {
+    margin-right: 30rpx;
+    font-size: 50rpx;
+}
+.fullTopRight .iconfont{
+    font-size: 60rpx;
+}
 .fullTopRight .topItemInterval{
     margin-right: 60rpx;
+    display: flex;
+    color: #fff;
+    align-items: center;
 }
 
 .fullBottom{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex: 1;
 }
 .sliderItemCom{
     flex: 1;
@@ -378,4 +415,39 @@
 }
 .Resolution{
     margin-left: 50rpx;
+}
+
+
+/* 全屏动画 */
+@keyframes fullReveallBottom {
+    0% {
+        transform: translateY(0px);
+      }
+      100% {
+        transform: translateY(-100%);
+    }
+}
+@keyframes fullReveallTop {
+    0% {
+        transform: translateY(0px);
+      }
+      100% {
+        transform: translateY(100%);
+    }
+}
+@keyframes fulllHideBottom {
+    0% {
+        transform: translateY(-100px);
+      }
+      100% {
+        transform: translateY(0);
+    }
+}
+@keyframes fulllHideTop {
+    0% {
+        transform: translateY(100%);
+      }
+      100% {
+        transform: translateY(0);
+    }
 }

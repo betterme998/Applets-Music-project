@@ -38,7 +38,6 @@ Page({
         bottomHeight:0,
         bodyHeight:0,
         bodyWidth:0,
-        sliderConHeight:0,
         isPlaying:true,
         newMvList:[],
         swiperPullBom:true,
@@ -50,7 +49,7 @@ Page({
         Full:false,
         scliderTimeout:'',
         FullCurrentTime:0,
-        fullSliderBottom:0
+        fullClickBom:true
     },
     async onLoad(options) {
         // 设置视频高度
@@ -91,7 +90,6 @@ Page({
         })
         this.data.getMVTime = new Date().getTime();
         this.getMv(that,this.data.getMVTime)
-        this.getSliderCon()
         // this.getPreloadMv(this.getMvParameter())
         await this.getMVInfoFn(id,that,this.data.getMVTime)
         this.getRollHeight()
@@ -153,12 +151,10 @@ Page({
             this.data.storeCurrent = []
             this.data.startSlice = false
         }
-
-        console.log(current,this.data.startIndex,this.data.storeCurrent,this.data.newMvList);
         let that = this
         this.data.clickSlider = false
         this.data.getVideoBom = false
-        this.setData({mvInfo:{},iconText:true,speedtime:0,rollLoopBom:false,descHeight:0,animationName:'',sliderb:true})
+        this.setData({mvInfo:{},iconText:true,speedtime:0,rollLoopBom:false,descHeight:0,animationName:'',sliderb:true,PauseBom:false})
         this.setData({
             mvComplete:false,
             imageShow:true,
@@ -257,16 +253,6 @@ Page({
             }
         }).exec();
     },
-    getSliderCon() {
-        let query = wx.createSelectorQuery();
-        query.select('.sliderCon').boundingClientRect(res =>{
-            if (res.height) {
-                let sliderConHeight = res.height / -2
-                this.setData({sliderConHeight})
-
-            }
-        }).exec();
-    },
     getRollNameHeight(){
         let query = wx.createSelectorQuery();
         query.select('.textCons').boundingClientRect(res =>{
@@ -316,15 +302,18 @@ Page({
                 sliderValue:sliderTime
             }) 
         }
-        if (that.data.Full) {
-            that.setData({
-                FullCurrentTime:event.detail.currentTime
-            })
-        }
     },2000),
+    onFullBindtimeupdate:hythrottle((event,that) =>{
+        that.setData({
+            FullCurrentTime:event.detail.currentTime * 1000
+        })
+    },1000),
     setSliderTimeFn(event){
         let that = this
         this.onBindtimeupdate(event,that)
+        if (this.data.Full && !this.data.sliderBom) {
+            this.onFullBindtimeupdate(event,that)   
+        }
     },
     bindloadedmetadata(event) {
         let videoHeightItem = (event.detail.height / event.detail.width) * app.globalData.screeWidth
@@ -421,6 +410,9 @@ Page({
     },
     bindchanging(res) {
         let that = this
+        if (!that.data.sliderBom) {
+            that.data.sliderBom = true
+        }
         this.setVideoTime(res,that)
         this.setSliderStyle(res,that)
     },
@@ -441,12 +433,10 @@ Page({
         this.data.sliderBom = false
         this.setVideoContext()
         if (this.data.scliderTimeout){
-            console.log('hahah');
             clearTimeout(this.data.scliderTimeout)
         } 
         this.data.scliderTimeout = setTimeout(() =>{
             this.data.clickSlider = false
-            console.log('延迟打印');
         },2000)
     },
     setVideoContext(){
@@ -472,15 +462,11 @@ Page({
         }
     },2000),
     setVideoTime:hythrottle((res,that) =>{
-        if (!that.data.sliderBom) {
-            that.data.sliderBom = true
-        }
         const time = res.currentTarget.dataset.time
         // 1.获取点击的滑块位置对应的值
         const value = res.detail.value
         // 2.计算出要播放的时间
         const currentTime = value / 100 * time
-
         that.setData({videoMaxTime:currentTime})
         if (that.data.sliderb) {
             that.setData({
@@ -489,6 +475,13 @@ Page({
         }
         if (!that.data.clickSlider) {
             that.data.clickSlider = true
+        }
+
+        // 全屏下
+        if (that.data.Full) {
+            that.setData({
+                FullCurrentTime:currentTime
+            })
         }
     },500),
 
@@ -502,26 +495,32 @@ Page({
         }).exec();
     },
     bindfullscreenchange(event) {
-        console.log(event);
         let fullScreen = event.detail.fullScreen
         if(fullScreen){
             this.setData({
                 Full:true
             })
-            if (this.data.fullSliderBottom === 0) {
-                let query = wx.createSelectorQuery();
-                query.select('.mvLeftBottom').boundingClientRect(res =>{
-                    console.log(res);
-                    let height = res.height / 2
-                    this.setData({
-                        fullSliderBottom:this.data.bottomHeight - height
-                    })
-                }).exec();       
-            }
         }else{
             this.setData({
                 Full:false
             })
         }
+    },
+    onBackFull() {
+        let query = wx.createSelectorQuery();
+        query.select('#video').boundingClientRect(res =>{
+            this.videoContext = wx.createVideoContext('video')
+            // 3.设置播放器，播放计算出的时间
+            this.videoContext.exitFullScreen()
+        }).exec();
+    },
+    onFullClick:debounce((that) => {
+        that.setData({
+            fullClickBom:!that.data.fullClickBom
+        })
+    },1000),
+    fullClickActive() {
+        let that = this
+        this.onFullClick(that)
     }
 })
