@@ -49,7 +49,9 @@ Page({
         Full:false,
         scliderTimeout:'',
         FullCurrentTime:0,
-        fullClickBom:true
+        fullClickBom:true,
+        timesclick:'',
+        newTimeClick:0
     },
     async onLoad(options) {
         // 设置视频高度
@@ -514,13 +516,24 @@ Page({
             this.videoContext.exitFullScreen()
         }).exec();
     },
-    onFullClick:debounce((that) => {
+    onFullClick:debouynce((that) => {
         that.setData({
             fullClickBom:!that.data.fullClickBom
         })
-    },1000),
+    },500),
+    // 点赞
+    onClickLike(time){
+        this.data.timesclick = setTimeout(()=>{
+            if (time !== this.data.newTimeClick) {
+                console.log('点点点...');   
+            }
+        },50)
+    },
     fullClickActive() {
+        let newTime = new Date().getTime()
+        this.data.newTimeClick = newTime
         let that = this
         this.onFullClick(that)
+        this.onClickLike(newTime)
     }
 })

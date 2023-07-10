@@ -356,16 +356,16 @@
 }
 
 .FullActiveTop{
-    animation:fullReveallTop 1s linear forwards;
+    animation:fullReveallTop .5s linear forwards;
 }
 .FullActiveBottom{
-    animation:fullReveallBottom 1s linear forwards;
+    animation:fullReveallBottom .5s linear forwards;
 }
 .FullActivesTop{
-    animation:fulllHideTop 1s linear forwards;
+    animation:fulllHideTop .5s linear forwards;
 }
 .FullActivesBottom{
-    animation:fulllHideBottom 1s linear forwards;
+    animation:fulllHideBottom .5s linear forwards;
 }
 
 .bottomHeight{
