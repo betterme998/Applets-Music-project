@@ -51,7 +51,10 @@ Page({
         FullCurrentTime:0,
         fullClickBom:true,
         timesclick:'',
-        newTimeClick:0
+        newTimeClick:0,
+        moreClick:false,
+        showIconPraise:false,
+        iconArray:[]
     },
     async onLoad(options) {
         // 设置视频高度
@@ -516,24 +519,52 @@ Page({
             this.videoContext.exitFullScreen()
         }).exec();
     },
-    onFullClick:debouynce((that) => {
-        that.setData({
-            fullClickBom:!that.data.fullClickBom
-        })
-    },500),
+    onFullClick:debounce((that) => {
+        if (!that.data.moreClick) {
+            that.setData({
+                fullClickBom:!that.data.fullClickBom
+            })   
+        }
+        that.data.moreClick = false
+    },600),
     // 点赞
-    onClickLike(time){
+    onClickLike(time,res){
+        if (this.data.iconArray.length >=3) {
+            let att = [...this.data.iconArray]
+            att.shift()
+            this.setData({
+                iconArray:att
+            })
+        }
         this.data.timesclick = setTimeout(()=>{
             if (time !== this.data.newTimeClick) {
-                console.log('点点点...');   
+                this.data.moreClick = true 
+                let arr = []
+                arr = [...this.data.iconArray]
+                let x = res.detail.x 
+                let y = res.detail.y - 20
+                arr.push({
+                    iconX:x,
+                    iconY:y
+                })
+                this.setData({
+                    iconArray:arr,
+                    showIconPraise:true,
+                })
+            }else{
+                this.setData({
+                    showIconPraise:false,
+                    iconArray:[]
+                })
             }
-        },50)
+        },500)
     },
-    fullClickActive() {
+    fullClickActive(res) {
+        console.log(res);
         let newTime = new Date().getTime()
         this.data.newTimeClick = newTime
         let that = this
+        this.onClickLike(newTime,res)
         this.onFullClick(that)
-        this.onClickLike(newTime)
     }
 })

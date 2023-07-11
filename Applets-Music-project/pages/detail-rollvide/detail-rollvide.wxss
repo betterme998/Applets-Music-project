@@ -356,16 +356,16 @@
 }
 
 .FullActiveTop{
-    animation:fullReveallTop .5s linear forwards;
+    animation:fullReveallTop .3s linear forwards;
 }
 .FullActiveBottom{
-    animation:fullReveallBottom .5s linear forwards;
+    animation:fullReveallBottom .3s linear forwards;
 }
 .FullActivesTop{
-    animation:fulllHideTop .5s linear forwards;
+    animation:fulllHideTop .3s linear forwards;
 }
 .FullActivesBottom{
-    animation:fulllHideBottom .5s linear forwards;
+    animation:fulllHideBottom .3s linear forwards;
 }
 
 .bottomHeight{
@@ -416,7 +416,15 @@
 .Resolution{
     margin-left: 50rpx;
 }
-
+/* 点赞 */
+.IconPraise{
+    position: absolute;
+    font-size: 200rpx;
+    color: #f54d4d;
+}
+.IconAction{
+    animation:Praise .3s linear;
+}
 
 /* 全屏动画 */
 @keyframes fullReveallBottom {
@@ -449,5 +457,24 @@
       }
       100% {
         transform: translateY(0);
+    }
+}
+
+/* 点赞动画 */
+@keyframes Praise {
+    0% {
+        transform: rotate(0);
+    }
+    50% {
+        transform: rotate(-30deg);
+    }
+    80% {
+        transform: rotate(5deg);
+    }
+    90% {
+        transform: rotate(-5deg);
+    }
+    100% {
+        transform: rotate(0);
     }
 }

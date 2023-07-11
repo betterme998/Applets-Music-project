@@ -42,7 +42,7 @@
                             bindtimeupdate="setSliderTimeFn"    
                             bindfullscreenchange="bindfullscreenchange"
                         >
-                            <view bindtap="fullClickActive" class="fullVideo {{Full ? 'fullActive':''}}" wx:if="{{Full}}">
+                            <view bindtap="fullClickActive" class="fullVideo" wx:if="{{Full}}">
                                 <view class="fullTopBottomCom {{fullClickBom ? 'FullActiveTop':'FullActivesTop'}}" style="height: {{bottomHeight*2}}px; top: {{bottomHeight*-2}}px; left: {{bottomHeight}}px; right: {{bottomHeight}}px;">
                                     <view class="bottomHeight">
                                         <view class="fullTopLeft">
@@ -87,6 +87,9 @@
                                         <text class="Resolution">高清</text>
                                     </view>
                                 </view>
+                                <block wx:for="{{iconArray}}" wx:for-item = "items" wx:key="*this">
+                                    <text wx:if="{{showIconPraise}}" class="IconPraise {{showIconPraise ? 'IconAction':''}} iconfont icon-dianzan2" style="left: {{items.iconX}}px; top: {{items.iconY}}px;"></text>
+                                </block>
                             </view>
                         </video>
                         <image wx:if="{{imageShow || (newMvList[current].id !== item.id)}}" 
