@@ -529,20 +529,23 @@ Page({
     },600),
     // 点赞
     onClickLike(time,res){
-        if (this.data.iconArray.length >=3) {
+        if (this.data.iconArray.length >=2) {
             let att = [...this.data.iconArray]
-            att.shift()
-            this.setData({
-                iconArray:att
-            })
+            setTimeout(()=>{
+                att.shift()
+                this.setData({
+                    iconArray:att
+                })
+            },500)
         }
         this.data.timesclick = setTimeout(()=>{
             if (time !== this.data.newTimeClick) {
+                console.log(this.data.newTimeClick - time);
                 this.data.moreClick = true 
                 let arr = []
                 arr = [...this.data.iconArray]
                 let x = res.detail.x 
-                let y = res.detail.y - 20
+                let y = res.detail.y - 50
                 arr.push({
                     iconX:x,
                     iconY:y
@@ -552,15 +555,24 @@ Page({
                     showIconPraise:true,
                 })
             }else{
-                this.setData({
-                    showIconPraise:false,
-                    iconArray:[]
-                })
+                if (this.data.iconArray.length >=2) {
+                    let arr = [...this.data.iconArray]
+                    let last = arr.slice(arr.length - 1)
+                    this.setData({
+                        iconArray:last
+                    }) 
+                }
+                setTimeout(()=>{
+                    this.setData({
+                        showIconPraise:false,
+                        iconArray:[]
+                    })
+                },500)
             }
         },500)
     },
+
     fullClickActive(res) {
-        console.log(res);
         let newTime = new Date().getTime()
         this.data.newTimeClick = newTime
         let that = this

@@ -421,9 +421,13 @@
     position: absolute;
     font-size: 200rpx;
     color: #f54d4d;
+    transform-origin:bottom left;
+}
+.doubleCon{
+    position: absolute;
 }
 .IconAction{
-    animation:Praise .3s linear;
+    animation:Praise .5s linear forwards;
 }
 
 /* 全屏动画 */
@@ -465,14 +469,14 @@
     0% {
         transform: rotate(0);
     }
-    50% {
-        transform: rotate(-30deg);
+    30% {
+        transform: rotate(-40deg);
+    }
+    60% {
+        transform: rotate(8deg);
     }
     80% {
-        transform: rotate(5deg);
-    }
-    90% {
-        transform: rotate(-5deg);
+        transform: rotate(-8deg);
     }
     100% {
         transform: rotate(0);
