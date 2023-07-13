@@ -50,11 +50,11 @@ Page({
         scliderTimeout:'',
         FullCurrentTime:0,
         fullClickBom:true,
+        fullClickPause:false,
         timesclick:'',
         newTimeClick:0,
         moreClick:false,
-        showIconPraise:false,
-        iconArray:[]
+        topitemIcon:false
     },
     async onLoad(options) {
         // 设置视频高度
@@ -519,64 +519,88 @@ Page({
             this.videoContext.exitFullScreen()
         }).exec();
     },
-    onFullClick:debounce((that) => {
+    // 单击
+    onFullClick:debounce((that,query) => {
         if (!that.data.moreClick) {
             that.setData({
                 fullClickBom:!that.data.fullClickBom
             })   
         }
+        // 暂停
+        if (that.data.fullClickBom) {
+            query.select('#video').boundingClientRect(res =>{
+                that.videoContext = wx.createVideoContext('video')
+                that.videoContext.parse()
+                that.setData({
+                    fullClickPause:true
+                })
+            }).exec();
+        }
         that.data.moreClick = false
     },600),
-    // 点赞
+    //双击
     onClickLike(time,res){
-        if (this.data.iconArray.length >=2) {
-            let att = [...this.data.iconArray]
-            setTimeout(()=>{
-                att.shift()
-                this.setData({
-                    iconArray:att
-                })
-            },500)
-        }
         this.data.timesclick = setTimeout(()=>{
             if (time !== this.data.newTimeClick) {
-                console.log(this.data.newTimeClick - time);
-                this.data.moreClick = true 
-                let arr = []
-                arr = [...this.data.iconArray]
-                let x = res.detail.x 
-                let y = res.detail.y - 50
-                arr.push({
-                    iconX:x,
-                    iconY:y
-                })
-                this.setData({
-                    iconArray:arr,
-                    showIconPraise:true,
-                })
-            }else{
-                if (this.data.iconArray.length >=2) {
-                    let arr = [...this.data.iconArray]
-                    let last = arr.slice(arr.length - 1)
-                    this.setData({
-                        iconArray:last
-                    }) 
-                }
-                setTimeout(()=>{
-                    this.setData({
-                        showIconPraise:false,
-                        iconArray:[]
-                    })
-                },500)
+                this.data.moreClick = true    
             }
+            if (!this.data.moreClick) {
+                this.setData({
+                    fullClickBom:!this.data.fullClickBom
+                })
+            }
+            this.data.moreClick = false
         },500)
     },
+    // 暂停/播放
+    playPause(){
+        if (this.data.fullClickBom ) {
+            this.data.moreClick = true
+            let query = wx.createSelectorQuery();
+            query.select('#video').boundingClientRect(res =>{
+                this.videoContext = wx.createVideoContext('video')
+                this.videoContext.pause()
+                this.setData({
+                    fullClickPause:true
+                })
+            }).exec();
+        }
+    },
 
-    fullClickActive(res) {
+    async fullClickActive(res) {
         let newTime = new Date().getTime()
         this.data.newTimeClick = newTime
-        let that = this
+        // let that = this
+        this.playPause()
         this.onClickLike(newTime,res)
-        this.onFullClick(that)
+        // this.onFullClick(that,query)
+    },
+    doubleCon(){
+
+    },
+    iconFullClick(){
+        console.log('000000');
+        this.setData({
+            topitemIcon:!this.data.topitemIcon
+        })
+    },
+    doubleClickBom() {
+        if (!this.data.topitemIcon) {
+            this.setData({
+                topitemIcon:true
+            })
+        }
+    },
+    // 播放
+    playClickIcon(){
+        console.log(111);
+        let query = wx.createSelectorQuery();
+        query.select('#video').boundingClientRect(res =>{
+            this.videoContext = wx.createVideoContext('video')
+            this.videoContext.play()
+            this.setData({
+                fullClickPause:false
+            })
+        }).exec();
     }
 })

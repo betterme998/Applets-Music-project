@@ -23,7 +23,7 @@ Component({
             }
             this.data.timesclick = setTimeout(()=>{
                 if (time !== this.data.newTimeClick) {
-                    console.log(this.data.newTimeClick - time);
+                    this.triggerEvent('doubleClickBom')
                     this.data.moreClick = true 
                     let arr = []
                     arr = [...this.data.iconArray]

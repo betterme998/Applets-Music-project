@@ -3,8 +3,6 @@
 .iconCon{
     width: 100vw;
     height: 100vh;
-    background-color: aqua;
-    opacity: .5;
     position: relative;
 }
 /* 点赞 */
