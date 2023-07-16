@@ -351,6 +351,7 @@
     font-size: 36rpx;
 }
 .fullTopBottomCom{
+    font-size: 36rpx;
     position: absolute;
     display: flex;
     align-items: center;
@@ -440,6 +441,9 @@
     color: #ffffff;
     opacity: .8;
     z-index: 2;
+}
+.redClickActive{
+    color: #f54d4d;
 }
 
 /* 全屏动画 */

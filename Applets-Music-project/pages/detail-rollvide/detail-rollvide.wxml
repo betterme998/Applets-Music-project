@@ -67,7 +67,7 @@
                                     </view>
                                 </view>
                                 
-                                <text catchtap="playClickIcon" wx:if="{{fullClickPause}}" class="iconfont icon-24gf-play full-play"></text>
+                                <text catchtap="playClickIcon" wx:if="{{fullClickBom || fullClickPause}}" class="iconfont {{!fullClickPause ? 'icon-24gf-pause2':'icon-24gf-play'}} full-play"></text>
                                 
                                 <view class="fullTopBottomCom {{fullClickBom ? 'FullActiveBottom':'FullActivesBottom'}}" style="height: {{bottomHeight*2}}px;bottom:{{bottomHeight*-2}}px; left: {{bottomHeight}}px; right: {{bottomHeight}}px;">
                                     <view class="fullBottom" catchtap="doubleCon">
@@ -163,8 +163,8 @@
                         </view>
                     </view>
                     <view class="rightItemCom" wx:if="{{(newMvList[current].id === item.id) && videoPlay.url}}">
-                        <view class="rightItem">
-                            <text class="iconfont icon-dianzan2"></text>
+                        <view class="rightItem" catchtap="iconFullClick">
+                            <text class="iconfont icon-dianzan2 {{topitemIcon ? 'redClickActive':''}}"></text>
                             <text>{{fmt.formatCount(mvInfo.subCount)}}</text>
                         </view>
                         <view class="rightItem">

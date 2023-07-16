@@ -171,66 +171,81 @@ Page({
         })
         this.data.getMVTime = new Date().getTime();
         this.getMv(that,this.data.getMVTime)
-        // 获取mv详情
+      
         this.getMVInfoFn(this.data.id,that,this.data.getMVTime)
     },
-    onImageClick(){
+    onImageClick(res){
+        let that = this
+        let newTime = new Date().getTime()
         let query = wx.createSelectorQuery();
-        if (this.data.iconText) {
-            if (this.data.PauseBom) {
-                query.select('#video').boundingClientRect(res =>{
-                    this.videoContext = wx.createVideoContext('video')
-                    // 3.设置播放器，播放计算出的时间
-                    this.videoContext.play()
-                    this.setData({
-                        PauseBom:false,
-                        isPlaying:true
-                    })   
-                }).exec();
-    
-            }else{
-                query.select('#video').boundingClientRect(res =>{
-                    this.videoContext = wx.createVideoContext('video')
-                    // 3.设置播放器，播放计算出的时间
-                    this.videoContext.pause()
-                    this.setData({
-                        PauseBom:true,
-                        isPlaying:false
-                    })   
-                }).exec();
-            }
-        }else{
-            this.setData({
-                iconText:true
-            })
-        }
+        this.data.newTimeClick = newTime
+        query.select('#video').boundingClientRect(res =>{
+            this.videoContext = wx.createVideoContext('video')
+            this.normalDoubleClick(newTime)
+            this.normalClick(that)  
+        }).exec();
 
-
-
-        // if (this.data.PauseBom && this.data.iconText) {
-        //     query.select('#video').boundingClientRect(res =>{
-        //         console.log(res);
-        //         let videoContext = wx.createVideoContext('video')
-        //         // 3.设置播放器，播放计算出的时间
-        //         videoContext.play()
-        //         this.setData({
-        //             PauseBom:true
-        //         })   
-        //     }).exec();
-        // }else{
-        //     query.select('#video').boundingClientRect(res =>{
-        //         console.log(res);
-        //         let videoContext = wx.createVideoContext('video')
-        //         // 3.设置播放器，播放计算出的时间
-        //         videoContext.pause()
-        //         this.setData({
-        //             PauseBom:false
-        //         }) 
-        //     }).exec();
-        // }
         
 
+        // if (this.data.iconText) {
+        //     if (this.data.PauseBom) {
+        //         query.select('#video').boundingClientRect(res =>{
+        //             this.videoContext = wx.createVideoContext('video')
+        //             // 3.设置播放器，播放计算出的时间
+        //             this.videoContext.play()
+        //             this.setData({
+        //                 PauseBom:false,
+        //                 isPlaying:true
+        //             })   
+        //         }).exec();
+    
+        //     }else{
+        //         query.select('#video').boundingClientRect(res =>{
+        //             this.videoContext = wx.createVideoContext('video')
+        //             // 3.设置播放器，播放计算出的时间
+        //             this.videoContext.pause()
+        //             this.setData({
+        //                 PauseBom:true,
+        //                 isPlaying:false
+        //             })   
+        //         }).exec();
+        //     }
+        // }else{
+        //     this.setData({
+        //         iconText:true
+        //     })
+        // }
     },
+    // 正常屏双击
+    normalDoubleClick(time){
+        this.data.timesclick = setTimeout(()=>{
+            if (time !== this.data.newTimeClick) {
+                this.data.moreClick = true    
+            }
+        },500)
+    },
+    normalClick:debounce((that)=> {
+        if (that.data.moreClick) return
+
+        if (that.data.PauseBom) {
+            // 3.设置播放器，播放计算出的时间
+            that.videoContext.play()
+            that.setData({
+                PauseBom:false,
+                isPlaying:true
+            })
+        }else{
+             // 3.设置播放器，播放计算出的时间
+             that.videoContext.pause()
+             that.setData({
+                 PauseBom:true,
+                 isPlaying:false
+             })
+        }
+        that.data.moreClick = false
+
+        that.data.iconText
+    },600),
     onPause(){
         let query = wx.createSelectorQuery();
         query.select('#video').boundingClientRect(res =>{
@@ -498,6 +513,9 @@ Page({
             // 3.设置播放器，播放计算出的时间
             this.videoContext.requestFullScreen()
         }).exec();
+        query.selectViewport('#video').boundingClientRect(res =>{
+            console.log(res);
+        })
     },
     bindfullscreenchange(event) {
         let fullScreen = event.detail.fullScreen
@@ -520,21 +538,11 @@ Page({
         }).exec();
     },
     // 单击
-    onFullClick:debounce((that,query) => {
+    onFullClick:debounce((that) => {
         if (!that.data.moreClick) {
             that.setData({
                 fullClickBom:!that.data.fullClickBom
             })   
-        }
-        // 暂停
-        if (that.data.fullClickBom) {
-            query.select('#video').boundingClientRect(res =>{
-                that.videoContext = wx.createVideoContext('video')
-                that.videoContext.parse()
-                that.setData({
-                    fullClickPause:true
-                })
-            }).exec();
         }
         that.data.moreClick = false
     },600),
@@ -544,36 +552,15 @@ Page({
             if (time !== this.data.newTimeClick) {
                 this.data.moreClick = true    
             }
-            if (!this.data.moreClick) {
-                this.setData({
-                    fullClickBom:!this.data.fullClickBom
-                })
-            }
-            this.data.moreClick = false
         },500)
     },
-    // 暂停/播放
-    playPause(){
-        if (this.data.fullClickBom ) {
-            this.data.moreClick = true
-            let query = wx.createSelectorQuery();
-            query.select('#video').boundingClientRect(res =>{
-                this.videoContext = wx.createVideoContext('video')
-                this.videoContext.pause()
-                this.setData({
-                    fullClickPause:true
-                })
-            }).exec();
-        }
-    },
 
-    async fullClickActive(res) {
+    fullClickActive(res) {
         let newTime = new Date().getTime()
         this.data.newTimeClick = newTime
-        // let that = this
-        this.playPause()
+        let that = this
         this.onClickLike(newTime,res)
-        // this.onFullClick(that,query)
+        this.onFullClick(that)
     },
     doubleCon(){
 
@@ -593,13 +580,16 @@ Page({
     },
     // 播放
     playClickIcon(){
-        console.log(111);
         let query = wx.createSelectorQuery();
         query.select('#video').boundingClientRect(res =>{
             this.videoContext = wx.createVideoContext('video')
-            this.videoContext.play()
+            if (!this.data.fullClickPause) {
+                this.videoContext.pause()
+            }else{
+                this.videoContext.play()
+            }
             this.setData({
-                fullClickPause:false
+                fullClickPause:!this.data.fullClickPause
             })
         }).exec();
     }
