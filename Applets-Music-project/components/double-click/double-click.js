@@ -5,7 +5,8 @@ Component({
     data: {
         newTimeClick:0,
         iconArray:[],
-        showIconPraise:false
+        showIconPraise:false,
+        index:0
     },
     methods: {
         // 点赞
@@ -25,13 +26,15 @@ Component({
                 if (time !== this.data.newTimeClick) {
                     this.triggerEvent('doubleClickBom')
                     this.data.moreClick = true 
+                    this.data.index = this.data.index + 1
                     let arr = []
                     arr = [...this.data.iconArray]
                     let x = res.detail.x 
-                    let y = res.detail.y - 50
+                    let y = res.detail.y - 100
                     arr.push({
                         iconX:x,
-                        iconY:y
+                        iconY:y,
+                        index:this.data.index
                     })
                     this.setData({
                         iconArray:arr,
@@ -48,7 +51,8 @@ Component({
                     setTimeout(()=>{
                         this.setData({
                             showIconPraise:false,
-                            iconArray:[]
+                            iconArray:[],
+                            index:0
                         })
                     },500)
                 }

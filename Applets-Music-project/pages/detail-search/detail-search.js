@@ -113,6 +113,16 @@ Page({
         this.setData({
             HomeFocus:app.globalData.HomeFocus
         })
+
+        // // 接收返回数据
+        // let pages = getCurrentPages();
+        // let currPage = pages[pages.length-1];
+        // if (currPage.data.isPlaying) {
+        //     this.setData({
+        //         isPlaying:true
+        //     })
+        //     playerStore.dispatch("playMusicStatusAction")  
+        // }
     },
     onUnload(){
         clearInterval(this.timer),
@@ -672,8 +682,13 @@ Page({
         let id = event.currentTarget.dataset.vid
         let index = event.currentTarget.dataset.index
         let mvlist = encodeURIComponent(JSON.stringify(this.data.MVAllList))
+        // 判断音乐是否播放
+        if (this.data.isPlaying) {
+            // 如果在播放音乐就暂停
+            playerStore.dispatch("playMusicStatusAction")
+        }
         wx.navigateTo({
-            url: `/pages/detail-rollvide/detail-rollvide?id=${id}&index=${index}&mvlist=${mvlist}&keyworld=${this.data.searchValue}&mvCount=${this.data.mvCount}`,
+            url: `/pages/detail-rollvide/detail-rollvide?id=${id}&index=${index}&mvlist=${mvlist}&keyworld=${this.data.searchValue}&mvCount=${this.data.mvCount}&isPlays=${this.data.isPlaying}`,
         })
     },
     // 获取视频高度+nav+tab高度

@@ -3,6 +3,7 @@ import { getMVRel,getTopMVL,getMVInfo } from "../../services/video"
 import { search } from "../../services/search"
 import { debounce } from "../../utils/debounce"
 import hythrottle from "../../utils/throttle"
+import playerStore from "../../store/playerStore"
 const app = getApp()
 Page({
     data: {
@@ -39,6 +40,7 @@ Page({
         bodyHeight:0,
         bodyWidth:0,
         isPlaying:true,
+        isPlaymusic:false,
         newMvList:[],
         swiperPullBom:true,
         mvCount:0,
@@ -50,13 +52,14 @@ Page({
         scliderTimeout:'',
         FullCurrentTime:0,
         fullClickBom:true,
-        fullClickPause:false,
         timesclick:'',
         newTimeClick:0,
         moreClick:false,
         topitemIcon:false
     },
     async onLoad(options) {
+
+
         // 设置视频高度
         let that = this
         let videoHeight = app.globalData.screeWidth / 1.777
@@ -82,9 +85,11 @@ Page({
         this.data.startIndex = Number(index)
         let id = options.id
         let key = options.keyworld
+        let isPlaymusic = options.isPlays
         this.setData({
             newMvList,
             id,
+            isPlaymusic,
             index:newIndex,
             current:newIndex,
             key,
@@ -110,6 +115,12 @@ Page({
         let newStart = start * 10
         let minList = mvlist.slice(newStart,newStart+10)
     },
+    // store数据
+    handlePlayInfos({ isPlaying }) {
+        if (isPlaying !== undefined) {
+            this.setData({isPlaymusic:isPlaying})
+        }
+    },
     // 轮播下拉获取mv数据
     async swiperPullDown(){
         //视频上拉下拉
@@ -126,7 +137,19 @@ Page({
     },
     onNavBackTap(){
         app.globalData.HomeFocus = false
-        wx.navigateBack()
+        if (this.data.isPlaymusic) {
+            playerStore.dispatch("playMusicStatusAction")  
+            // let pages = getCurrentPages();//当前页面
+            // let prevPage = pages[pages.length-2]//上一页面
+            // prevPage.setData({//直接给上一页面赋值
+            //     isPlaying:true
+            // })
+            wx.navigateBack({
+                delta:1
+            }) 
+        }else{
+            wx.navigateBack() 
+        }
     },
     bindchangeSwiper(event){
         let current = event.detail.current
@@ -167,7 +190,8 @@ Page({
             videoTime:0,
             videoMaxTime:0,
             sliderValue:0,
-            id:this.data.newMvList[this.data.current].id
+            id:this.data.newMvList[this.data.current].id,
+            topitemIcon:false
         })
         this.data.getMVTime = new Date().getTime();
         this.getMv(that,this.data.getMVTime)
@@ -175,46 +199,16 @@ Page({
         this.getMVInfoFn(this.data.id,that,this.data.getMVTime)
     },
     onImageClick(res){
+        console.log(123123);
         let that = this
         let newTime = new Date().getTime()
         let query = wx.createSelectorQuery();
         this.data.newTimeClick = newTime
-        query.select('#video').boundingClientRect(res =>{
+        query.select('#video').boundingClientRect(async res =>{
             this.videoContext = wx.createVideoContext('video')
-            this.normalDoubleClick(newTime)
-            this.normalClick(that)  
+            await this.normalDoubleClick(newTime)
+            this.data.moreClick = false 
         }).exec();
-
-        
-
-        // if (this.data.iconText) {
-        //     if (this.data.PauseBom) {
-        //         query.select('#video').boundingClientRect(res =>{
-        //             this.videoContext = wx.createVideoContext('video')
-        //             // 3.设置播放器，播放计算出的时间
-        //             this.videoContext.play()
-        //             this.setData({
-        //                 PauseBom:false,
-        //                 isPlaying:true
-        //             })   
-        //         }).exec();
-    
-        //     }else{
-        //         query.select('#video').boundingClientRect(res =>{
-        //             this.videoContext = wx.createVideoContext('video')
-        //             // 3.设置播放器，播放计算出的时间
-        //             this.videoContext.pause()
-        //             this.setData({
-        //                 PauseBom:true,
-        //                 isPlaying:false
-        //             })   
-        //         }).exec();
-        //     }
-        // }else{
-        //     this.setData({
-        //         iconText:true
-        //     })
-        // }
     },
     // 正常屏双击
     normalDoubleClick(time){
@@ -222,30 +216,32 @@ Page({
             if (time !== this.data.newTimeClick) {
                 this.data.moreClick = true    
             }
+            if (!this.data.moreClick && this.data.iconText) {
+                switch(this.data.PauseBom){
+                    case true:
+                    // 3.设置播放器，播放计算出的时间
+                    this.videoContext.play()
+                    this.setData({
+                        PauseBom:false,
+                        isPlaying:true
+                    })
+                    break;
+                    case false:
+                    // 3.设置播放器，播放计算出的时间
+                    this.videoContext.pause()
+                    this.setData({
+                        PauseBom:true,
+                        isPlaying:false
+                    })
+                    break;
+                }
+            }else if (!this.data.moreClick && !this.data.iconText) {
+                this.setData({
+                    iconText:true
+                })
+            }
         },500)
     },
-    normalClick:debounce((that)=> {
-        if (that.data.moreClick) return
-
-        if (that.data.PauseBom) {
-            // 3.设置播放器，播放计算出的时间
-            that.videoContext.play()
-            that.setData({
-                PauseBom:false,
-                isPlaying:true
-            })
-        }else{
-             // 3.设置播放器，播放计算出的时间
-             that.videoContext.pause()
-             that.setData({
-                 PauseBom:true,
-                 isPlaying:false
-             })
-        }
-        that.data.moreClick = false
-
-        that.data.iconText
-    },600),
     onPause(){
         let query = wx.createSelectorQuery();
         query.select('#video').boundingClientRect(res =>{
@@ -322,7 +318,7 @@ Page({
                 sliderValue:sliderTime
             }) 
         }
-    },2000),
+    },1000),
     onFullBindtimeupdate:hythrottle((event,that) =>{
         that.setData({
             FullCurrentTime:event.detail.currentTime * 1000
@@ -397,33 +393,6 @@ Page({
             // this.setRollStop()
         })
     },500,true),
-
-    // 预加载视频
-    // getPreloadMv(fn) {
-    //     let newMv = fn
-    //     newMv.forEach(async (res) =>{
-    //         await getMVRel(res.id).then(item=>{
-    //             this.data.PreloadMv.push(item.data.data)
-    //         }).catch(()=>{
-    //             PreloadMv.push('undefined')
-    //         })
-
-    //     })
-    // },
-    // // 预加载视频参数
-    // getMvParameter() {
-    //     if (this.data.current >= 10) {
-    //         let str = this.data.current - 10
-    //         let end = this.data.current + 10
-    //         let ParameterList = this.data.mvlist.slice(str,end)
-    //         return ParameterList
-    //     }else{
-    //         let str = 0
-    //         let end = this.data.current + 11
-    //         let ParameterList = this.data.mvlist.slice(str,end)
-    //         return ParameterList
-    //     }
-    // },
     // 滑块
     onSliderCon(){
 
@@ -566,7 +535,6 @@ Page({
 
     },
     iconFullClick(){
-        console.log('000000');
         this.setData({
             topitemIcon:!this.data.topitemIcon
         })
@@ -583,13 +551,13 @@ Page({
         let query = wx.createSelectorQuery();
         query.select('#video').boundingClientRect(res =>{
             this.videoContext = wx.createVideoContext('video')
-            if (!this.data.fullClickPause) {
+            if (!this.data.PauseBom) {
                 this.videoContext.pause()
             }else{
                 this.videoContext.play()
             }
             this.setData({
-                fullClickPause:!this.data.fullClickPause
+                PauseBom:!this.data.PauseBom
             })
         }).exec();
     }

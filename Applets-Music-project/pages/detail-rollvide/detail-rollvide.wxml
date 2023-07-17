@@ -67,7 +67,7 @@
                                     </view>
                                 </view>
                                 
-                                <text catchtap="playClickIcon" wx:if="{{fullClickBom || fullClickPause}}" class="iconfont {{!fullClickPause ? 'icon-24gf-pause2':'icon-24gf-play'}} full-play"></text>
+                                <text catchtap="playClickIcon" wx:if="{{fullClickBom || PauseBom}}" class="iconfont {{!PauseBom ? 'icon-24gf-pause2':'icon-24gf-play'}} full-play"></text>
                                 
                                 <view class="fullTopBottomCom {{fullClickBom ? 'FullActiveBottom':'FullActivesBottom'}}" style="height: {{bottomHeight*2}}px;bottom:{{bottomHeight*-2}}px; left: {{bottomHeight}}px; right: {{bottomHeight}}px;">
                                     <view class="fullBottom" catchtap="doubleCon">
@@ -93,10 +93,6 @@
                                 <view class="doubleCon">
                                     <double-click bind:doubleClickBom="doubleClickBom"></double-click>
                                 </view>
-                                
-                                <!-- <block wx:for="{{iconArray}}" wx:for-item = "items" wx:key="*this">
-                                    <text wx:if="{{showIconPraise}}" class="IconPraise {{showIconPraise ? 'IconAction':''}} iconfont icon-dianzan2" style="left: {{items.iconX}}px; top: {{items.iconY}}px;"></text>
-                                </block> -->
                             </view>
                         </video>
                         <image wx:if="{{imageShow || (newMvList[current].id !== item.id)}}" 
@@ -191,6 +187,9 @@
                             <text class="itemTime">{{fmt.formatTime(videoMaxTime)}}</text>
                             <text class="active">/</text>
                             <text>{{fmt.formatTime(newTime)}}</text>
+                    </view>
+                    <view class="doubleCon">
+                        <double-click bind:doubleClickBom="doubleClickBom"></double-click>
                     </view>
                     <view catchtap="onSliderCon" class="sliderCon">
                         <view class="sliderData">
