@@ -1,7 +1,7 @@
 // pages/music-player/music-player.js
 import { getSongDatail, getSongLyric } from "../../services/player"
 import { parseLyric } from "../../utils/parse-lyric"
-import playerStore, {audioContext} from "../../store/playerStore"
+import playerStore, {backgroundAudioManager} from "../../store/playerStore"
 import { throttle } from 'underscore'
 
 const app = getApp()
@@ -100,7 +100,9 @@ Page({
             this.data.sliderAwait = true
         },1000)
         // 3.设置播放器，播放计算出的时间
-        audioContext.seek(this.data.currentTime / 1000)
+        // audioContext.seek(this.data.currentTime / 1000)
+        backgroundAudioManager.seek(this.data.currentTime / 1000)
+
 
     },
     showPopup(){

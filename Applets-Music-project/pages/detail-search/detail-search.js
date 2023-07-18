@@ -37,6 +37,7 @@ Page({
         menuRight:0,
         bodyHeight:0,
         resultHeight:0,
+        tabKeyActive:'comprehensive',
         tabsValue:[
             {tabTitle:'综合',name:'comprehensive'},
             {tabTitle:'单曲',name:'single'},
@@ -181,6 +182,8 @@ Page({
         wx.navigateBack()
     },
     async getTabItemValue(e){
+        this.setData({tabKeyActive:e.detail})
+        console.log(typeof(e.detail));
         if (this.data.singleAll.length === 0 && e.detail === 1) {
             this.searchSingle(this.data.searchValue)
         }
@@ -244,6 +247,14 @@ Page({
         // 1.拿到播放列表. 放到store的第三方库中
         playerStore.setState("playSongList",this.data.singleAll)
         playerStore.setState("playSongIndex",index)
+    },
+    // 查看更多
+    setTabItemActive(event) {
+        let values = event.detail
+        this.setData({
+            tabKeyActive:values
+        })
+
     },
 
 

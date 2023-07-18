@@ -52,6 +52,7 @@
         <search-scroll 
             tabsValue="{{tabsValue}}"
             resultHeight="{{resultHeight}}"
+            active="{{tabKeyActive}}"
             bind:onscrolltolowerb="onscrolltolowerb"
             bind:getTabItemValue="getTabItemValue"
             bind:videoEvent="videoEvent"
@@ -87,6 +88,7 @@
                                 title="{{tabsValue[index+1].tabTitle}}"
                                 singleList="{{singleList}}"
                                 keyWorld="{{searchValue}}"
+                                bind:setTabItemActive="setTabItemActive"
                             />
                         </view>
                         <!-- 歌单 -->

@@ -13,6 +13,10 @@ Component({
         resultHeight:{
             type:Number,
             value:0
+        },
+        active:{
+            type:Number,
+            value:0
         }
     },
     data: {
@@ -24,6 +28,7 @@ Component({
     },
     methods: {
         vanTabClick(event) {
+            console.log(event);
             let index = event.detail.index
             this.triggerEvent("getTabItemValue",index)
         },

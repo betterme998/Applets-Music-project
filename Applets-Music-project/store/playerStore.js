@@ -2,14 +2,30 @@ import { HYEventStore } from "hy-event-store"
 import { getSongLyric, getSongDatail} from "../services/player"
 import { parseLyric } from "../utils/parse-lyric"
 
-export const audioContext = wx.createInnerAudioContext()
+// export const audioContext = wx.createInnerAudioContext()
+export const backgroundAudioManager = wx.getBackgroundAudioManager()
 const app = getApp()
 const modeNames = ["icon-xunhuanbofang", "icon-danquxunhuan", "icon-suijibofang"]
-audioContext.onError(res => {
+// audioContext.onError(res => {
+//     console.log(res);
+// })
+backgroundAudioManager.onError(res => {
     console.log(res);
 })
-
-
+backgroundAudioManager.onNext(()=>{
+    console.log('下一曲');
+    playerStore.dispatch("playNewMusicAction", true)
+})
+backgroundAudioManager.onPrev(()=>{
+    console.log('上一曲');
+    playerStore.dispatch("playNewMusicAction", false)
+})
+backgroundAudioManager.onPause(()=>{
+    playerStore.setState("isPlaying",false)
+})
+backgroundAudioManager.onPlay(()=>{
+    playerStore.setState("isPlaying",true)
+})
 // 1.创建store
 const playerStore = new HYEventStore({
     state:{
@@ -31,12 +47,14 @@ const playerStore = new HYEventStore({
 
         isPlaying:false,
         playModeIndex:0, //0：顺序播放 1：单曲循环 2：随机播放
+        loop:false,
         playModeNames:'icon-xunhuanbofang'
     },
     actions:{
         async playMusicWithSongId(ctx,id) {
             // 0.原来的数据重置
-            audioContext.stop()
+            // audioContext.stop()
+            backgroundAudioManager.stop()
             // ctx.currentSong = {}
             ctx.sliderValue = 0
             ctx.currentTime = 0
@@ -48,9 +66,12 @@ const playerStore = new HYEventStore({
             ctx.isPlaying = true
             // 2.请求歌曲相关数据    
             // 2.1根据id获取歌曲的详情
-            getSongDatail(ctx.id).then(res => {
+            await getSongDatail(ctx.id).then(res => {
+                console.log(res);
                 ctx.currentSong = res.data.songs[0]
                 ctx.durationTime = res.data.songs[0].dt
+                backgroundAudioManager.title=res.data.songs[0].name
+                backgroundAudioManager.coverImgUrl = res.data.songs[0].al.picUrl
             })
     
             // 2.2.根据id获取歌词的信息
@@ -58,12 +79,12 @@ const playerStore = new HYEventStore({
                 const lrcString = res.data.lrc.lyric
                 const lyricInfos = parseLyric(lrcString)
                 ctx.lyricInfos = lyricInfos
-
                  // 3.播放当前的歌曲
-                audioContext.src = `https://music.163.com/song/media/outer/url?id=${ctx.id}.mp3`
+                // audioContext.src = `https://music.163.com/song/media/outer/url?id=${ctx.id}.mp3`
+                backgroundAudioManager.src = `https://music.163.com/song/media/outer/url?id=${ctx.id}.mp3`
+                backgroundAudioManager.play()
                 // 准备好之后自动播放
-                audioContext.autoplay = true
-                // audioContext.play()
+                // audioContext.autoplay = true
             })
     
            
@@ -72,15 +93,59 @@ const playerStore = new HYEventStore({
             if (ctx.isFirstPlay) {
                 // ctx.isFirstPlay = false
                 const ldindex = [0,0]
-                audioContext.onCanplay(()=>{
-                    // audioContext.pause()
-                    // 监听是否可以播放，可以播放再播放
-                    audioContext.autoplay = true
+                // audioContext.onCanplay(()=>{
+                //     // audioContext.pause()
+                //     // 监听是否可以播放，可以播放再播放
+                //     audioContext.autoplay = true
 
+                // })
+                backgroundAudioManager.onCanplay(()=>{
+                    backgroundAudioManager.play()
                 })
-                audioContext.onTimeUpdate((event) =>{
+                // audioContext.onTimeUpdate((event) =>{
+                //     // 1.获取当前播放的时间
+                //     ctx.currentTime = audioContext.currentTime * 1000
+                //     // 2.获取歌词节点
+                //     if (ctx.getlyric) {
+                //         var query = wx.createSelectorQuery();
+                //         query.selectAll('.lyrictext').boundingClientRect(()=>{}).exec(res =>{
+                //             const lyricdom = res[0]
+                //             ctx.lyricdom = lyricdom
+                //             ctx.getlyric = false
+                //         })
+                //     }
+
+                //     // 3.匹配正确的歌词
+                //     if (!ctx.lyricInfos.length) return
+                //     let index = ctx.lyricInfos.length - 1
+
+                //     for (let i = 0; i < ctx.lyricInfos.length; i++) {
+                //         const info = ctx.lyricInfos[i];
+                //         if(info.time > audioContext.currentTime * 1000) {
+                //             index = i - 1
+                //             break
+                //         }
+                //     }
+                //     if (index === ctx.currentLyricIndex) return
+        
+                //     // 4.获取歌词的索引index和文本text
+                //     const currentLyricText= ctx.lyricInfos[index]?.text
+                //     // 5.获取歌词跳转起末索引index
+                //     ldindex.push(index)
+                //     if (ldindex.length > 2) ldindex.shift()
+                    
+                    
+                //     ctx.currentLyricText = currentLyricText
+                //     ctx.currentLyricIndex = index
+                //     ctx.ldindex = ldindex
+                //     // console.log(ctx.currentLyricIndex);
+                    
+                //     // 4.1.通过滑块改变歌曲位置
+                // })
+                backgroundAudioManager.onTimeUpdate((event) =>{
                     // 1.获取当前播放的时间
-                    ctx.currentTime = audioContext.currentTime * 1000
+                    ctx.currentTime = backgroundAudioManager.currentTime * 1000
+
                     // 2.获取歌词节点
                     if (ctx.getlyric) {
                         var query = wx.createSelectorQuery();
@@ -97,15 +162,16 @@ const playerStore = new HYEventStore({
 
                     for (let i = 0; i < ctx.lyricInfos.length; i++) {
                         const info = ctx.lyricInfos[i];
-                        if(info.time > audioContext.currentTime * 1000) {
+                        if(info.time > backgroundAudioManager.currentTime * 1000) {
                             index = i - 1
                             break
                         }
                     }
                     if (index === ctx.currentLyricIndex) return
-        
+
                     // 4.获取歌词的索引index和文本text
                     const currentLyricText= ctx.lyricInfos[index]?.text
+
                     // 5.获取歌词跳转起末索引index
                     ldindex.push(index)
                     if (ldindex.length > 2) ldindex.shift()
@@ -114,21 +180,35 @@ const playerStore = new HYEventStore({
                     ctx.currentLyricText = currentLyricText
                     ctx.currentLyricIndex = index
                     ctx.ldindex = ldindex
-                    // console.log(ctx.currentLyricIndex);
-                    
-                    // 4.1.通过滑块改变歌曲位置
                 })
-                audioContext.onWaiting(() => {
-                    // 监听是否等待，在等待就调用暂停
-                    // audioContext.pause()
-                })
+
+
+                // audioContext.onWaiting(() => {
+                //     // 监听是否等待，在等待就调用暂停
+                //     // audioContext.pause()
+                // })
                 // 监听自然播放结束
-                audioContext.onEnded(() =>{
+                // audioContext.onEnded(() =>{
+                //     ldindex.fill(0)
+                //     ctx.ldindex = ldindex
+
+
+                //     if (audioContext.loop) return
+                //     // 切换歌曲
+                //     this.dispatch("playNewMusicAction")
+                // })
+                backgroundAudioManager.onEnded(() =>{
                     ldindex.fill(0)
                     ctx.ldindex = ldindex
 
 
-                    if (audioContext.loop) return
+                    if (ctx.loop) {
+                        backgroundAudioManager.src = `https://music.163.com/song/media/outer/url?id=${ctx.id}.mp3`
+                        backgroundAudioManager.title=ctx.currentSong.name
+                        backgroundAudioManager.play()
+                        return
+                    }
+                    if (ctx.loop) return
                     // 切换歌曲
                     this.dispatch("playNewMusicAction")
                 })
@@ -137,10 +217,12 @@ const playerStore = new HYEventStore({
         playMusicStatusAction(ctx) {
             // 暂停-播放
             if (ctx.isPlaying) {
-                audioContext.pause()
+                // audioContext.pause()
+                backgroundAudioManager.pause()
                 ctx.isPlaying = false
             }else{
-                audioContext.play()
+                // audioContext.play()
+                backgroundAudioManager.play()
                 ctx.isPlaying = true
             }
         },
@@ -149,9 +231,11 @@ const playerStore = new HYEventStore({
             let modeIndex = ctx.playModeIndex
             modeIndex = modeIndex + 1
             if (modeIndex === 1) {
-                audioContext.loop = true
+                // audioContext.loop = true
+                ctx.loop = true
             }else{
-                audioContext.loop = false
+                // audioContext.loop = false
+                ctx.loop = false
             }
             if (modeIndex === 3) modeIndex = 0
             // 2.保存当前模式

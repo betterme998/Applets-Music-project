@@ -32,7 +32,7 @@
         <view class="slot">
             <slot name="Bottom"></slot>
         </view>
-        <view class="default BottomCon">
+        <view class="default BottomCon" bindtap="onViewMore">
             <text>查看更多</text>
             <text class="keyWorld">{{keyWorld}}</text>
             <text>{{title}}</text>

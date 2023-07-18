@@ -1,7 +1,8 @@
 <!--components/search-scroll/search-scroll.wxml-->
 <!-- 搜索tab -->
 <view class="tabsCon">
-    <van-tabs 
+    <van-tabs
+        active="{{ active }}"
         animated
         swipeable
         title-active-color="#353535"

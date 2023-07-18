@@ -28,6 +28,28 @@ Component({
             // 1.拿到播放列表. 放到store的第三方库中
             playerStore.setState("playSongList",this.properties.singleList)
             playerStore.setState("playSongIndex",index)
+        },
+        onViewMore(){
+            switch (this.properties.title) {
+                case '综合':
+                    this.triggerEvent("setTabItemActive",0)
+                    break;
+                case '单曲':
+                    this.triggerEvent("setTabItemActive",1)
+                    break;
+                case '歌单':
+                    this.triggerEvent("setTabItemActive",2)
+                    break;  
+                case '视频':
+                    this.triggerEvent("setTabItemActive",3)
+                    break;
+                case '歌手':
+                    this.triggerEvent("setTabItemActive",4)
+                    break;
+                case '用户':
+                    this.triggerEvent("setTabItemActive",5)
+                    break;   
+            }
         }
     }
 })

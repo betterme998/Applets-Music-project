@@ -139,11 +139,11 @@ Page({
         app.globalData.HomeFocus = false
         if (this.data.isPlaymusic) {
             playerStore.dispatch("playMusicStatusAction")  
-            // let pages = getCurrentPages();//当前页面
-            // let prevPage = pages[pages.length-2]//上一页面
-            // prevPage.setData({//直接给上一页面赋值
-            //     isPlaying:true
-            // })
+            let pages = getCurrentPages();//当前页面
+            let prevPage = pages[pages.length-2]//上一页面
+            prevPage.setData({//直接给上一页面赋值
+                isPlaying:true
+            })
             wx.navigateBack({
                 delta:1
             }) 
