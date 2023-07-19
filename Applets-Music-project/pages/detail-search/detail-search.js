@@ -690,9 +690,10 @@ Page({
         }).exec();
     },
     mvPlay(event){
-        let id = event.currentTarget.dataset.vid
+        let mins = event.currentTarget.dataset.mins
+        let id = event.currentTarget.dataset.id
         let index = event.currentTarget.dataset.index
-        let mvlist = encodeURIComponent(JSON.stringify(this.data.MVAllList))
+        let mvlist = encodeURIComponent(JSON.stringify(mins ? this.data.MVList : this.data.MVAllList))
         // 判断音乐是否播放
         if (this.data.isPlaying) {
             // 如果在播放音乐就暂停

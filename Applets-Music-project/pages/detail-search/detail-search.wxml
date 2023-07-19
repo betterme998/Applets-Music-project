@@ -96,6 +96,7 @@
                             <search-result-item
                                 title="{{tabsValue[index+2].tabTitle}}"
                                 keyWorld="{{searchValue}}"
+                                bind:setTabItemActive="setTabItemActive"
                             >
                                 <view class="songText" slot="top">
                                      <text>{{tabsValue[index+2].tabTitle}}</text>
@@ -119,7 +120,7 @@
                                 </view>
                                 <view slot="Iddle">
                                     <block wx:for="{{MVList}}" wx:key="id">
-                                        <view class="iddleItem">
+                                        <view class="iddleItem" bindtap="mvPlay" data-index="{{index}}" data-id="{{item.id}}" data-mins="{{true}}">
                                             <mv-item keyWorld="{{searchValue}}" songList="{{item}}"></mv-item>
                                         </view>
                                     </block>
@@ -153,6 +154,7 @@
                         <view wx:if="{{singerList.length>0}}" class="guessLove">
                             <search-result-item
                                 title="{{tabsValue[index+5].tabTitle}}"
+                                bind:setTabItemActive="setTabItemActive"
                             >
                                 <view class="videoText" slot="top">
                                      <text>{{tabsValue[index+5].tabTitle}}</text>
@@ -195,7 +197,7 @@
                         <view class="relativeView" style="width: 100%; height: 2rpx; opacity: 0; background-color: #fff; position: fixed; top: {{videoHeight}}px; z-index: -1;">   
                         </view>
                         <block wx:for="{{MVAllList}}" wx:for-index="inden" wx:for-item="iten" wx:key="id">
-                            <view class="videoItem" bindtap="mvPlay" data-index="{{inden}}" data-vid="{{iten.id}}">
+                            <view class="videoItem" bindtap="mvPlay" data-index="{{inden}}" data-id="{{iten.id}}">
                                 <mv-item 
                                     videoPlay="{{videoPlay}}" 
                                     bind:imageLoadComplete="getVideoHeight" videotab="{{true}}" 

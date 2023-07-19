@@ -8,7 +8,7 @@
             <text class="title">{{title}}</text>
             <view class="rightIcon">
                 <text class="iconfont icon-24gf-play"></text>
-                <text class="text">播放全部</text>
+                <text class="text" bindtap="onAllPlay">播放全部</text>
             </view>
         </view>
     </view>

@@ -30,7 +30,7 @@ Component({
                     let arr = []
                     arr = [...this.data.iconArray]
                     let x = res.detail.x 
-                    let y = res.detail.y - 100
+                    let y = res.detail.y - 70
                     arr.push({
                         iconX:x,
                         iconY:y,

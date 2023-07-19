@@ -19,11 +19,12 @@
 <swiper vertical
         class="swiper"
         bindchange="bindchangeSwiper"
+        bindtransition="bindtransitionSwiper"
         current="{{index}}"
 >
     <block wx:for="{{newMvList}}" wx:key="id">
         <swiper-item>
-            <view class="swiperItemComs">
+            <view class="swiperItemComs" bind:touchend="ontouchend" bind:touchstart="onTouchstart">
                 <view class="imageCon" bindtap="onImageClick">
                     <view class="imageVideoCom">
                         <video 
@@ -104,7 +105,7 @@
                             catchtap="onPause"
                         ></text>
                     </view>
-                    <view class="MvleftInfoCom" wx:if="{{(newMvList[current].id === item.id) && videoPlay.url}}">
+                    <view class="MvleftInfoCom {{leave ? 'leaveAction':''}}" wx:if="{{(newMvList[current].id === item.id) && videoPlay.url}}">
                         <view class="MvleftInfo" wx:if="{{(mvInfo.artists[0].img1v1Url || mvInfo.artists[0].name) && sliderb}}">
                             <view class="mvLeftTop">
                                 <view class="imageItemCon">
@@ -158,7 +159,7 @@
                             
                         </view>
                     </view>
-                    <view class="rightItemCom" wx:if="{{(newMvList[current].id === item.id) && videoPlay.url}}">
+                    <view class="rightItemCom {{leave ? 'leaveAction':''}}" wx:if="{{(newMvList[current].id === item.id) && videoPlay.url}}">
                         <view class="rightItem" catchtap="iconFullClick">
                             <text class="iconfont icon-dianzan2 {{topitemIcon ? 'redClickActive':''}}"></text>
                             <text>{{fmt.formatCount(mvInfo.subCount)}}</text>
@@ -183,15 +184,15 @@
                             />
                         </view>
                     </view>
-                    <view wx:if="{{!sliderb}}" class="videoTime">
+                    <view wx:if="{{!sliderb}}" class="videoTime {{leave ? 'leaveAction':''}}">
                             <text class="itemTime">{{fmt.formatTime(videoMaxTime)}}</text>
                             <text class="active">/</text>
                             <text>{{fmt.formatTime(newTime)}}</text>
                     </view>
-                    <view class="doubleCon">
+                    <view class="doubleCon {{leave ? 'leaveAction':''}}">
                         <double-click bind:doubleClickBom="doubleClickBom"></double-click>
                     </view>
-                    <view catchtap="onSliderCon" class="sliderCon">
+                    <view catchtap="onSliderCon" class="sliderCon {{leave ? 'leaveAction':''}}">
                         <view class="sliderData">
                             <slider 
                                 class="slider" 
@@ -213,7 +214,7 @@
                         </view>
                     </view>
                 </view>
-                <view class="bottomItemCom" style="height:{{bottomHeight}}px;">
+                <view class="bottomItemCom {{leave ? 'leaveAction':''}}" style="height:{{bottomHeight}}px;">
                         <text class="review">听说爱评论的人粉丝多</text>
                         <text catchtap="onFullScreen" class="iconfont icon-quanping"></text>
                 </view>

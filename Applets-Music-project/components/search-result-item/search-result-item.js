@@ -25,9 +25,17 @@ Component({
     methods: {
         onSingleItem(event) {
             let index = event.currentTarget.dataset.index
+            console.log(this.properties.singleList);
             // 1.拿到播放列表. 放到store的第三方库中
             playerStore.setState("playSongList",this.properties.singleList)
             playerStore.setState("playSongIndex",index)
+        },
+        onAllPlay(){
+            let index = 0
+            // 1.拿到播放列表. 放到store的第三方库中
+            playerStore.setState("playSongList",this.properties.singleList)
+            playerStore.setState("playSongIndex",index)
+            playerStore.dispatch("playMusicWithSongId",this.properties.singleList[0].id)
         },
         onViewMore(){
             switch (this.properties.title) {

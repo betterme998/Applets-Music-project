@@ -42,7 +42,10 @@
     opacity: .7;
     font-size: 120rpx;
 }
-
+/* 公告样式 */
+.leaveAction{
+    opacity: .5;
+}
 /* mv信息 */
 .MvleftInfoCom{
     position: absolute;
@@ -360,16 +363,16 @@
 }
 
 .FullActiveTop{
-    animation:fullReveallTop .3s linear forwards;
+    animation:fullReveallTop .5s linear forwards;
 }
 .FullActiveBottom{
-    animation:fullReveallBottom .3s linear forwards;
+    animation:fullReveallBottom .5s linear forwards;
 }
 .FullActivesTop{
-    animation:fulllHideTop .3s linear forwards;
+    animation:fulllHideTop .5s linear forwards;
 }
 .FullActivesBottom{
-    animation:fulllHideBottom .3s linear forwards;
+    animation:fulllHideBottom .5s linear forwards;
 }
 
 .bottomHeight{

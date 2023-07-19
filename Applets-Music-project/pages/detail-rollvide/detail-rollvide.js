@@ -50,12 +50,15 @@ Page({
         getMVTime:'',
         Full:false,
         scliderTimeout:'',
+        vanish:'',
         FullCurrentTime:0,
         fullClickBom:true,
         timesclick:'',
         newTimeClick:0,
         moreClick:false,
-        topitemIcon:false
+        topitemIcon:false,
+        transparent:false,
+        leave:false
     },
     async onLoad(options) {
 
@@ -198,8 +201,19 @@ Page({
       
         this.getMVInfoFn(this.data.id,that,this.data.getMVTime)
     },
+    bindtransitionSwiper(){
+        if (!this.data.leave && !this.data.transparent) {
+            this.setData({
+                leave:true
+            })   
+        }
+        if (this.data.transparent && this.data.leave) {
+            this.setData({
+                leave:false
+            })
+        }
+    },
     onImageClick(res){
-        console.log(123123);
         let that = this
         let newTime = new Date().getTime()
         let query = wx.createSelectorQuery();
@@ -369,6 +383,20 @@ Page({
             iconText:true
         })
     },
+    ontouchend(){
+        if (!this.data.transparent) {
+            this.setData({
+                transparent:true
+            })   
+        }
+    },
+    onTouchstart(){
+        if (this.data.transparent) {
+            this.setData({
+                transparent:false
+            })   
+        }
+    },
     // 网络请求
     getMv:debounce((that,time)=>{
         getMVRel(that.data.id).then(res =>{
@@ -478,13 +506,17 @@ Page({
     onFullScreen() {
         let query = wx.createSelectorQuery();
         query.select('#video').boundingClientRect(res =>{
+            let that = this
             this.videoContext = wx.createVideoContext('video')
             // 3.设置播放器，播放计算出的时间
             this.videoContext.requestFullScreen()
+            this.getCellHeliometer() 
+            setTimeout(()=>{
+                this.onAutoHidden(that)
+            },2000)
+
+
         }).exec();
-        query.selectViewport('#video').boundingClientRect(res =>{
-            console.log(res);
-        })
     },
     bindfullscreenchange(event) {
         let fullScreen = event.detail.fullScreen
@@ -505,6 +537,46 @@ Page({
             // 3.设置播放器，播放计算出的时间
             this.videoContext.exitFullScreen()
         }).exec();
+        wx.stopDeviceMotionListening()
+        wx.offDeviceMotionChange()
+    },
+    // 获取手机螺旋仪数据
+    getCellHeliometer(){
+        // 1.启动设备运动数据监听
+        let res = ''
+        wx.startDeviceMotionListening({
+            // 普通级别200ms/次
+            interval:'normal',
+            success:(res) =>{
+                console.log("启动成功");
+                wx.onDeviceMotionChange((res)=>{
+                    let alpha = res.alpha;
+                    let beta = res.beta;
+                    let gamma = res.gamma;
+                    // 对角度进行处理
+                    alpha = alpha > 0 ? alpha : alpha + 360;
+                    beta = beta > 0 ? beta : beta + 360;
+                    gamma = gamma > 0 ? gamma : gamma + 360;
+                    console.log("设备角度:",alpha, beta, gamma);
+                })
+
+            }
+        })
+
+        // 2.状态变化触发
+        // wx.onDeviceMotionChange(this.listener(res))
+    },
+    // 处理设备螺旋仪数据
+    listener(res) {
+        // 根据螺旋仪数据计算设备旋转角度
+        let alpha = res.alpha;
+        let beta = res.beta;
+        let gamma = res.gamma;
+        // 对角度进行处理
+        alpha = alpha > 0 ? alpha : alpha + 360;
+        beta = beta > 0 ? beta : beta + 360;
+        gamma = gamma > 0 ? gamma : gamma + 360;
+        console.log("设备角度:",alpha, beta, gamma);
     },
     // 单击
     onFullClick:debounce((that) => {
@@ -515,7 +587,7 @@ Page({
         }
         that.data.moreClick = false
     },600),
-    //双击
+    //双击/单机判断
     onClickLike(time,res){
         this.data.timesclick = setTimeout(()=>{
             if (time !== this.data.newTimeClick) {
@@ -523,13 +595,21 @@ Page({
             }
         },500)
     },
-
+    // 自动消失
+    onAutoHidden:debounce((that) =>{
+        if (that.data.fullClickBom) {
+            that.setData({
+                fullClickBom:false
+            })
+        }
+    },4000),
     fullClickActive(res) {
         let newTime = new Date().getTime()
         this.data.newTimeClick = newTime
         let that = this
         this.onClickLike(newTime,res)
         this.onFullClick(that)
+        this.onAutoHidden(that)
     },
     doubleCon(){
 
