@@ -537,29 +537,31 @@ Page({
             // 3.设置播放器，播放计算出的时间
             this.videoContext.exitFullScreen()
         }).exec();
-        wx.stopDeviceMotionListening()
-        wx.offDeviceMotionChange()
+        wx.stopGyroscope()
+        wx.offGyroscopeChange()
     },
     // 获取手机螺旋仪数据
     getCellHeliometer(){
-        // 1.启动设备运动数据监听
-        let res = ''
-        wx.startDeviceMotionListening({
+        wx.startGyroscope({
             // 普通级别200ms/次
             interval:'normal',
             success:(res) =>{
                 console.log("启动成功");
-                wx.onDeviceMotionChange((res)=>{
-                    let alpha = res.alpha;
-                    let beta = res.beta;
-                    let gamma = res.gamma;
-                    // 对角度进行处理
-                    alpha = alpha > 0 ? alpha : alpha + 360;
-                    beta = beta > 0 ? beta : beta + 360;
-                    gamma = gamma > 0 ? gamma : gamma + 360;
-                    console.log("设备角度:",alpha, beta, gamma);
-                })
+                wx.onGyroscopeChange((res)=>{
+                    let x = Number(res.x * (180/Math.PI)).toFixed(2)
+                    let y = Number(res.y * (180/Math.PI)).toFixed(2)
+                    let z = Number(res.z * (180/Math.PI)).toFixed(2)
+                    console.log(y);
+                    if (y > 45) {
+                        console.log('正转');
+                    }
+                    if (y < -45) {
+                        console.log('反转');
+                    }
+                    // console.log('x角度:',x,' y角度:',y,' z角度:',z);
+                    // console.log('x角度:',x,' y角度:',y,' z角度:',z);
 
+                })
             }
         })
 

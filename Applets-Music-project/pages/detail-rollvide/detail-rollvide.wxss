@@ -363,16 +363,16 @@
 }
 
 .FullActiveTop{
-    animation:fullReveallTop .5s linear forwards;
+    animation:fullReveallTop .3s linear forwards;
 }
 .FullActiveBottom{
-    animation:fullReveallBottom .5s linear forwards;
+    animation:fullReveallBottom .3s linear forwards;
 }
 .FullActivesTop{
-    animation:fulllHideTop .5s linear forwards;
+    animation:fulllHideTop .3s linear forwards;
 }
 .FullActivesBottom{
-    animation:fulllHideBottom .5s linear forwards;
+    animation:fulllHideBottom .3s linear forwards;
 }
 
 .bottomHeight{
@@ -500,5 +500,27 @@
     }
     100% {
         transform: rotate(0);
+    }
+}
+.rotateA{
+    animation:rotates .5s linear forwards;
+}
+.rotateB{
+    animation:rotateS .5s linear forwards;
+}
+@keyframes rotates {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(180deg);
+    }
+}
+@keyframes rotateS {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(-180deg);
     }
 }
