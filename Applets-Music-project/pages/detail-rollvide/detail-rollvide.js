@@ -58,7 +58,9 @@ Page({
         moreClick:false,
         topitemIcon:false,
         transparent:false,
-        leave:false
+        leave:false,
+        flip:true,
+        fullNum:0
     },
     async onLoad(options) {
 
@@ -108,7 +110,7 @@ Page({
         this.getRollHeight()
     },
     onShow() {
-
+        
     },
     onUnload() {
         clearInterval(this.rollLoop)
@@ -499,6 +501,8 @@ Page({
             that.setData({
                 FullCurrentTime:currentTime
             })
+            that.onAutoHidden()
+
         }
     },500),
 
@@ -509,8 +513,8 @@ Page({
             let that = this
             this.videoContext = wx.createVideoContext('video')
             // 3.设置播放器，播放计算出的时间
-            this.videoContext.requestFullScreen()
-            this.getCellHeliometer() 
+            console.log(this.data.flip);
+            this.videoContext.requestFullScreen({direction: this.data.flip ? 90 :-90})
             setTimeout(()=>{
                 this.onAutoHidden(that)
             },2000)
@@ -524,61 +528,60 @@ Page({
             this.setData({
                 Full:true
             })
+            this.getCellHeliometer() 
         }else{
             this.setData({
                 Full:false
             })
+            this.data.fullNum = 0
+            console.log('关闭监听');
+            wx.stopGyroscope()
+            wx.offGyroscopeChange()   
         }
     },
     onBackFull() {
-        let query = wx.createSelectorQuery();
-        query.select('#video').boundingClientRect(res =>{
-            this.videoContext = wx.createVideoContext('video')
-            // 3.设置播放器，播放计算出的时间
-            this.videoContext.exitFullScreen()
-        }).exec();
-        wx.stopGyroscope()
-        wx.offGyroscopeChange()
+        this.videoContext.exitFullScreen()
     },
     // 获取手机螺旋仪数据
     getCellHeliometer(){
+        let that = this
         wx.startGyroscope({
             // 普通级别200ms/次
             interval:'normal',
             success:(res) =>{
                 console.log("启动成功");
                 wx.onGyroscopeChange((res)=>{
-                    let x = Number(res.x * (180/Math.PI)).toFixed(2)
-                    let y = Number(res.y * (180/Math.PI)).toFixed(2)
-                    let z = Number(res.z * (180/Math.PI)).toFixed(2)
-                    console.log(y);
-                    if (y > 45) {
-                        console.log('正转');
-                    }
-                    if (y < -45) {
-                        console.log('反转');
-                    }
-                    // console.log('x角度:',x,' y角度:',y,' z角度:',z);
-                    // console.log('x角度:',x,' y角度:',y,' z角度:',z);
-
+                    this.listener(res)
                 })
             }
         })
-
-        // 2.状态变化触发
-        // wx.onDeviceMotionChange(this.listener(res))
     },
     // 处理设备螺旋仪数据
     listener(res) {
         // 根据螺旋仪数据计算设备旋转角度
-        let alpha = res.alpha;
-        let beta = res.beta;
-        let gamma = res.gamma;
-        // 对角度进行处理
-        alpha = alpha > 0 ? alpha : alpha + 360;
-        beta = beta > 0 ? beta : beta + 360;
-        gamma = gamma > 0 ? gamma : gamma + 360;
-        console.log("设备角度:",alpha, beta, gamma);
+        let x = Number(res.x * (180/Math.PI)).toFixed(2)
+        let y = Number(res.y * (180/Math.PI)).toFixed(2)
+        let z = Number(res.z * (180/Math.PI)).toFixed(2)
+        if (((45<Number(y))&& (Number(y)<90)) || ((-45>Number(y)) && (Number(y)>-90))) {
+            this.data.fullNum = Number(this.data.fullNum) +Number(y) 
+        }else{
+            this.data.fullNum = 0 
+        }
+        
+        console.log(this.data.fullNum);
+
+        // if (y > 45 && this.data.flip ) {
+        //     console.log('正转');
+        //     this.data.flip = false
+        //     this.onBackFull()
+        //     this.onFullScreen()
+        // }
+        // if (y < -45 && !this.data.flip) {
+        //     console.log('反转');
+        //     this.data.flip = true
+        //     this.onBackFull()
+        //     this.onFullScreen()
+        // }
     },
     // 单击
     onFullClick:debounce((that) => {

@@ -270,6 +270,8 @@
 .videoTime .active{
     font-size: 30rpx;
     padding: 0 10rpx;
+    animation: linear forwards;
+
 }
 .itemTime{
     color: #f9f9f9;
