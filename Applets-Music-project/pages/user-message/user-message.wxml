@@ -1,0 +1,23 @@
+<!--pages/user-Message/user-message.wxml-->
+<!-- 1.自定义导航栏 -->
+<view class="navCon">
+    <nav-bar bind:leftclick="onNavBackTap">
+        <view class="tabs" slot="left">
+            <text class="iconfont icon-fanhui"></text>
+        </view>
+        <view class="tabs" slot="center">
+            
+        </view>
+    </nav-bar>
+</view>
+
+<!-- 7.播放工具栏 -->
+<play-toolbar 
+        tabbarHeight="{{tabbarHeight}}"
+        currentSong="{{currentSong}}"
+        isPlaying="{{isPlaying}}"
+        playModeIndex="{{playModeIndex}}"
+        playSongIndex="{{playSongIndex}}"
+        playSongList="{{playSongList}}"
+    >
+</play-toolbar>

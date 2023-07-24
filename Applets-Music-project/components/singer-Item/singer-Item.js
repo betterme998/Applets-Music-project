@@ -47,9 +47,16 @@ Component({
         },
         onSingerItem(event) {
             const id = this.properties.songList.id
-            wx.navigateTo({
-              url: `/pages/detail-song/detail-song?type=menu&id=${id}`,
-            })
+            if (this.properties.user) {
+                let userItem = encodeURIComponent(JSON.stringify(this.properties.songList))
+                wx.navigateTo({
+                    url: `/pages/user-message/user-message?user=${userItem}`,
+                })
+            }else{
+                wx.navigateTo({
+                    url: `/pages/detail-song/detail-song?type=menu&id=${id}`,
+                })
+            }
         }
     }
 })

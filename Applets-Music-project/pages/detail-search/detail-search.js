@@ -131,8 +131,8 @@ Page({
         rankingStore.offState("originRanking",this.getRankingHanlder)
         rankingStore.offState("upRanking",this.getRankingHanlder)
 
-        // playerStore.offState(["currentSong","isPlaying"], this.handlePlayInfos)
-        // playerStore.offState(["playSongList","playSongIndex","playModeIndex"],this.getPlaySonginfosHandler)
+        playerStore.offStates(["currentSong","isPlaying"], this.handlePlayInfos)
+        playerStore.offStates(["playSongList","playSongIndex","playModeIndex"],this.getPlaySonginfosHandler)
     },
     // 事件监听
     onPromptFn(event) {

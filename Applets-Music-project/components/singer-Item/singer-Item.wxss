@@ -107,3 +107,9 @@
 .active{
     color: #507bab;
 }
+.manActive{
+    color: #6dcafb;
+}
+.womanActive{
+    color: #f298bb;
+}

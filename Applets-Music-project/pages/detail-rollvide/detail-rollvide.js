@@ -113,6 +113,7 @@ Page({
         
     },
     onUnload() {
+        app.globalData.HomeFocus = false
         clearInterval(this.rollLoop)
     },
     // 处理数据
@@ -513,7 +514,6 @@ Page({
             let that = this
             this.videoContext = wx.createVideoContext('video')
             // 3.设置播放器，播放计算出的时间
-            console.log(this.data.flip);
             this.videoContext.requestFullScreen({direction: this.data.flip ? 90 :-90})
             setTimeout(()=>{
                 this.onAutoHidden(that)
@@ -534,7 +534,6 @@ Page({
                 Full:false
             })
             this.data.fullNum = 0
-            console.log('关闭监听');
             wx.stopGyroscope()
             wx.offGyroscopeChange()   
         }
@@ -549,7 +548,6 @@ Page({
             // 普通级别200ms/次
             interval:'normal',
             success:(res) =>{
-                console.log("启动成功");
                 wx.onGyroscopeChange((res)=>{
                     this.listener(res)
                 })
@@ -562,26 +560,23 @@ Page({
         let x = Number(res.x * (180/Math.PI)).toFixed(2)
         let y = Number(res.y * (180/Math.PI)).toFixed(2)
         let z = Number(res.z * (180/Math.PI)).toFixed(2)
-        if (((45<Number(y))&& (Number(y)<90)) || ((-45>Number(y)) && (Number(y)>-90))) {
+
+        // y轴转动
+        if (((30<Number(y))&& (Number(y)<90)) || ((-30>Number(y)) && (Number(y)>-90))) {
             this.data.fullNum = Number(this.data.fullNum) +Number(y) 
         }else{
             this.data.fullNum = 0 
         }
-        
-        console.log(this.data.fullNum);
-
-        // if (y > 45 && this.data.flip ) {
-        //     console.log('正转');
-        //     this.data.flip = false
-        //     this.onBackFull()
-        //     this.onFullScreen()
-        // }
-        // if (y < -45 && !this.data.flip) {
-        //     console.log('反转');
-        //     this.data.flip = true
-        //     this.onBackFull()
-        //     this.onFullScreen()
-        // }
+        if ((this.data.fullNum > 100 && this.data.flip) ||(Number(z)< -200 && this.data.flip)) {
+            this.data.flip = false
+            this.onBackFull()
+            this.onFullScreen()
+        }
+        if ((this.data.fullNum < -100 && !this.data.flip) || (Number(z)>200 && !this.data.flip)) {
+            this.data.flip = true
+            this.onBackFull()
+            this.onFullScreen()
+        }
     },
     // 单击
     onFullClick:debounce((that) => {

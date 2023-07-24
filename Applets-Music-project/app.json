@@ -8,10 +8,12 @@
         "pages/detail-song/detail-song",
         "pages/detail-menu/detail-menu",
         "pages/music-player/music-player",
-        "pages/detail-rollvide/detail-rollvide"
+        "pages/detail-rollvide/detail-rollvide",
+        "pages/user-message/user-message"
     ],
     "requiredBackgroundModes": [
-        "audio","backgroundAudioManager"
+        "audio",
+        "backgroundAudioManager"
     ],
     "window": {
         "backgroundTextStyle": "dark",

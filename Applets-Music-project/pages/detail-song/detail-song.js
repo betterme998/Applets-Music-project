@@ -188,12 +188,13 @@ Page({
     },
 
     onUnload() {
-        // playerStore.offState(["currentSong","isPlaying"], this.handlePlayInfos)
-        // playerStore.offState(["playSongList","playSongIndex","playModeIndex"],this.getPlaySonginfosHandler)
+        playerStore.offStates(["currentSong","isPlaying"], this.handlePlayInfos)
+        playerStore.offStates(["playSongList","playSongIndex","playModeIndex"],this.getPlaySonginfosHandler)
         if (this.data.type === "ranking") {
             rankingStore.offState(this.data.key, this.handleRanking)
         }else if (this.data.type === "recommend") {
             recommendStore.offState("recommendSongInfo", this.handleRanking)
         }
+        app.globalData.HomeFocus = false
     }
 })

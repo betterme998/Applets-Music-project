@@ -11,7 +11,6 @@ Page({
     onLoad(options) {
         const id = options.id
         this.setData({id})
-        console.log(typeof(id));
 
         this.fetchMVUrl()
         this.fetchMVInfo()

@@ -212,6 +212,7 @@ Page({
         }
     },
     onUnload() {
+        app.globalData.HomeFocus = false
         playerStore.offStates(["playSongList","playSongIndex"],this.getPlaySonginfosHandler)
         playerStore.offStates(this.data.stateKeys,this.getPlayerInfosHandler)
     }

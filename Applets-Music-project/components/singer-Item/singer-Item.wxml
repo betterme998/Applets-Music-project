@@ -68,6 +68,7 @@
                     <block wx:for="{{sct.keyWordFn(songList.nickname,keyWorld)}}" wx:key="text">
                         <text class="{{item.active ? 'active' : ''}}">{{item.text}}</text>
                     </block>
+                    <text wx:if="{{songList.gender}}" class="iconfont {{songList.gender === 1 ? 'icon-sex_man':'icon-sex_woman'}} {{songList.gender === 1 ? 'manActive':'womanActive'}}"></text>
                 </view>
                 <view class="iserItemText">
                     <block wx:for="{{sct.keyWordFn(songList.signature,keyWorld)}}" wx:key="text">
