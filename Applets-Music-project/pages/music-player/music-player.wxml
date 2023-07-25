@@ -2,7 +2,7 @@
 <wxs src="/utils/format.wxs" module="fmt"></wxs>
 
 <!-- 1.背景展示 -->
-<image class="bg-image" wx:if="currentSong.al.picUrl" src="{{currentSong.al.picUrl}}" mode="aspectFill"></image>
+<image class="bg-image" wx:if="{{currentSong.al.picUrl}}" src="{{currentSong.al.picUrl}}" mode="aspectFill"></image>
 <view class="bg-cover"></view>
 
 <!-- 2.自定义导航栏 -->

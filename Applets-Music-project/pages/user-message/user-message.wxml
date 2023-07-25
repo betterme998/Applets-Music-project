@@ -10,6 +10,21 @@
         </view>
     </nav-bar>
 </view>
+<scroll-view scroll-y="true" style="height: {{bodyHeight}}px;" enhanced>
+    <!-- 1.背景展示 -->
+    <view class="bg-con">
+        <image class="bg-image" wx:if="{{mvlist.backgroundUrl}}" src="{{mvlist.backgroundUrl}}" mode="aspectFill"></image>
+        <view class="bg-cover">
+            <image class="bg-cover-image" wx:if="{{mvlist.backgroundUrl}}" src="{{mvlist.backgroundUrl}}" mode="aspectFill"></image>
+            <view class="bg-cover-top"></view>
+        </view>
+    </view>
+    <view class="MessageCom" style="margin-top:{{imageHeight}}px">
+
+    </view>
+</scroll-view>
+
+
 
 <!-- 7.播放工具栏 -->
 <play-toolbar 

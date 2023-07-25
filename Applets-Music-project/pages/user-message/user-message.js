@@ -4,6 +4,9 @@ const app = getApp()
 Page({
     data: {
         mvlist:{},
+        imageHeight:0,
+        bodyHeight:0,
+        scrollTop:0,
         // 播放栏
         tabbarHeight:0,
         playModeIndex:0,
@@ -11,6 +14,9 @@ Page({
         playSongList:[],
         currentSong:{},
         isPlaying:false,
+
+        // 下拉
+        triggered:false
 
     },
     onLoad(options) {
@@ -20,9 +26,29 @@ Page({
         let mvlist = JSON.parse(a)
         this.setData({mvlist})
 
+        // 获取照片显示高度
+        this.setData({
+            imageHeight:app.globalData.screeWidth / 1.34,
+            bodyHeight:app.globalData.screeHeight,
+            scrollTop:app.globalData.screeHeight
+        })
+
         // 共享store
         playerStore.onStates(["playSongList","playSongIndex","playModeIndex"],this.getPlaySonginfosHandler)
         playerStore.onStates(["currentSong","isPlaying"], this.handlePlayInfos)
+    },
+    onNavBackTap(){
+        app.globalData.HomeFocus = false
+        wx.navigateBack()
+    },
+    bindrefresherpulling(event){
+        console.log(event.detail.dy);
+    },
+    bindrefresherrestore(event){
+        // console.log(event.detail.dy);
+    },
+    bindscroll(event){
+        // console.log(event);
     },
     onUnload(){
         app.globalData.HomeFocus = false
