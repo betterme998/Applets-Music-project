@@ -3,27 +3,52 @@
 <view class="navCon">
     <nav-bar bind:leftclick="onNavBackTap">
         <view class="tabs" slot="left">
-            <text class="iconfont icon-fanhui"></text>
+            <text class="iconfont {{activescroll ? 'icon-cuowuguanbiquxiao':'icon-fanhui'}} "></text>
         </view>
         <view class="tabs" slot="center">
             
         </view>
     </nav-bar>
 </view>
-<scroll-view scroll-y="true" style="height: {{bodyHeight}}px;" enhanced>
-    <!-- 1.背景展示 -->
-    <view class="bg-con">
-        <image class="bg-image" wx:if="{{mvlist.backgroundUrl}}" src="{{mvlist.backgroundUrl}}" mode="aspectFill"></image>
-        <view class="bg-cover">
-            <image class="bg-cover-image" wx:if="{{mvlist.backgroundUrl}}" src="{{mvlist.backgroundUrl}}" mode="aspectFill"></image>
-            <view class="bg-cover-top"></view>
+<scroll-view
+    scroll-y="true" 
+    enable-passive 
+    enhanced
+    style="height: 100vh;"
+    bindscroll="bindscroll"
+    bindscrolltoupper="bindscrolltoupper"
+>
+    <view class="bodyCom" 
+    bind:touchmove="bindtouchmove"
+    
+    >
+        <!-- 1.背景展示 -->
+        <view class="bg-con">
+            <image class="bg-image" wx:if="{{mvlist.backgroundUrl}}" src="{{mvlist.backgroundUrl}}" mode="aspectFill"></image>
+            <view class="bg-cover">
+                <image class="bg-cover-image" wx:if="{{mvlist.backgroundUrl}}" src="{{mvlist.backgroundUrl}}" mode="aspectFill"></image>
+                <view class="bg-cover-top"></view>
+            </view>
         </view>
-    </view>
-    <view class="MessageCom" style="margin-top:{{imageHeight}}px">
-
+        <scroll-view 
+            scroll-y="true" 
+            enable-passive 
+            enhanced
+            bounces
+            refresher-enabled="{{enableds}}"
+            refresher-triggered="{{triggered}}"
+            bindrefresherrefresh="bindrefresherrefresh"
+            bindrefresherrestore="bindrefresherrestore"
+            refresher-default-style="none"
+            class="{{activescroll ? 'scrollCom':''}} {{comeInfo ? 'scrollAom':''}}"
+            style="margin-top:{{imageHeight}}px; width: 100vw; height: {{userHeight}}px;"
+        >
+            <view class="userInfo" style="height: auto; width: 100vw; background-color: aqua;">
+                <view style="height: 800px;"></view>
+            </view>
+        </scroll-view>
     </view>
 </scroll-view>
-
 
 
 <!-- 7.播放工具栏 -->

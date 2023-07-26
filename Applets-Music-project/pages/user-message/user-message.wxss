@@ -44,6 +44,10 @@
     left: 0;
     right: 0;
 }
+.bodyCom{
+    width: 100vw;
+    /* overflow: hidden; */
+}
 .icon-fanhui{
     font-size: 48rpx;
     color: #fff;
@@ -55,7 +59,31 @@
     width: 100vw;
     height: 100vh;
 }
-
+.userHeight{
+    box-sizing: border-box;
+}
+.scrollCom{
+    animation: scrollAn .3s linear forwards;
+}
+.scrollAom{
+    animation: scrollAe .3s linear forwards;
+}
+@keyframes scrollAn {
+    0% {
+        transform: translateY(0px);
+    }
+    100% {
+        transform: translateY(100%);
+    }
+}
+@keyframes scrollAe {
+    0% {
+        transform: translateY(100%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
 
 
 

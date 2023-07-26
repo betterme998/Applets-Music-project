@@ -1,12 +1,12 @@
 // pages/user-Message/user-message.js
 import playerStore from "../../store/playerStore"
+import { debounce } from "../../utils/debounce"
 const app = getApp()
 Page({
     data: {
         mvlist:{},
         imageHeight:0,
-        bodyHeight:0,
-        scrollTop:0,
+        userHeight:0,
         // 播放栏
         tabbarHeight:0,
         playModeIndex:0,
@@ -16,7 +16,16 @@ Page({
         isPlaying:false,
 
         // 下拉
-        triggered:false
+        triggered:false,
+        enableds:true,
+        // bounces:false,
+
+        // 动画
+        activescroll:false,
+        comeInfo:false,
+
+        // 滑动方向
+        numArr:[]
 
     },
     onLoad(options) {
@@ -33,22 +42,70 @@ Page({
             scrollTop:app.globalData.screeHeight
         })
 
+        // 获取内部滑块高度
+        this.getUserInfosHeight()
         // 共享store
         playerStore.onStates(["playSongList","playSongIndex","playModeIndex"],this.getPlaySonginfosHandler)
         playerStore.onStates(["currentSong","isPlaying"], this.handlePlayInfos)
     },
     onNavBackTap(){
-        app.globalData.HomeFocus = false
-        wx.navigateBack()
+        if (this.data.activescroll) {
+            this.setData({
+                activescroll:false,
+                comeInfo:true
+            })
+        }else{
+            app.globalData.HomeFocus = false
+            wx.navigateBack()
+        }
     },
-    bindrefresherpulling(event){
-        console.log(event.detail.dy);
+    bindrefresherrefresh(){
+        this.setData({
+            triggered:false
+        })
     },
-    bindrefresherrestore(event){
-        // console.log(event.detail.dy);
+    bindtouchmove(event){
+        if (this.data.enableds) {
+            let that = this
+            let arr = [...this.data.numArr]
+            arr.push(event.changedTouches[0].clientY)
+            if (arr.length>2) {
+                arr.shift()
+            }
+            this.data.numArr = arr
+        }
     },
-    bindscroll(event){
-        // console.log(event);
+    bindrefresherrestore(){
+        if (this.data.numArr[1]>=this.data.numArr[0]) {
+            this.setData({
+                activescroll:true,
+                comeInfo:false
+            })
+        }
+    },
+    bindscroll(){
+        if (this.data.enableds) {
+            this.setData({
+                enableds:false
+            })
+        }
+    },
+    bindscrolltoupper(){
+        this.setData({
+            enableds:true
+        })
+    },
+    getUserInfosHeight(){
+        let query = wx.createSelectorQuery();
+        query.select('.userInfo').boundingClientRect(res =>{
+            if (res.height > 0) {
+                let userHeight = res.height
+                this.setData({
+                    userHeight
+                })
+            }
+            
+        }).exec();
     },
     onUnload(){
         app.globalData.HomeFocus = false
