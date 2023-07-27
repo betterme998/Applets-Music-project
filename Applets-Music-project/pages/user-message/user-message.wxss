@@ -68,6 +68,74 @@
 .scrollAom{
     animation: scrollAe .3s linear forwards;
 }
+.minImage{
+    display: flex;
+    position: absolute;
+    top: 25rpx;
+    left: 25rpx;
+}
+.leftTime{
+    display: flex;
+    align-items: center;
+    height: 200rpx;
+}
+.textCom{
+    display: flex;
+    position: relative;
+    height: 100rpx;
+    transform: rotate(45deg);
+    transform-origin:center;
+}
+.imgCom{
+    margin-top: 30rpx;
+    margin-left: 6rpx;
+}
+.textitem{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100rpx;
+    height: 100rpx;
+    font-size: 60rpx;
+    font-weight: 700;
+    color: #f8f4f3;
+}
+.lastItem{
+    border-left: 1rpx rgba(255, 255, 255, 0.6) solid;
+    font-size: 40rpx;
+    font-weight: normal;
+    opacity: .7;
+}
+.numText{
+    transform: rotate(-45deg);
+}
+.min-bg-image{
+    width: 220rpx;
+    height: 220rpx;
+}
+
+.userInfo{
+    position: relative;
+    background-color: #f4f4f4;
+}
+.addCom{
+    outline: solid 2px; 
+    position: relative;
+    /* overflow: hidden; */
+    /* background-color: green; */
+}
+.addCom::before{
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -810rpx;
+    padding: 800rpx;
+    box-shadow: 0 0 0 25px #f6f6f6;
+    margin: -800rpx;
+    border-radius: 50%;
+}
+
 @keyframes scrollAn {
     0% {
         transform: translateY(0px);

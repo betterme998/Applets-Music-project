@@ -28,7 +28,24 @@
             <view class="bg-cover">
                 <image class="bg-cover-image" wx:if="{{mvlist.backgroundUrl}}" src="{{mvlist.backgroundUrl}}" mode="aspectFill"></image>
                 <view class="bg-cover-top"></view>
+                <view class="minImage">
+                    <view class="leftTime">
+                        <view class="textCom">
+                            <view class="textitem">
+                                <text class="numText">20</text>
+                            </view>
+                            <view class="textitem lastItem">
+                                <text class="numText">7月</text>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="imgCom">
+                        <image class="min-bg-image" wx:if="{{mvlist.backgroundUrl}}" src="{{mvlist.backgroundUrl}}" mode="aspectFill"/>
+                    </view>
+                    
+                </view>
             </view>
+
         </view>
         <scroll-view 
             scroll-y="true" 
@@ -43,8 +60,13 @@
             class="{{activescroll ? 'scrollCom':''}} {{comeInfo ? 'scrollAom':''}}"
             style="margin-top:{{imageHeight}}px; width: 100vw; height: {{userHeight}}px;"
         >
-            <view class="userInfo" style="height: auto; width: 100vw; background-color: aqua;">
-                <view style="height: 800px;"></view>
+            <view class="userInfo" style="height: auto; width: 100vw; height: 800px;">
+            
+                <view style="height: 800px;" class="addCom">
+                    <!-- <view class="addCom">
+                    
+                    </view> -->
+                </view>
             </view>
         </scroll-view>
     </view>
