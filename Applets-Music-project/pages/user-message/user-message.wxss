@@ -53,6 +53,9 @@
     color: #fff;
     opacity: .9;
 }
+.icon-cuowuguanbiquxiao{
+    font-size: 60rpx;
+}
 
 .MessageCom{
     background-color: #fff;
@@ -121,20 +124,52 @@
 .addCom{
     outline: solid 2px; 
     position: relative;
-    /* overflow: hidden; */
-    /* background-color: green; */
+    display: flex;
+    justify-content: center;
+    background-color: #f4f4f4;
 }
 .addCom::before{
     content: '';
     position: absolute;
     left: 0;
     right: 0;
-    top: -810rpx;
-    padding: 800rpx;
-    box-shadow: 0 0 0 25px #f6f6f6;
-    margin: -800rpx;
+    top: -2010rpx;
+    padding: 2000rpx;
+    box-shadow: 0 0 0 50px #f6f6f6;
+    margin: -2000rpx;
     border-radius: 50%;
 }
+.imageCom{
+    position: relative;
+    width: 91.11vw;
+    border-radius: 30rpx;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.imageBom{
+    width: 91.11vw;
+    height: 51.01vw;
+    border-radius: 30rpx;
+    background-color:#fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -60rpx;
+    z-index: 1;
+}
+.shatImage{
+    position: absolute;
+    right: 0;
+    top: 20rpx;
+    border: 1rpx solid #fff;
+    padding: 7rpx 23rpx;
+    color: #fff;
+    border-radius: 40rpx;
+    font-size: 25rpx;
+}
+
 
 @keyframes scrollAn {
     0% {

@@ -1,11 +1,16 @@
 // pages/user-Message/user-message.js
 import playerStore from "../../store/playerStore"
+import { getCity } from "../../services/map"
 import { debounce } from "../../utils/debounce"
+// 引入SDK核心类，js文件根据自己业务，位置可自行放置
+let QQMapWX = require('../../utils/qqmap-wx-jssdk.min');
+let qqmapsdk;
 const app = getApp()
 Page({
     data: {
         mvlist:{},
         imageHeight:0,
+        minHeight:0,
         userHeight:0,
         // 播放栏
         tabbarHeight:0,
@@ -25,7 +30,11 @@ Page({
         comeInfo:false,
 
         // 滑动方向
-        numArr:[]
+        numArr:[],
+
+        // 城市
+        provinceData:[],
+        cityData:[]
 
     },
     onLoad(options) {
@@ -37,16 +46,26 @@ Page({
 
         // 获取照片显示高度
         this.setData({
-            imageHeight:app.globalData.screeWidth / 1.34,
+            imageHeight:app.globalData.screeWidth * 0.59444,
+            minHeight:app.globalData.screeWidth * 0.2,
             bodyHeight:app.globalData.screeHeight,
             scrollTop:app.globalData.screeHeight
         })
 
         // 获取内部滑块高度
         this.getUserInfosHeight()
+
         // 共享store
         playerStore.onStates(["playSongList","playSongIndex","playModeIndex"],this.getPlaySonginfosHandler)
         playerStore.onStates(["currentSong","isPlaying"], this.handlePlayInfos)
+
+        // 实例化API核心类
+        qqmapsdk = new QQMapWX({
+            key: 'HHSBZ-ZUYCQ-BKH54-BPRDD-BBBLQ-CDBKV'
+        });
+        // 获取城市
+        this.getCitys()
+        
     },
     onNavBackTap(){
         if (this.data.activescroll) {
@@ -97,7 +116,7 @@ Page({
     },
     getUserInfosHeight(){
         let query = wx.createSelectorQuery();
-        query.select('.userInfo').boundingClientRect(res =>{
+        query.select('.addCom').boundingClientRect(res =>{
             if (res.height > 0) {
                 let userHeight = res.height
                 this.setData({
@@ -106,6 +125,49 @@ Page({
             }
             
         }).exec();
+    },
+    // 城市请求
+    getCitys(keyword){
+        var _this = this;
+        // 调用接口
+         //调用获取城市列表接口
+        qqmapsdk.getCityList({
+            success: function(res) {//成功后的回调
+            _this.setData({
+                provinceData:res.result[0]
+            })
+            //城市数据
+            qqmapsdk.getDistrictByCityId({
+                // 传入对应省份ID获得城市数据
+                id: _this.data.mvlist.province, 
+                success: function(res) {//成功后的回调
+                _this.setData({
+                    cityData:res.result[0]
+                })
+                _this.inquireCity(_this)
+                },
+                fail: function(error) {
+                console.error(error);
+                }
+            });
+            },
+            fail: function(error) {
+            console.error(error);
+            }
+        });
+        
+    },
+    inquireCity(_this){
+        let province =  [..._this.data.provinceData]
+        let city = [..._this.data.cityData]
+        const item = province.find((event)=>{
+            event.id === _this.data.mvlist.province
+        })
+        const minitem = city.find((event)=>{
+            event.id === _this.data.mvlist.city
+        })
+        console.log(_this.data.provinceData);
+        console.log(_this.data.cityData);
     },
     onUnload(){
         app.globalData.HomeFocus = false

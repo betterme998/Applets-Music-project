@@ -60,14 +60,42 @@
             class="{{activescroll ? 'scrollCom':''}} {{comeInfo ? 'scrollAom':''}}"
             style="margin-top:{{imageHeight}}px; width: 100vw; height: {{userHeight}}px;"
         >
-            <view class="userInfo" style="height: auto; width: 100vw; height: 800px;">
-            
-                <view style="height: 800px;" class="addCom">
-                    <!-- <view class="addCom">
-                    
-                    </view> -->
+        <view class="userMaxCom">
+            <view
+                class="topimage"
+                style="width: 100vw; height: {{minHeight}}px;opacity: 0;"
+            ></view>
+            <view class="userInfo" style="width: 100vw; height: 100vh;">
+                <view class="addCom" style="width: 100vw; height: 100vh;">
+                    <view class="imageCom" style="margin-top:-{{minHeight}}px">
+                        <image style="width:{{minHeight}}px;height: {{minHeight}}px; z-index: 2; border-radius: 50%;" wx:if="{{mvlist.avatarUrl}}" src="{{mvlist.avatarUrl}}" mode="aspectFill"></image>
+                        <text class="shatImage">TA的照片</text>
+                        <view class="imageBom">
+                            <view style="height: 60rpx;"></view>
+                            <view>
+                                <text class="titleName">{{mvlist.nickname}}</text>
+                                <image wx:if="{{mvlist.avatarDetail.identityIconUrl}}" src="{{mvlist.avatarDetail.identityIconUrl}}" mode="aspectFill"/>
+                            </view>
+                            <view>
+                                <text></text>
+                                <text></text>
+                                <text></text>
+                            </view>
+                            <view>
+                                <text></text>
+                                <text></text>
+                                <text></text>
+                            </view>
+                            <view>
+                                <view></view>
+                                <view></view>
+                                <view></view>
+                            </view>
+                        </view>
+                    </view>
                 </view>
             </view>
+        </view>
         </scroll-view>
     </view>
 </scroll-view>
