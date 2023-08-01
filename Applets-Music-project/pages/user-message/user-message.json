@@ -3,6 +3,8 @@
     "navigationBarTextStyle": "white",
     "usingComponents": {
         "nav-bar": "/components/nav-bar/nav-bar",
-        "play-toolbar":"/components/play-toolbar/play-toolbar"
+        "play-toolbar":"/components/play-toolbar/play-toolbar",
+        "van-tab": "@vant/weapp/tab/index",
+        "van-tabs": "@vant/weapp/tabs/index"
     }
 }

@@ -34,8 +34,9 @@ Page({
 
         // 城市
         provinceData:[],
-        cityData:[]
-
+        cityData:[],
+        provinceKey:'',
+        cityKey:''
     },
     onLoad(options) {
         this.setData({tabbarHeight: app.globalData.tabbarHeight})
@@ -116,7 +117,7 @@ Page({
     },
     getUserInfosHeight(){
         let query = wx.createSelectorQuery();
-        query.select('.addCom').boundingClientRect(res =>{
+        query.select('.userMaxCom').boundingClientRect(res =>{
             if (res.height > 0) {
                 let userHeight = res.height
                 this.setData({
@@ -160,14 +161,22 @@ Page({
     inquireCity(_this){
         let province =  [..._this.data.provinceData]
         let city = [..._this.data.cityData]
-        const item = province.find((event)=>{
-            event.id === _this.data.mvlist.province
+        province.forEach((event)=>{
+            console.log(_this.data.mvlist.province);
+            if (event.id === _this.data.mvlist.province + '') {
+                _this.setData({
+                    provinceKey:event.name
+                })
+            }
+            
         })
-        const minitem = city.find((event)=>{
-            event.id === _this.data.mvlist.city
+        city.forEach((event)=>{
+            if (event.id === _this.data.mvlist.city + '') {
+                _this.setData({
+                    cityKey:event.name
+                })
+            }
         })
-        console.log(_this.data.provinceData);
-        console.log(_this.data.cityData);
     },
     onUnload(){
         app.globalData.HomeFocus = false

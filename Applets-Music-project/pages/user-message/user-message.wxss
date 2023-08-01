@@ -156,8 +156,81 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
     margin-top: -60rpx;
     z-index: 1;
+    opacity: .9;
+}
+.nameCom{
+    display: flex;
+    align-items: center;
+}
+.titleName{
+    font-size: 36rpx;
+    color: #323232;
+    font-weight: 700;
+}
+.nameImage{
+    width: 40rpx;
+    height: 40rpx;
+}
+.infonum{
+    display: flex;
+    align-items: center;
+    font-size: 26rpx;
+    color: #888888;
+    /* padding: 20rpx 0; */
+}
+.numl{
+    font-size: 20rpx;
+    padding: 0 20rpx;
+}
+.mapinfo{
+    display: flex;
+    font-size: 26rpx;
+    color: #353535;
+}
+.manActive{
+    color: #6dcafb;
+}
+.womanActive{
+    color: #f298bb;
+}
+.mapitem{
+    border: 1px solid #f6f6f6;
+    border-radius: 10rpx;
+    padding: 0 10rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.mapcentre{
+    margin: 0 15rpx;
+}
+.btnitem{
+    display: flex;
+    margin-bottom: 30rpx;
+}
+.btnconve{
+    margin: 0 15rpx;
+}
+.btnactive{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 40rpx;
+    border: 1px solid #f6f6f6;
+    border-radius: 30rpx;
+    font-size: 26rpx;
+    font-weight: 700;
+    color: #333333;
+}
+.btnred{
+    background-color: #fc3a3a;
+    color: #fff;
+}
+.btnright{
+    padding: 10rpx;
 }
 .shatImage{
     position: absolute;
@@ -168,6 +241,90 @@
     color: #fff;
     border-radius: 40rpx;
     font-size: 25rpx;
+}
+.btnright .iconfont{
+    margin-left: 6rpx;
+    margin-top: 3rpx;
+}
+
+.tabscom{
+    width: 91.11vw;
+    
+    border-radius: 30rpx;
+}
+.van-ellipsis{
+    background-color: #f6f6f6;
+}
+.van-tab{
+    width: 60rpx;
+    flex: 0;
+}
+.tab-class{
+    width: 60rpx;
+}
+
+.tabItem{
+    /* height: 550rpx; */
+    background-color: #fff;
+    border-radius: 30rpx;
+    margin-top: 30rpx;
+    display: flex;
+    flex-direction: column;
+    padding: 30rpx 30rpx;
+}
+.tabtitle{
+    font-size: 36rpx;
+    font-weight: 700;
+    margin-left: 10rpx;
+}
+.tableft{
+    display: flex;
+    margin-top: 20rpx;
+}
+.tabledtitem{
+    flex: 1;
+    height: 228rpx;
+    background: linear-gradient(#fbefef, #fdfcfa);
+    border: 1px solid #fbefef;
+    margin: 0 10rpx;
+    border-radius: 20rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.tabitemtop{
+    display: flex;
+    flex-direction: column;
+    margin: 15rpx 0 0 15rpx;
+    font-size: 26rpx;
+    color: #827d83;
+}
+.icon-aixin{
+    font-size: 26rpx;
+}
+.tabitembom{
+    display: flex;
+    align-items: center;
+    color: #b3afae;
+    font-size: 24rpx;
+    margin-left: 15rpx;
+    margin-bottom: 15rpx;
+}
+.tabitembom .iconfont{
+    margin-right: 5rpx;
+}
+.topbomnum{
+    color: #5e5c6a;
+    margin-top: 10rpx;
+    font-size: 30rpx;
+}
+.tabledcon{
+    background: linear-gradient(#fff6e7, #fefdf9);
+    border: 1px solid #fff6e7;
+}
+.tabledlast{
+    background: linear-gradient(#f0f4f9, #fcfeff);
+    border: 1px solid #f0f4f9;
 }
 
 

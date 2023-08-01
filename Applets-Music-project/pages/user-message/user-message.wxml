@@ -71,26 +71,85 @@
                         <image style="width:{{minHeight}}px;height: {{minHeight}}px; z-index: 2; border-radius: 50%;" wx:if="{{mvlist.avatarUrl}}" src="{{mvlist.avatarUrl}}" mode="aspectFill"></image>
                         <text class="shatImage">TA的照片</text>
                         <view class="imageBom">
-                            <view style="height: 60rpx;"></view>
-                            <view>
+                            <view style="height: 40rpx;"></view>
+                            <view class="nameCom">
                                 <text class="titleName">{{mvlist.nickname}}</text>
-                                <image wx:if="{{mvlist.avatarDetail.identityIconUrl}}" src="{{mvlist.avatarDetail.identityIconUrl}}" mode="aspectFill"/>
+                                <image class="nameImage" wx:if="{{mvlist.avatarDetail.identityIconUrl}}" src="{{mvlist.avatarDetail.identityIconUrl}}" mode="aspectFill"/>
                             </view>
-                            <view>
-                                <text></text>
-                                <text></text>
-                                <text></text>
+                            <view class="infonum">
+                                <text wx:if="{{mvlist.follows}}">{{mvlist.follows}}关注</text>
+                                <text class="numl">|</text>
+                                <text wx:if="{{mvlist.followeds}}">{{mvlist.followeds}}粉丝</text>
+                                <text class="numl">|</text>
+                                <text>Lv.8</text>
                             </view>
-                            <view>
-                                <text></text>
-                                <text></text>
-                                <text></text>
+                            <view class="mapinfo">
+                                <view wx:if="{{mvlist.gender}}" class="mapitem">
+                                    <text wx:if="{{mvlist.gender}}" class="iconfont {{mvlist.gender === 1 ? 'icon-sex_man':'icon-sex_woman'}} {{mvlist.gender === 1 ? 'manActive':'womanActive'}}"></text>
+                                </view>
+                                <view wx:if="{{provinceKey !== '' }}" class="mapitem mapcentre">
+                                    <text>{{provinceKey}} {{cityKey}}</text>
+                                </view>
+                                <view class="mapitem">
+                                    <text>村龄5年</text></view>
+                                </view>
+                            <view class="btnitem">
+                                <view class="btnactive btnred">
+                                    <text>+关注</text>
+                                </view>
+                                <view class="btnactive btnconve">
+                                    <text>聊天</text>
+                                </view>
+                                <view class="btnactive btnright">
+                                    <text class="iconfont icon-zhankai"></text>
+                                </view>
                             </view>
-                            <view>
-                                <view></view>
-                                <view></view>
-                                <view></view>
-                            </view>
+                        </view>
+                        <view class="tabscom">
+                            <van-tabs active="{{ active }}" bind:change="onChange">
+                                <van-tab title="主页">
+                                    <view class="tabItem">
+                                        <text class="tabtitle">音乐品味</text>
+                                        <view class="tableft">
+                                            <view class="tabledtitem">
+                                                <view class="tabitemtop">
+                                                    <text>TA的喜欢</text>
+                                                    <text class="topbomnum">1484首</text>
+                                                </view>
+                                                <view class="tabitembom">
+                                                    <text class="iconfont icon-aixin"></text>
+                                                    <text>喜欢的音乐</text>
+                                                </view>
+                                            </view>
+                                            <view class="tabledtitem tabledcon">
+                                                <view class="tabitemtop">
+                                                    <text>累计听歌</text>
+                                                    <text class="topbomnum">3123首</text>
+                                                </view>
+                                                <view class="tabitembom">
+                                                    <text class="iconfont icon-a-zhengzaizhibozhengzaibofang"></text>
+                                                    <text>听歌排行</text>
+                                                </view>
+                                            </view>
+                                            <view class="tabledtitem tabledlast">
+                                                <view class="tabitemtop">
+                                                    <text>本周关键词</text>
+                                                    <text class="topbomnum">属于你的音乐档案</text>
+                                                </view>
+                                                <view class="tabitembom">
+                                                    <text class="iconfont icon-tushu"></text>
+                                                    <text>黑胶时光机</text>
+                                                </view>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </van-tab>
+                                <van-tab title="动态">
+                                    <view class="tabItem">
+                                    <text>321</text>
+                                    </view>
+                                </van-tab>
+                            </van-tabs>
                         </view>
                     </view>
                 </view>
