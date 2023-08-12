@@ -376,7 +376,7 @@ Page({
         console.log(res);
         let idArray = new Array()
         if (res.intersectionRatio>0) {
-            let id = res.dataset.vid
+            let id = res.dataset.id
             idArray.push(id)
             if (idArray.length>2) {
                 idArray.shift()

@@ -40,9 +40,9 @@
     font-size: 33rpx;
     color: #303030;
 }
-/* .bodyList .listC ::-webkit-scrollbar{
+.bodyList .listC ::-webkit-scrollbar{
     display: none;
-} */
+}
 .bodyList .listCont {
     display: flex;
     justify-content: space-between;

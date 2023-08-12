@@ -11,7 +11,7 @@
     </nav-bar>
 </view>
 <scroll-view
-    scroll-y="true" 
+    scroll-y="{{scrollY}}" 
     enable-passive 
     enhanced
     style="height: 100vh;"
@@ -25,12 +25,14 @@
         <!-- 1.背景展示 -->
         <view class="bg-con">
             <image class="bg-image" wx:if="{{mvlist.backgroundUrl}}" src="{{mvlist.backgroundUrl}}" mode="aspectFill"></image>
+            <image class="bg-image" wx:if="{{mvlist.picUrl}}" src="{{mvlist.picUrl}}" mode="aspectFill"></image>
             <view class="bg-cover">
                 <image class="bg-cover-image" wx:if="{{mvlist.backgroundUrl}}" src="{{mvlist.backgroundUrl}}" mode="aspectFill"></image>
+                <image class="bg-cover-image" wx:if="{{mvlist.picUrl}}" src="{{mvlist.picUrl}}" mode="aspectFill"></image>
                 <view class="bg-cover-top"></view>
                 <view class="minImage">
                     <view class="leftTime">
-                        <view class="textCom">
+                        <view class="textCom" wx:if="{{mvlist.backgroundUrl || mvlist.picUrl}}">
                             <view class="textitem">
                                 <text class="numText">20</text>
                             </view>
@@ -41,6 +43,7 @@
                     </view>
                     <view class="imgCom">
                         <image class="min-bg-image" wx:if="{{mvlist.backgroundUrl}}" src="{{mvlist.backgroundUrl}}" mode="aspectFill"/>
+                        <image class="min-bg-image" wx:if="{{mvlist.img1v1Url}}" src="{{mvlist.img1v1Url}}" mode="aspectFill"/>
                     </view>
                     
                 </view>
@@ -69,19 +72,22 @@
                 <view class="addCom" style="width: 100vw; height: 100vh;">
                     <view class="imageCom" style="margin-top:-{{minHeight}}px">
                         <image style="width:{{minHeight}}px;height: {{minHeight}}px; z-index: 2; border-radius: 50%;" wx:if="{{mvlist.avatarUrl}}" src="{{mvlist.avatarUrl}}" mode="aspectFill"></image>
+                        <image style="width:{{minHeight}}px;height: {{minHeight}}px; z-index: 2; border-radius: 50%;" wx:if="{{mvlist.img1v1Url}}" src="{{mvlist.img1v1Url}}" mode="aspectFill"></image>
                         <text class="shatImage">TA的照片</text>
                         <view class="imageBom">
                             <view style="height: 40rpx;"></view>
                             <view class="nameCom">
-                                <text class="titleName">{{mvlist.nickname}}</text>
+                                <text wx:if="{{mvlist.nickname}}" class="titleName">{{mvlist.nickname}}</text>
+                                <text wx:if="{{mvlist.name}}" class="titleName">{{mvlist.name}}</text>
                                 <image class="nameImage" wx:if="{{mvlist.avatarDetail.identityIconUrl}}" src="{{mvlist.avatarDetail.identityIconUrl}}" mode="aspectFill"/>
                             </view>
                             <view class="infonum">
                                 <text wx:if="{{mvlist.follows}}">{{mvlist.follows}}关注</text>
-                                <text class="numl">|</text>
+                                <text wx:if="{{mvlist.follows}}" class="numl">|</text>
                                 <text wx:if="{{mvlist.followeds}}">{{mvlist.followeds}}粉丝</text>
-                                <text class="numl">|</text>
-                                <text>Lv.8</text>
+                                <text wx:if="{{mvlist.followeds}}" class="numl">|</text>
+                                <text wx:if="{{mvlist.followeds}}">Lv.8</text>
+                                <text wx:if="{{mvlist.alia[0]}}">{{mvlist.alia[0]}}</text>
                             </view>
                             <view class="mapinfo">
                                 <view wx:if="{{mvlist.gender}}" class="mapitem">

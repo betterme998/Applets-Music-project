@@ -31,6 +31,7 @@ Page({
 
         // 滑动方向
         numArr:[],
+        scrollY:true,
 
         // 城市
         provinceData:[],
@@ -72,7 +73,8 @@ Page({
         if (this.data.activescroll) {
             this.setData({
                 activescroll:false,
-                comeInfo:true
+                comeInfo:true,
+                scrollY:true
             })
         }else{
             app.globalData.HomeFocus = false
@@ -99,7 +101,8 @@ Page({
         if (this.data.numArr[1]>=this.data.numArr[0]) {
             this.setData({
                 activescroll:true,
-                comeInfo:false
+                comeInfo:false,
+                scrollY:false
             })
         }
     },
