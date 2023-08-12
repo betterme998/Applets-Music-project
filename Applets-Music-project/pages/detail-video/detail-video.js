@@ -1,8 +1,10 @@
 // pages/detail-video/detail-video.js
 import { getMVRel, getMVInfo, getMVRelate } from "../../services/video"
+import { search } from "../../services/search"
 Page({
     data:{
         id:0,
+        artistName:'',
         mvUrl:"",
         mvInfos:{},
         relatedVideo:[],
@@ -10,7 +12,8 @@ Page({
     },
     onLoad(options) {
         const id = options.id
-        this.setData({id})
+        const artistName = options.artistName
+        this.setData({id,artistName})
 
         this.fetchMVUrl()
         this.fetchMVInfo()
@@ -31,7 +34,10 @@ Page({
     },
     async fetchMVRelated() {
         const res = await getMVRelate(this.data.id)
-        this.setData({relatedVideo:res.data.data})
+        const res2 = await search(this.data.artistName,10,1004)
+        console.log(res);
+        console.log(res2);
+        this.setData({relatedVideo:res2.data.result.mvs})
     },
     // 点击事件
     onChange(event) {

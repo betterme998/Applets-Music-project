@@ -1,10 +1,10 @@
 <!--components/video-list-time/video-list-time.wxml-->
-<wxs src="../../utils/format.wxs" module="format"></wxs>
+<!-- <wxs src="../../utils/format.wxs" module="format"></wxs>
 <view class="item">
     <view class="album">
-        <image class="image" mode="widthFix" src="{{itemInfo.coverUrl}}"></image>
+        <image class="image" mode="widthFix" src="{{itemInfo.al.picUrl}}"></image>
         <view class="info">
-            <text class="count">{{format.formatTime(itemInfo.durationms)}}</text>
+            <text class="count">{{format.formatTime(itemInfo.dt)}}</text>
         </view>
     </view>
     <view class="content">
@@ -14,4 +14,55 @@
             <text class="count">{{format.formatCount(itemInfo.playTime)}}播放</text>
         </view>
     </view>
+</view> -->
+
+<wxs src="/utils/srarchlist.wxs" module="sct"></wxs>
+<wxs src="/utils/format.wxs" module="fmt"/>
+
+<view class="itemCon" bindtap="onItemTap">
+    <view
+        wx:if="{{songList.cover}}" 
+        class="itemLeft {{active? 'active':''}}">
+        <video 
+            wx:if="{{songList.id == videoPlay.id}}" 
+            src="{{videoPlay.url}}"
+            controls="{{false}}"
+            class="video"
+            id="video"
+            loop
+            muted
+            autoplay
+        />
+        <image wx:if="{{songList.id != videoPlay.id}}" lazy-load bindload="imageLoadFn" class="image" src="{{songList.cover}}" mode="widthFix"></image>
+        <text wx:if="{{!videotab}}" class="iconfont icon-bofanganniu"></text>
+        <text wx:if="{{videotab}}" class="mvtime">{{fmt.formatTime(songList.duration)}}</text>
+    </view>
+    <view class="itemRight">
+        <view class="rightTopText">
+            <block
+                wx:for="{{sct.keyWordFn(songList.name,keyWorld)}}" wx:key="text"
+            >
+                <text class="{{item.active ? 'active' : ''}}">{{item.text}}</text>
+            </block>
+        </view>
+        <view class="rightBomText">
+            <view wx:if="{{songList.playCount>0}}">
+                <text>{{fmt.formatCount(songList.playCount)}}播放</text>
+            </view>
+            <view>
+                <block wx:for="{{songList.artists}}" wx:for-item="iten" wx:key="id">
+                    <block 
+                    wx:for="{{sct.keyWordFn(iten.name,keyWorld)}}" wx:key="text"
+                    >
+                        <text class="{{item.active ? 'active' : ''}}">{{item.text}}</text>
+                    </block>
+                </block>
+            </view>
+        </view>
+    </view>
 </view>
+
+
+
+
+

@@ -9,6 +9,9 @@ page{
 .info {
     padding: 0rpx 30rpx;
 }
+.title{
+    padding-bottom: 20rpx;
+}
 .customcont .customcont1 .van-collapse-item__title .van-cell{
     padding: 20rpx 10rpx 10rpx;
     border: none;

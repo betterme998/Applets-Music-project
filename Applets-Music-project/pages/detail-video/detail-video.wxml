@@ -27,7 +27,9 @@
         <view class="title">推荐视频</view>
         <view class="related-video">
             <block wx:for="{{relatedVideo}}" wx:key="vid">
-                <video-list-time itemInfo="{{item}}"></video-list-time>
+                <view style="padding-bottom: 20rpx;">
+                    <video-list-time songList="{{item}}"></video-list-time>
+                </view>
             </block>
         </view>
     </view>
