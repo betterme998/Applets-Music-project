@@ -1,7 +1,5 @@
 // pages/user-Message/user-message.js
 import playerStore from "../../../store/playerStore"
-import { getCity } from "../../../services/map"
-import { debounce } from "../../../utils/debounce"
 // 引入SDK核心类，js文件根据自己业务，位置可自行放置
 let QQMapWX = require('../../../utils/qqmap-wx-jssdk.min');
 let qqmapsdk;

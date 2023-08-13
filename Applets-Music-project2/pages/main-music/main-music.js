@@ -139,7 +139,7 @@ Page({
     },
     onRecommendMoreClick(){
         wx.navigateTo({
-          url: '/pages/detail-song/detail-song?type=recommend',
+          url: '/packageSong/pages/detail-song/detail-song?type=recommend',
         })
     },
     onSongItemTap(event){

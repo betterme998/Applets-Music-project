@@ -14,7 +14,7 @@ Component({
         onRankingItemTap() {
             const key = this.properties.key
             wx.navigateTo({
-              url: `/pages/detail-song/detail-song?type=ranking&key=${key}`,
+              url: `/packageSong/pages/detail-song/detail-song?type=ranking&key=${key}`,
             })
         }
     }

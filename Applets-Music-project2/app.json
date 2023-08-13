@@ -2,9 +2,7 @@
     "lazyCodeLoading": "requiredComponents",
     "pages": [
         "pages/main-music/main-music",
-        "pages/main-video/main-video",
-        "pages/detail-song/detail-song",
-        "pages/detail-menu/detail-menu"
+        "pages/main-video/main-video"
     ],
     "subPackages": [
         {
@@ -36,6 +34,19 @@
             "pages": [
                 "pages/detail-rollvide/detail-rollvide"
             ]
+        },
+        {
+            "root": "packageSong",
+            "pages": [
+                "pages/detail-song/detail-song"
+            ]
+        }
+        ,
+        {
+            "root": "packageMenu",
+            "pages": [
+                "pages/detail-menu/detail-menu"
+            ]
         }
     ],
     "preloadRule": {
@@ -43,7 +54,8 @@
             "network": "all",
             "packages": [
                 "packagePlayer",
-                "packageSearch"
+                "packageSearch",
+                "packageSong"
             ]
         },
         "pages/main-video/main-video": {

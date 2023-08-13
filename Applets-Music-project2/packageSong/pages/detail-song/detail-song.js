@@ -1,9 +1,9 @@
 // pages/detail-song/detail-song.js
-import recommendStore from "../../store/recommendStore"
-import rankingStore, { rankingsIds } from "../../store/rankingStore"
-import { getPlaylistDetail } from "../../services/music"
-import { debounce } from "../../utils/debounce"
-import playerStore from "../../store/playerStore"
+import recommendStore from "../../../store/recommendStore"
+import rankingStore, { rankingsIds } from "../../../store/rankingStore"
+import { getPlaylistDetail } from "../../../services/music"
+import { debounce } from "../../../utils/debounce"
+import playerStore from "../../../store/playerStore"
 const app = getApp()
 let startY = 0;//起始坐标
 let moveY = 0;//移动坐标

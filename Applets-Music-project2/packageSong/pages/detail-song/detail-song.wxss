@@ -1,5 +1,5 @@
 /* pages/detail-song/detail-song.wxss */
-@import "/assets/font/iconfont.wxss";
+@import "../../../assets/font/iconfont.wxss";
 /* page{ background-color: lightblue} */
 .navCon{
     position: fixed;

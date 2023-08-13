@@ -54,7 +54,7 @@ Component({
                 })
             }else{
                 wx.navigateTo({
-                    url: `/pages/detail-song/detail-song?type=menu&id=${id}`,
+                    url: `/packageSong/pages/detail-song/detail-song?type=menu&id=${id}`,
                 })
             }
         }

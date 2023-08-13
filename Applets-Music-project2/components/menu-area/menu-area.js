@@ -22,7 +22,7 @@ Component({
     methods: {
         onMenuMoreClick() {
             wx.navigateTo({
-              url: '/pages/detail-menu/detail-menu',
+              url: '/packageMenu/pages/detail-menu/detail-menu',
             })
         }
     }
