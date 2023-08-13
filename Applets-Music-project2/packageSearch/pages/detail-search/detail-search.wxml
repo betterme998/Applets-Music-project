@@ -1,0 +1,308 @@
+<!--pages/detail-search/detail-search.wxml-->
+
+<view class="navCont">
+    <!-- 导航 -->
+    <nav-bar bind:leftclick="onNavBackTap">
+        <view class="lsftIcon" slot="left">
+            <text class="iconfont icon-fanhui"></text>
+        </view>
+        <view class="searchCenter" slot="center">
+            <view class="searchCon">
+                <van-search
+                value="{{searchValue}}"
+                shape="round"
+                background="#f8f9fd"
+                placeholder="{{RecommendText}}"
+                bind:change="onPromptFn"
+                bind:search="onfingerboardSearch"
+                bind:focus="onFocus"
+                bind:blur="onBlur"
+                clear-trigger="always"
+                bind:clear="clearFn"
+                focus="{{HomeFocus}}"
+                />
+            </view>
+        </view>
+        <view class="rightSlot" slot="right">
+            <view class="rightCon" style="width: {{menuRight}}px">
+        </view>
+    </view>
+    </nav-bar>
+    <!-- 搜索提示 -->
+    <prompt-list
+        wx:if="{{ProposeListShow&&!Proposeresult}}"
+        loading = "{{loading}}"
+        ProposeListValue = "{{ProposeListValue}}"
+        values = "{{values}}"
+        nolistShow = "{{nolistShow}}"
+        bind:srarchitemevent = "keyWorldSearch"
+    />
+    <!-- 搜索首页 -->
+    <view
+        class="searcHomeCon"
+        wx:if="{{!Proposeresult&&!ProposeListShow}}"
+    >
+        <search-Hometab/>
+    </view>
+    <!-- 搜索结果 -->
+    <view
+        wx:if="{{Proposeresult}}" 
+        class="resultCon"  
+    >
+        <search-scroll 
+            tabsValue="{{tabsValue}}"
+            resultHeight="{{resultHeight}}"
+            active="{{tabKeyActive}}"
+            bind:onscrolltolowerb="onscrolltolowerb"
+            bind:getTabItemValue="getTabItemValue"
+            bind:videoEvent="videoEvent"
+            class="aaaaa"
+        >
+            <block wx:for="{{tabsValue}}" wx:key="name">
+                <view class="slotScroll" slot="{{item.name}}">
+                    <view
+                        wx:if="{{item.name === 'comprehensive'}}"
+                    >
+                        <!-- 猜你喜欢 -->
+                        <view wx:if="{{singerList.length>0 || songList.length>0}}" class="guessLove">
+                            <search-result-item>
+                                <view class="LoveTopText" slot="top">
+                                     <text>你可能感兴趣</text>
+                                </view>
+                                <view slot="Iddle">
+                                    <view wx:if="{{singerList.length>0}}" class="iddleItem">
+                                        <singer-Item round="false" keyWorld="{{searchValue}}" songList="{{singerList[0]}}"></singer-Item>
+                                    </view>
+                                    <view wx:if="{{songList.length>0}}" class="iddleItem">
+                                        <singer-Item keyWorld="{{searchValue}}" songList="{{songList[0]}}"></singer-Item>
+                                    </view>
+                                </view>
+                                <view slot="Bottom">
+                                    <text></text>
+                                </view>
+                            </search-result-item>
+                        </view>
+                        <!-- 单曲 -->
+                        <view wx:if="{{singleList.length>0}}" class="guessLove">
+                            <search-result-item
+                                title="{{tabsValue[index+1].tabTitle}}"
+                                singleList="{{singleList}}"
+                                keyWorld="{{searchValue}}"
+                                bind:setTabItemActive="setTabItemActive"
+                            />
+                        </view>
+                        <!-- 歌单 -->
+                        <view wx:if="{{songList.length>0}}" class="guessLove">
+                            <search-result-item
+                                title="{{tabsValue[index+2].tabTitle}}"
+                                keyWorld="{{searchValue}}"
+                                bind:setTabItemActive="setTabItemActive"
+                            >
+                                <view class="songText" slot="top">
+                                     <text>{{tabsValue[index+2].tabTitle}}</text>
+                                </view>
+                                <view slot="Iddle">
+                                    <block wx:for="{{songList}}" wx:key="id">
+                                        <view class="iddleItem guessLast">
+                                            <singer-Item keyWorld="{{searchValue}}" songList="{{item}}"></singer-Item>
+                                        </view>
+                                    </block>
+                                </view>
+                            </search-result-item> 
+                        </view>
+                        <!-- 视频 -->
+                        <view wx:if="{{MVList.length>0}}" class="guessLove">
+                            <search-result-item
+                                title="{{tabsValue[index+3].tabTitle}}"
+                            >
+                                <view class="videoText" slot="top">
+                                     <text>{{tabsValue[index+3].tabTitle}}</text>
+                                </view>
+                                <view slot="Iddle">
+                                    <block wx:for="{{MVList}}" wx:key="id">
+                                        <view class="iddleItem" bindtap="mvPlay" data-index="{{index}}" data-id="{{item.id}}" data-mins="{{true}}">
+                                            <mv-item keyWorld="{{searchValue}}" songList="{{item}}"></mv-item>
+                                        </view>
+                                    </block>
+                                </view>
+                                <view slot="Bottom">
+                                    <text></text>
+                                </view>
+                            </search-result-item> 
+                        </view>
+                        <!-- 歌手 -->
+                        <view wx:if="{{singerList.length>0}}" class="guessLove">
+                            <search-result-item
+                                title="{{tabsValue[index+4].tabTitle}}"
+                            >
+                                <view class="videoText" slot="top">
+                                     <text>艺人</text>
+                                </view>
+                                <view slot="Iddle">
+                                    <block wx:for="{{singerList}}" wx:key="id">
+                                        <view class="iddleItem">
+                                            <singer-Item round="false" user="true" keyWorld="{{searchValue}}" songList="{{item}}"></singer-Item>
+                                        </view>
+                                    </block>
+                                </view>
+                                <view slot="Bottom">
+                                    <text></text>
+                                </view>
+                            </search-result-item>
+                        </view>
+                        <!-- 用户 -->
+                        <view wx:if="{{singerList.length>0}}" class="guessLove">
+                            <search-result-item
+                                title="{{tabsValue[index+5].tabTitle}}"
+                                bind:setTabItemActive="setTabItemActive"
+                            >
+                                <view class="videoText" slot="top">
+                                     <text>{{tabsValue[index+5].tabTitle}}</text>
+                                </view>
+                                <view slot="Iddle">
+                                    <view wx:for="{{user}}" wx:key="userId" class="iddleItem guessLast">
+                                        <singer-Item round="true" user="true" userBo="true"  keyWorld="{{searchValue}}" songList="{{item}}"></singer-Item>
+                                    </view>
+                                </view>
+                            </search-result-item>
+                        </view>
+                    </view>
+                    <view
+                        wx:if="{{item.name === 'single'}}"
+                    >
+                        <block wx:for="{{singleAll}}" wx:for-index="inden" wx:for-item="iten" wx:key="id">
+                            <single-Item  
+                                singleValue="{{iten}}"
+                                keyWorld="{{searchValue}}"
+                                data-index="{{inden}}"
+                                bindtap="onSingleItem"
+                            />
+                        </block>
+                        <loading top="{{singleAll.length > 0 ? 0:125}}" loading="{{scrollBottom}}"></loading>
+                    </view>
+                    <view
+                        wx:if="{{item.name === 'song'}}"
+                    >
+                        <block wx:for="{{songAll}}" wx:for-index="inden" wx:for-item="iten" wx:key="id">
+                            <view class="iddleItem">
+                                <singer-Item keyWorld="{{searchValue}}" songList="{{iten}}"></singer-Item>
+                            </view>
+                        </block>
+                        <loading top="{{songAll.length > 0 ? 0:125}}" loading="{{scrollBottom}}"></loading>
+                    </view>
+                    <view
+                        wx:if="{{item.name === 'video'}}"
+                        class="videoCon"
+                    >
+                        <view class="relativeView" style="width: 100%; height: 2rpx; opacity: 0; background-color: #fff; position: fixed; top: {{videoHeight}}px; z-index: -1;">   
+                        </view>
+                        <block wx:for="{{MVAllList}}" wx:for-index="inden" wx:for-item="iten" wx:key="id">
+                            <view class="videoItem" bindtap="mvPlay" data-index="{{inden}}" data-id="{{iten.id}}">
+                                <mv-item 
+                                    videoPlay="{{videoPlay}}" 
+                                    bind:imageLoadComplete="getVideoHeight" videotab="{{true}}" 
+                                    keyWorld="{{searchValue}}" songList="{{iten}}"
+                                    active="{{true}}"
+                                    class="mvItem{{inden}}"
+                                >
+                                </mv-item>
+                            </view>
+                        </block>
+                        <loading top="{{MVAllList.length > 0 ? 0:125}}" loading="{{scrollBottom}}"></loading>
+                    </view>
+                    <view
+                        wx:if="{{item.name === 'singer'}}"
+                        class="videoCon"
+                    >
+                        <block wx:for="{{singerAll}}" wx:for-index="inden" wx:for-item="iten" wx:key="id">
+                            <view class="videoItem">
+                                <singer-Item round="false" user="true" details="{{false}}" keyWorld="{{searchValue}}" songList="{{iten}}"></singer-Item>
+                            </view>
+                        </block>
+                        <loading top="{{songAll.length > 0 ? 0:125}}" loading="{{scrollBottom}}"></loading>
+                    </view>
+                    <view
+                        wx:if="{{item.name === 'radio'}}"
+                        class="videoCon"
+                    >
+                        <block wx:for="{{userAll}}" wx:for-index="inden" wx:for-item="iten" wx:key="userId">
+                            <view class="videoItem">
+                                <singer-Item round="true" user="true" userBo="true"  keyWorld="{{searchValue}}" songList="{{iten}}"></singer-Item>
+                            </view>
+                        </block>
+                        <loading top="{{songAll.length > 0 ? 0:125}}" loading="{{scrollBottom}}"></loading>
+                    </view>
+                </view>
+            </block>
+        </search-scroll>
+    </view>
+</view>
+<scroll-view class="listC" scroll-y="true" style="height: {{bodyHeight}}px;" enable-passive>
+    <!-- 搜索首页 -->
+    <view
+        wx:if="{{!Proposeresult&&!ProposeListShow&&homeTop>0}}"
+        style="margin-top: {{homeTop}}px;"
+        class="resultCon"
+    >
+        <view class="homecontent">
+            <srarch-history
+                wx:if="{{historyListShow}}"
+                historyList="{{historyList}}"
+                historyShow="true"
+                bind:historyItem="historyItemFn"
+                bind:deleteEmit="deleteEmitFn"  
+            />
+            <srarch-history
+                historyList="{{LoveList}}"
+                wx:if="{{LoveList.length}}"
+                bind:historyItem="historyItemFn"
+            >
+                <text class="leftLove" slot="left">猜你喜欢</text>
+                <text bindtap="getLoveSong" class="iconfont icon-shuaxin" slot="right"></text>
+            </srarch-history>
+        </view>
+        <!-- 排行 -->
+        <view class="swipersView">
+            <swiper 
+                previous-margin="24rpx"
+                next-margin="160rpx"
+                snap-to-edge
+                class="swipers"
+                style="height: {{swiperHeight}}px;"
+            >
+                <block wx:for="{{rankingInfos}}" wx:key="name">
+                
+                    <swiper-item class="swiperItem">
+                        <view class="swiperConts">
+                            <search-detail bind:detailItem="historyItemFn" bind:swiperEvent="swiperEventFn" rankingInfosItem="{{item}}"></search-detail>
+                        </view>
+                    </swiper-item>
+                </block>
+            </swiper>
+        </view>
+    </view>
+
+    <!-- 搜索结果 -->
+    <view
+        wx:if="{{Proposeresult}}"   
+        style="margin-top: {{resultTop}};"
+    >
+        
+    </view>
+</scroll-view>
+<!-- 7.播放工具栏 -->
+<play-toolbar 
+        tabbarHeight="{{tabbarHeight}}"
+        currentSong="{{currentSong}}"
+        isPlaying="{{isPlaying}}"
+        playModeIndex="{{playModeIndex}}"
+        playSongIndex="{{playSongIndex}}"
+        playSongList="{{playSongList}}"
+    >
+</play-toolbar>
+
+
+
+
+
+

@@ -1,0 +1,92 @@
+<!--components/singer-Item/singer-Item.wxml-->
+<wxs src="/utils/srarchlist.wxs" module="sct"></wxs>
+
+<wxs src="/utils/format.wxs" module="fmt"></wxs>
+<view class="itemCon" bindtap="onSingerItem">
+    <view
+        wx:if="{{songList.img1v1Url||songList.coverImgUrl}}" 
+        class="itemLeft">
+        <image class="image {{round ? 'actives' : ''}}" lazy-load src="{{round ? songList.img1v1Url: songList.coverImgUrl}}" mode="widthFix"></image>
+    </view>
+    <view
+        wx:if="{{userBo}}" 
+        class="itemLeft">
+        <image class="image {{round ? 'actives' : ''}}" lazy-load src="{{songList.avatarUrl}}" mode="widthFix"></image>
+    </view>
+    <view class="itemRight">
+        <view wx:if="{{songList.nameObj.length>0}}" class="rightTopText">
+            <block wx:for="{{songList.nameObj}}" wx:key="text">
+                <text class="{{item.active ? 'active' : ''}}">{{item.text}}</text>
+            </block>
+            <text class="minName" wx:if="{{songList.alia[0]}}">({{songList.alia[0]}})</text>
+        </view>
+        <view wx:if="{{details}}" class="rightBomText">
+            <view wx:if="{{!round}}">
+                <block  wx:if="{{songList.trackCount>0}}"
+                        wx:for="{{sct.keyWordFn(songList.trackCount,keyWorld)}}" wx:key="text"
+                >
+                    <text class="{{item.active ? 'active' : ''}}">{{item.text}}</text>
+                </block>
+                <text wx:if="{{songList.trackCount>0}}">首</text>
+                <text wx:if="{{songList.creator.nickname && songList.trackCount>0}}">,</text>
+
+                <block  wx:if="{{songList.creator.nickname}}"
+                        wx:for="{{sct.keyWordFn(songList.creator.nickname,keyWorld)}}" wx:key="text"
+                >
+                    <text class="{{item.active ? 'active' : ''}}">{{item.text}}</text>
+                </block>
+                <text wx:if="{{songList.playCount>0 && songList.creator.nickname}}">,</text>
+
+                <text wx:if="{{songList.playCount>0}}"> 播放</text>
+                <block  wx:if="{{songList.playCount>0}}"
+                        wx:for="{{sct.keyWordFn(fmt.formatCount(songList.playCount),keyWorld)}}" wx:key="text"
+                >
+                    <text class="{{item.active ? 'active' : ''}}">{{item.text}}</text>
+                </block>
+                <text wx:if="{{songList.playCount>0}}">次</text>
+            </view>
+            <view wx:if="{{round}}">
+                <text wx:if="{{songList.albumSize>0}}">专辑:</text>
+                <block
+                    wx:if="{{songList.albumSize>0}}" 
+                    wx:for="{{sct.keyWordFn(songList.albumSize,keyWorld)}}" wx:key="text"> 
+                    <text class="{{item.active ? 'active' : ''}}">{{item.text}}</text>
+                </block>
+
+                <text wx:if="{{songList.albumSize>0 && songList.mvSize>0}}">,</text>
+
+                <text wx:if="{{songList.mvSize>0}}">MV:</text>
+                <block
+                    wx:if="{{songList.mvSize>0}}"
+                    wx:for="{{sct.keyWordFn(fmt.formatCount(songList.mvSize),keyWorld)}}" wx:key="text"> 
+                    <text class="{{item.active ? 'active' : ''}}">{{item.text}}</text>
+                </block>
+
+            </view>
+            <view class="userText" wx:if="{{round && userBo}}">
+                <view>
+                    <block wx:for="{{sct.keyWordFn(songList.nickname,keyWorld)}}" wx:key="text">
+                        <text class="{{item.active ? 'active' : ''}}">{{item.text}}</text>
+                    </block>
+                    <text wx:if="{{songList.gender}}" class="iconfont {{songList.gender === 1 ? 'icon-sex_man':'icon-sex_woman'}} {{songList.gender === 1 ? 'manActive':'womanActive'}}"></text>
+                </view>
+                <view class="iserItemText">
+                    <block wx:for="{{sct.keyWordFn(songList.signature,keyWorld)}}" wx:key="text">
+                        <text class="mintext {{item.active ? 'active' : ''}}">{{item.text}}</text>
+                    </block>
+                </view>
+            </view>
+        </view>
+        <view class="addcla"  wx:if="{{round && !userBo}}">
+            <text class="iconfont icon-xihuan"></text>
+            <text>TA的乐迷团</text>
+            <text class="iconfont icon-jinru"></text>
+        </view>
+    </view>
+    <view wx:if="{{user}}" class="slot">
+        <view class="interest {{interest ? 'interestActive':''}}" slot="right" bindtap="onInterestFn">
+            <text class="iconfont {{interest ? 'icon-gou':'icon-jiahao1'}}"></text>
+            <text>{{text}}</text>
+        </view>
+    </view>
+</view>

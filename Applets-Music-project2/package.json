@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@vant/weapp": "^1.10.13",
+    "hy-event-store": "^1.2.1",
+    "miniapp-color-thief": "^1.0.5",
+    "underscore": "^1.13.6"
+  }
+}

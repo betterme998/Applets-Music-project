@@ -1,0 +1,76 @@
+/* pages/detail-song/detail-song.wxss */
+@import "/assets/font/iconfont.wxss";
+/* page{ background-color: lightblue} */
+.navCon{
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+.title {
+    margin: 20rpx 30rpx 0;
+    font-size: 40rpx;
+    font-weight: 700;
+}
+.songBig{
+    border-top-left-radius: 30rpx;
+    border-top-right-radius: 30rpx;
+    background-color: #fff;
+    padding:0 30rpx 0 30rpx;
+}
+.listTop{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20rpx;
+    padding-top: 30rpx;
+    position: sticky;
+    top: 0;
+    font-size: 30rpx;
+    color: #2c2f35;
+    font-weight: 700;
+    background-color: #fff;
+    z-index: 1;
+}
+.listTopLeft{
+    display: flex;
+    align-items: center;
+}
+.songListCon{
+    display: flex;
+    margin-bottom: 10rpx;
+}
+.indexList{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 30rpx;
+    color: #969696;
+}
+.indexListLast{
+    flex: 1;
+}
+
+/* 自定义导航栏 */
+
+.icon-fanhui{
+    font-size: 40rpx;
+}
+.scrollViewCon ::-webkit-scrollbar{
+    display: none;
+}
+
+/* 粘性定位 */
+.icon-24gf-play{
+    padding: 10rpx;
+    background-color: #fe463e;
+    border-radius: 50%;
+    font-size: 15rpx;
+    color: #fdfbfe;
+    margin-right: 20rpx;
+}
+.icon-24gf-playlistMusic4{
+    font-size: 28rpx;
+    color: #2b3131;
+}

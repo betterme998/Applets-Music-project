@@ -1,0 +1,41 @@
+/* components/nav-bar/nav-bar.wxss */
+/* 自定义导航 */
+@import "/assets/font/iconfont.wxss";
+
+.nav {
+    display: flex;
+    height: 44px;
+    color: #fff;
+}
+
+.left, .right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav .left, .nav .rightDefault {
+    width: 120rpx;
+    height: 100%;
+}
+.nav .center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+}
+
+/* 控制内容显示 */
+.left .icon {
+    font-size: 20px;
+}
+
+.default {
+    display: none;
+}
+
+
+/* 当.slot 内容为空时，设置display为blick */
+.slot:empty + .default {
+    display: flex;
+}

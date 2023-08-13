@@ -1,0 +1,36 @@
+<!--pages/detail-video/detail-video.wxml-->
+<wxs src="../../../utils/format.wxs" module="format"></wxs>
+<!-- 1.video组件播放视频 -->
+<video
+ wx:if="{{mvUrl.length > 0}}" 
+ src="{{mvUrl}}" 
+ autoplay
+ class="video"
+ referrer-policy="origin"
+/>
+
+<scroll-view class="content" scroll-y>
+    <view class="info">
+        <van-collapse border="{{false}}" custom-class="customcont" accordion value="{{ activeName }}" bind:change="onChange">
+            <van-collapse-item border="{{false}}" custom-class="customcont1" content-class="customcont2" title="{{mvInfos.name}}" name="1">
+                <view class="describe" wx:if="{{mvInfos.desc}}">{{mvInfos.desc}}</view>
+            </van-collapse-item>
+        </van-collapse>
+        <view class="desc">{{ mvInfos.name }} - {{ mvInfos.artistName }}</view>
+        <view class="other">
+            <text class="play-count">{{format.formatCount(mvInfos.playCount)}}次播放</text>
+            <text class="publish-time">{{mvInfos.publishTime}}</text>
+        </view>
+    </view>
+    <!-- 相关视频 -->
+    <view class="recommend">
+        <view class="title">推荐视频</view>
+        <view class="related-video">
+            <block wx:for="{{relatedVideo}}" wx:key="vid">
+                <view style="padding-bottom: 20rpx;">
+                    <video-list-time songList="{{item}}"></video-list-time>
+                </view>
+            </block>
+        </view>
+    </view>
+</scroll-view>

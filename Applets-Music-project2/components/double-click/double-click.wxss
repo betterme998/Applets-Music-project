@@ -1,0 +1,35 @@
+/* components/double-click/double-click.wxss */
+@import "/assets/font/iconfont.wxss";
+.iconCon{
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+/* 点赞 */
+.IconPraise{
+    position: absolute;
+    font-size: 200rpx;
+    color: #f54d4d;
+    transform-origin:bottom left;
+}
+.IconAction{
+    animation:Praise .5s linear forwards;
+}
+/* 点赞动画 */
+@keyframes Praise {
+    0% {
+        transform: rotate(0);
+    }
+    30% {
+        transform: rotate(-40deg);
+    }
+    60% {
+        transform: rotate(8deg);
+    }
+    80% {
+        transform: rotate(-8deg);
+    }
+    100% {
+        transform: rotate(0);
+    }
+}

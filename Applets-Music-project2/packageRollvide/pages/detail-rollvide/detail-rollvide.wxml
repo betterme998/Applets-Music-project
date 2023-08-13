@@ -1,0 +1,226 @@
+<!--pages/detail-rollvide/detail-rollvide.wxml-->
+<wxs src="../../../utils/format.wxs" module="fmt"></wxs>
+<!-- 1.背景展示 -->
+
+
+<!-- 2.自定义导航栏 -->
+<view class="navCon">
+    <nav-bar bind:leftclick="onNavBackTap">
+        <view class="tabs" slot="left">
+            <text class="iconfont icon-fanhui"></text>
+        </view>
+        <view class="tabs" slot="center">
+            
+        </view>
+    </nav-bar>
+</view>
+
+
+<swiper vertical
+        class="swiper"
+        bindchange="bindchangeSwiper"
+        bindtransition="bindtransitionSwiper"
+        current="{{index}}"
+>
+    <block wx:for="{{newMvList}}" wx:key="id">
+        <swiper-item>
+            <view class="swiperItemComs" bind:touchend="ontouchend" bind:touchstart="onTouchstart">
+                <view class="imageCon" bindtap="onImageClick">
+                    <view class="imageVideoCom">
+                        <video 
+                            wx:if="{{(newMvList[current].id === item.id) && videoPlay.url}}"
+                            src="{{(newMvList[current].id === item.id)? videoPlay.url : ''}}"
+                            controls="{{false}}"
+                            class="video"
+                            id="video"
+                            style="height:{{Full ? bodyWidth:videoHeightItem}}px;width: {{Full ? videoFullWidth:bodyWidth}}px; max-height: {{bodyHeight}}px;"
+                            object-fit="contain"
+                            loop
+                            autoplay
+                            data-time="{{item.duration}}"
+                            bindplay="mvplay"
+                            bindloadedmetadata="bindloadedmetadata"
+                            bindtimeupdate="setSliderTimeFn"    
+                            bindfullscreenchange="bindfullscreenchange"
+                        >
+                            <view bindtap="fullClickActive" class="fullVideo" wx:if="{{Full}}">
+                                <view class="fullTopBottomCom {{fullClickBom ? 'FullActiveTop':'FullActivesTop'}}" style="height: {{bottomHeight*2}}px; top: {{bottomHeight*-2}}px; left: {{bottomHeight}}px; right: {{bottomHeight}}px;">
+                                    <view class="bottomHeight" catchtap="doubleCon">
+                                        <view class="fullTopLeft">
+                                            <text catchtap="onBackFull" class="iconfont icon-fanhui"></text>
+                                            <text>{{mvInfo.name}}</text>
+                                        </view>
+                                        <view class="fullTopRight">
+                                            <view class="topItemInterval">
+                                                <view class="imageItemCon">
+                                                    <image class="mvimage" src="{{mvInfo.artists[0].img1v1Url}}" mode="aspectFill"/>
+                                                </view>
+                                                <text class="artistName">{{mvInfo.artists[0].name}}</text>
+                                                <view class="redIcon">
+                                                    <text class="iconfont icon-jiahao1"></text>
+                                                </view>
+                                                
+                                            </view>
+                                            <text bindtap="iconFullClick" class="iconfont icon-dianzan2 topItemInterval {{topitemIcon? 'topItemRed':''}}"></text>
+                                            <text class="iconfont icon-tiaoguofenxiang topItemInterval"></text>
+                                            <text class="iconfont icon-batch-add"></text>
+                                        </view>
+                                    </view>
+                                </view>
+                                
+                                <text catchtap="playClickIcon" wx:if="{{fullClickBom || PauseBom}}" class="iconfont {{!PauseBom ? 'icon-24gf-pause2':'icon-24gf-play'}} full-play"></text>
+                                
+                                <view class="fullTopBottomCom {{fullClickBom ? 'FullActiveBottom':'FullActivesBottom'}}" style="height: {{bottomHeight*2}}px;bottom:{{bottomHeight*-2}}px; left: {{bottomHeight}}px; right: {{bottomHeight}}px;">
+                                    <view class="fullBottom" catchtap="doubleCon">
+                                        <view class="sliderItemCom">
+                                            <text class="itemTime">{{fmt.formatTime(FullCurrentTime)}}</text>
+                                            <slider
+                                                class="slider" 
+                                                block-size="12" 
+                                                value="{{sliderValue}}"
+                                                backgroundColor="#797979"
+                                                disabled="{{imageShow}}"
+                                                block-color="{{!sliderb ? '#ffffff':'#6e6e6e'}}"
+                                                activeColor="{{!sliderb ? '#e8e8e8':'#828282'}}"
+                                                data-time="{{item.duration}}"
+                                                bindchanging="bindchanging"
+                                                bindchange="bindchange"
+                                            />
+                                            <text>{{fmt.formatTime(newTime)}}</text>
+                                        </view>
+                                        <text class="Resolution">高清</text>
+                                    </view>
+                                </view>
+                                <view class="doubleCon">
+                                    <double-click bind:doubleClickBom="doubleClickBom"></double-click>
+                                </view>
+                            </view>
+                        </video>
+                        <image wx:if="{{imageShow || (newMvList[current].id !== item.id)}}" 
+                            id="image{{index}}" class="image" 
+                            src="{{item.cover}}" mode="aspectFit"
+                        ></image>
+                        <text wx:if="{{PauseBom}}" 
+                            class="iconfont icon-24gf-play textPause" 
+                            catchtap="onPause"
+                        ></text>
+                    </view>
+                    <view class="MvleftInfoCom {{leave ? 'leaveAction':''}}" wx:if="{{(newMvList[current].id === item.id) && videoPlay.url}}">
+                        <view class="MvleftInfo" wx:if="{{(mvInfo.artists[0].img1v1Url || mvInfo.artists[0].name) && sliderb}}">
+                            <view class="mvLeftTop">
+                                <view class="imageItemCon">
+                                    <image class="mvimage" src="{{mvInfo.artists[0].img1v1Url}}" mode="aspectFill"/>
+                                </view>
+                                <text class="artistName">{{mvInfo.artists[0].name}}</text>
+                                <text class="iconfont icon-jiahao1"></text>
+                            </view>
+                            <view class="mvLeftBottom">
+                                <view class="mvName">
+                                    <!-- <text class="mvIcon">MV</text> -->
+                                    <text>{{mvInfo.name}}</text>
+                                    <text wx:if="{{mvInfo.desc !== ''&& iconText}}" catchtap="onIconText" class="iconfont icon-zhankai"></text>
+                                </view>
+                                <view wx:if="{{!iconText && mvInfo.desc}}" class="mvDesc">
+                                    <scroll-view scroll-y="true" class="scrollViewCon" style="height: {{descHeight}}px;">
+                                        <view class="textDesc">
+                                            <text>{{mvInfo.desc}}</text>
+                                            <text bindtap="onIconTextContract" style="transform: rotate(180deg); display: inline-block;" class="iconfont icon-zhankai"></text>
+                                        </view>
+                                    </scroll-view>
+                                </view>
+                                <view class="releaseTime">
+                                    <text>{{mvInfo.publishTime}}</text>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="nameRoll" wx:if="{{(mvInfo.name || mvInfo.artistName) && sliderb}}">
+                            <text class="iconfont icon-icon-test"></text>
+                            
+                            <view class="rollText">
+                                <view class="rollItem rollstart" style="height: {{RollHeight}}px;">
+                                
+                                </view>
+                                <!-- <view style="animation-duration: {{speedtime}}ms; animation-name: {{roll}};" class="{{(rollLoopBom&&speedtime>0) ? 'rollName':''}}"> -->
+                                <view style="animation-duration: {{speedtime}}ms; animation-name: {{animationName}}; animation-delay: 2000ms;" class="{{noeRoll ? 'rollName':''}}">
+
+                                <view class="textCons">
+                                    <text class="rollNameText">{{mvInfo.name + ' - '}} {{mvInfo.artistName}}</text>
+                                    <text class="rollNameText">{{mvInfo.name + ' - '}} {{mvInfo.artistName}}</text>
+                                    <text class="rollNameText">{{mvInfo.name + ' - '}} {{mvInfo.artistName}}</text>
+                                    <text class="rollNameText">{{mvInfo.name + ' - '}} {{mvInfo.artistName}}</text>
+                                </view>
+                                </view>
+                                <view class="rollItem rollLast" style="height: {{RollHeight}}px;">
+                                
+                                </view>
+                            </view>
+                            
+                            <text class="iconfont icon-aixin"></text>
+                            
+                        </view>
+                    </view>
+                    <view class="rightItemCom {{leave ? 'leaveAction':''}}" wx:if="{{(newMvList[current].id === item.id) && videoPlay.url}}">
+                        <view class="rightItem" catchtap="iconFullClick">
+                            <text class="iconfont icon-dianzan2 {{topitemIcon ? 'redClickActive':''}}"></text>
+                            <text>{{fmt.formatCount(mvInfo.subCount)}}</text>
+                        </view>
+                        <view class="rightItem">
+                            <text class="iconfont icon-duanxinxiaoxixinxi"></text>
+                            <text>{{fmt.formatCount(mvInfo.commentCount)}}</text>
+                        </view>
+                        <view class="rightItem">
+                            <text class="iconfont icon-tiaoguofenxiang"></text>
+                            <text>{{fmt.formatCount(mvInfo.shareCount)}}</text>
+                        </view>
+                        <view class="rightItem">
+                            <text class="iconfont icon-batch-add"></text>
+                            <text>收藏</text>
+                        </view>
+                        <view  class="rotateCon">
+                            <image class="rotaeImage album-anim" 
+                                    src="{{mvInfo.cover}}" 
+                                    mode="aspectFill"
+                                    style="animation-play-state: {{ isPlaying ? 'running':'paused' }}"
+                            />
+                        </view>
+                    </view>
+                    <view wx:if="{{!sliderb}}" class="videoTime {{leave ? 'leaveAction':''}}">
+                            <text class="itemTime">{{fmt.formatTime(videoMaxTime)}}</text>
+                            <text class="active">/</text>
+                            <text>{{fmt.formatTime(newTime)}}</text>
+                    </view>
+                    <view class="doubleCon {{leave ? 'leaveAction':''}}">
+                        <double-click bind:doubleClickBom="doubleClickBom"></double-click>
+                    </view>
+                    <view catchtap="onSliderCon" class="sliderCon {{leave ? 'leaveAction':''}}">
+                        <view class="sliderData">
+                            <slider 
+                                class="slider" 
+                                block-size="12" 
+                                value="{{sliderValue}}"
+                                backgroundColor="#797979"
+                                disabled="{{imageShow}}"
+                                block-color="{{!sliderb ? '#ffffff':'#6e6e6e'}}"
+                                activeColor="{{!sliderb ? '#e8e8e8':'#828282'}}"
+                                data-time="{{item.duration}}"
+                                bindchanging="bindchanging"
+                                bindchange="bindchange"
+                            />
+                            <view wx:if="{{imageShow}}" class="loadCon">
+                                <view class="loadConItem">
+                                    
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="bottomItemCom {{leave ? 'leaveAction':''}}" style="height:{{bottomHeight}}px;">
+                        <text class="review">听说爱评论的人粉丝多</text>
+                        <text catchtap="onFullScreen" class="iconfont icon-quanping"></text>
+                </view>
+            </view>
+        </swiper-item>
+    </block>
+</swiper>
+
+

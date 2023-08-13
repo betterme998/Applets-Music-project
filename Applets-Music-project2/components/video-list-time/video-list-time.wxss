@@ -1,0 +1,80 @@
+/* components/mv-item/mv-item.wxss *//* components/singer-Item/singer-Item.wxss */
+@import "/assets/font/iconfont.wxss";
+.itemCon{
+    display: flex;
+}
+.itemLeft{
+    margin-right: 24rpx;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 220rpx;
+    height: 123.6rpx;
+    overflow: hidden;
+}
+.active{
+    width: 320rpx;
+    height: 179.8rpx;
+}
+.image {
+    width: 100%;
+    border-radius: 20rpx;    
+    background-size: cover;
+}
+.video{
+    height: 100%;
+    height: 100%;
+    border-radius: 20rpx; 
+}
+.active{
+    color: #507bab;
+}
+
+
+.itemRight{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.rightTopText{
+    font-size: 30rpx;
+    color: #363636;
+
+    /* 显示两行 */
+    /*white-space: normal; 是因为父元素也设置该该元素，不想继承父元素  */
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.rightTopText .active{
+    color: #507bab;
+}
+.rightBomText{
+    display: flex;
+    flex-direction: column;
+    font-size: 25rpx;
+    color: #9a9a9c;
+}
+
+.iconfont{
+    font-size: 40rpx;
+    color: #fff;
+    opacity: .75;
+    position: absolute;
+}
+.mvtime{
+    font-size: 20rpx;
+    color: #fff;
+    position: absolute;
+    right: 10rpx;
+    bottom: 10rpx;
+}

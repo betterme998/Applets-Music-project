@@ -1,0 +1,92 @@
+/* components/srarch-history/srarch-history.wxss */
+@import '/assets/font/iconfont.wxss';
+.itemHeader{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24rpx;
+    font-size: 28rpx;
+}
+.slot{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.left{
+    font-weight: 700;
+    font-size: 30 rpx;
+    color: #2d3245;
+}
+.right{
+    color: #aaabaf;
+}
+
+
+/* 控制内容显示 */
+.default {
+    display: none;
+}
+/* 当.slot 内容为空时，设置display为blick */
+.slot:empty + .default {
+    display: flex;
+    align-items: center;
+    
+}
+.iconfont{
+    font-size: 40rpx;
+}
+
+/* 历史记录 */
+.itemConter{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-content:space-between;
+    color: #5e5e66;
+}
+.itemConterActive{
+    overflow:hidden;
+    max-height:50rpx;
+}
+.itemHistory{
+    border-radius: 30rpx;
+    background-color: #ffffff;
+    padding: 8rpx 30rpx;
+    margin-right: 16rpx;
+    font-size: 28rpx;
+    margin-bottom: 20rpx;
+    box-sizing: border-box;
+    text-overflow:ellipsis;
+    max-width:300rpx;
+    box-shadow:0px 0px 10rpx rgba(0, 0, 0, 0.05);
+    /* 显示一行 */
+    /*white-space: normal; 是因为父元素也设置该该元素，不想继承父元素  */
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.lastitem{
+    width: 50rpx;
+    height: 50rpx;
+    border-radius: 100%;
+    background-color: #ffffff;
+    box-shadow:0px 0px 10rpx rgba(0, 0, 0, 0.05);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+.lastitem .allActive{
+    transform:rotate(90deg);
+    margin-top: 10rpx;
+    font-size: 30rpx;
+}
+.lastitem .Active{
+    transform:rotate(-90deg);
+    margin-bottom: 10rpx;
+    font-size: 30rpx;
+}

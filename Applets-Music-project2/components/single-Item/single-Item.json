@@ -1,0 +1,6 @@
+{
+    "component": true,
+    "usingComponents": {
+        "specially-click":"/components/specially-click/specially-click"
+    }
+}

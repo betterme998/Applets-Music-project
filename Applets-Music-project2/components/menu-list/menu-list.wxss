@@ -1,0 +1,77 @@
+/* components/menu-list/menu-list.wxss */
+@import "/assets/font/iconfont.wxss";
+
+.Listcontainer {
+    box-sizing: border-box;
+    margin: 30rpx;
+}
+.headerList {
+    height: 166.6312535rpx;
+}
+.bodyList{
+    height: 606.352617rpx;
+}
+.headerList{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border-bottom: 2rpx solid #e6e6e6;
+}
+.headerList .headertop .textLeft{
+    font-size: 40rpx;
+    font-weight: 700;
+    color: #333333;
+}
+.headerList .headertop .textRight{
+    font-size: 30rpx;
+    color: #9a9a9a;
+}
+.headerList .hraderbottom {
+    display: flex;
+    align-items: center;
+    
+}
+.headerList .hraderbottom .iconfont{
+    font-size: 38rpx;
+    color: #989898;
+    margin-right: 12rpx;
+}
+.headerList .hraderbottom .text{
+    font-size: 33rpx;
+    color: #303030;
+}
+.bodyList .listC ::-webkit-scrollbar{
+    display: none;
+}
+.bodyList .listCont {
+    display: flex;
+    justify-content: space-between;
+    padding: 31rpx 0;
+    box-sizing: border-box;
+}
+.bodyList .listCont .icon-cuowuguanbiquxiao{
+    color: #b3b3b3;
+    font-size: 35rpx;
+}
+.icon-a-zhengzaizhibozhengzaibofang{
+    margin-right: 10rpx;
+}
+.bodyList .listCont .itemName{
+    font-size: 30rpx;
+    color: #363636;
+}
+.bodyList .listCont .itemName.active{
+    color: #e84a47;
+}
+.bodyList .listCont .arname {
+    font-size: 25rpx;
+    color: #949494;
+}
+.bodyList .listCont .arname.active{
+    color: #e84a47;
+}
+
+.active{
+    color: #e84a47;
+}
+

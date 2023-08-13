@@ -1,0 +1,20 @@
+<!--pages/main-video/main-video.wxml-->
+<view class="video-list" wx:if="{{videoList.length}}">
+    <block wx:for="{{videoList}}" wx:key="id">
+        <video-item
+         class="item"
+         itemData="{{item}}"
+        />
+    </block>
+</view>
+<!-- 7.播放工具栏 -->
+<play-toolbar 
+        tabbarHeight="{{tabbarHeight}}"
+        currentSong="{{currentSong}}"
+        isPlaying="{{isPlaying}}"
+        playModeIndex="{{playModeIndex}}"
+        playSongIndex="{{playSongIndex}}"
+        playSongList="{{playSongList}}"
+    >
+    
+</play-toolbar>

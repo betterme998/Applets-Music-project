@@ -1,0 +1,19 @@
+{
+    "navigationStyle": "custom",
+    "usingComponents": {
+        "nav-bar": "/components/nav-bar/nav-bar",
+        "van-search": "@vant/weapp/search/index",
+        "prompt-list":"/components/prompt-list/prompt-list",
+        "loading":"/components/loading/loading",
+        "specially-click":"/components/specially-click/specially-click",
+        "search-scroll":"/components/search-scroll/search-scroll",
+        "search-Hometab":"/components/search-Hometab/search-Hometab",
+        "srarch-history":"/components/srarch-history/srarch-history",
+        "search-detail":"/components/search-detail/search-detail",
+        "search-result-item":"/components/search-result-item/search-result-item",
+        "singer-Item":"/components/singer-Item/singer-Item",
+        "single-Item":"/components/single-Item/single-Item",
+        "mv-item":"/components/mv-item/mv-item",
+        "play-toolbar":"/components/play-toolbar/play-toolbar"
+    }
+}

@@ -1,0 +1,17 @@
+// components/video-item/video-item.js
+Component({
+   properties: {
+       itemData: {
+           type: Object,
+           value:{}
+       }
+   },
+   methods: {
+    onItemTap() {
+        const item = this.properties.itemData
+        wx.navigateTo({
+          url: `/packageVideo/pages/detail-video/detail-video?id=${item.id}&artistName=${item.artistName}`,
+        })
+    }
+   }
+})

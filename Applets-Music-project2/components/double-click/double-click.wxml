@@ -1,0 +1,6 @@
+<!--components/double-click/double-click.wxml-->
+<view class="iconCon" bindtap="onClickLike">
+    <block wx:for="{{iconArray}}" wx:for-item = "items" wx:key="index">
+    <text wx:if="{{showIconPraise}}" class="IconPraise {{showIconPraise ? 'IconAction':''}} iconfont icon-dianzan2" style="left: {{items.iconX}}px; top: {{items.iconY}}px;"></text>
+</block>
+</view>

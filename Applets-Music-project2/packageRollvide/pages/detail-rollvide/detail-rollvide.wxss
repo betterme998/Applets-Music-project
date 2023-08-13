@@ -1,0 +1,529 @@
+/* pages/detail-rollvide/detail-rollvide.wxss */
+@import "../../../assets/font/iconfont.wxss";
+.navCon{
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+.swiper{
+    width: 100%;
+    height: 100vh;
+}
+.swiperItemComs{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    background-color: #000000;
+}
+.imageCon{
+    display: flex;
+    width: 100%;
+    flex: 1;
+    position: relative;
+}
+.imageVideoCom{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    width: 100%;
+    height: 100px;
+}
+.image{
+    width: 100%;
+    position: absolute;
+}
+.textPause{
+    position: absolute;
+    color: #fff;
+    opacity: .7;
+    font-size: 120rpx;
+}
+/* 公告样式 */
+.leaveAction{
+    opacity: .5;
+}
+/* mv信息 */
+.MvleftInfoCom{
+    position: absolute;
+    bottom: 0;
+    margin-left: 30rpx;
+    width: 75%;
+    margin-bottom: 30rpx;
+    z-index: 1;
+}
+.MvleftInfo{
+    display: flex;
+    flex-direction: column;
+    font-size: 32rpx;
+    margin-bottom: 20rpx;
+}
+.mvLeftTop{
+    display: flex;
+    color: #fff;
+    align-items: center;
+    margin-bottom: 20rpx;
+}
+.topItemInterval .redIcon .icon-jiahao1{
+    font-size: 36rpx;
+}
+.artistName{
+    margin: 0 20rpx;
+    font-weight: 700;
+}
+
+.imageItemCon{
+    border-radius: 50%;
+    background-color: #fff;
+    padding: 2rpx;
+    overflow: hidden;
+    width: 70rpx;
+    height: 70rpx;
+}
+.mvimage{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+.icon-jiahao1{
+    font-size: 25rpx;
+    margin-top: 4rpx;
+    border-radius: 20rpx;
+    padding: 6rpx 10rpx;
+    background-color: #fe3a3b;
+}
+.mvLeftBottom{
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+}
+
+.scrollViewCon ::-webkit-scrollbar{
+    display: none;
+}
+.masking{
+    position: absolute;
+    background-color: red;
+    opacity: .5;
+    width: 100%;
+    height: 100%;
+}
+.active{
+    opacity: 0;
+}
+.icon-zhankai{
+    margin-left: 16rpx;
+    padding: 10rpx 0;
+}
+.mvIcon{
+    padding: 2rpx 10rpx;
+    background-color: #333333;
+    border-radius: 4rpx;
+    margin-right: 10rpx;
+    font-size: 25rpx;
+}
+
+/* 点赞 收藏 */
+.rightItemCom{
+    position: absolute;
+    right: 30rpx;
+    bottom: 30rpx;
+    z-index: 1;
+}
+.rightItem{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    color: #fff;
+    opacity: .9;
+    font-size: 25rpx;
+    margin-bottom: 30rpx;
+}
+.rightItem .iconfont {
+    font-size: 65rpx;
+    margin-bottom: 8rpx;
+}
+.rotateCon{
+    width: 90rpx;
+    height: 90rpx;
+    border-radius: 50%;
+    padding: 14rpx;
+    background: linear-gradient(217deg, rgba(46, 45, 45, 0.9), rgba(0, 0, 0, 0.5) 70.71%),            
+                linear-gradient(127deg, rgba(53, 52, 52, 0.9), rgba(27, 27, 27, 0.5) 70.71%),            
+                linear-gradient(336deg, rgba(43, 40, 40, 0.9), rgba(0, 0, 0, 0.5) 70.71%);
+    overflow: hidden;
+    box-sizing: border-box;
+}
+.rotaeImage{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+/* 旋转 */
+@keyframes albumRotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+.album-anim {
+    animation: albumRotate 16s linear infinite;
+}
+
+/* 滚动 */
+.nameRoll{
+    display: flex;
+    flex-wrap: nowrap;
+    width: 340rpx;
+    align-items: center;
+    color: #fff;
+    font-size: 32rpx;
+}
+/* .rollCon{
+    display: flex;
+    position: absolute;
+    align-items: center;
+    flex-wrap: nowrap;
+    width: 280rpx;
+} */
+.rollItem{
+    width: 20rpx;
+    flex-shrink:0;
+    flex-grow:0;
+    z-index: 5;
+}
+.rollText{
+    display: flex;
+    position: relative;
+    align-items: center;
+    margin: 0 10rpx;
+    padding: 0 20rpx;
+    white-space:nowrap;
+    overflow: hidden;
+    flex: 1;
+}
+.rollstart{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-image: linear-gradient(to right,rgba(0,0,0,1),rgba(0,0,0,.1));
+}
+.rollLast{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background-image: linear-gradient(to right,rgba(0,0,0,.1),rgba(0,0,0,1));
+}
+.icon-icon-test{
+    position: relative;
+}
+.icon-aixin{
+    font-size: 38rpx;
+}
+
+
+/* 进度条 */
+.sliderCon{
+    position: absolute;
+    width: 100vw;
+    height: 20rpx;
+    left: 0;right: 0;bottom: -10rpx;
+    display: flex;
+    align-items: center;
+    z-index: 2;
+}
+.sliderData{
+    position: relative;
+    flex: 1;
+}
+.loadCon{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    top: 50%;
+    height: 1px;
+}
+.loadConItem{
+    height: 1px;
+    width: 0;
+    opacity: .9;
+    background-color: #fff;
+    animation:load .4s linear infinite;
+}
+.videoTime{
+    position: absolute;
+    width: 100vw;
+    left: 0;right: 0;bottom: 100rpx;
+    color: #333333;
+    font-size: 38rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.videoTime .active{
+    font-size: 30rpx;
+    padding: 0 10rpx;
+    animation: linear forwards;
+
+}
+.itemTime{
+    color: #f9f9f9;
+}
+.slider{
+    margin:10px 0;
+    z-index: 1;
+}
+.releaseTime{
+    color: #999999;
+    font-size: 26rpx;
+    margin-top: 15rpx;
+}
+.rollName{
+    animation:linear infinite;
+}
+.rollNameText{
+    margin-right: 60rpx;
+}
+
+@keyframes roll {
+    0% {
+      transform: translateX(0px);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+}
+@keyframes rolls {
+    0% {
+      transform: translateX(0px);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+}
+@keyframes load {
+    0% {
+        width: 0%;
+        opacity: .9;
+        background-color: #fff;
+    }
+    100% {
+        width: 100%;
+        opacity: .5;
+        background-color: rgb(202, 202, 202);
+    }
+}
+
+/* 底部 */
+.bottomItemCom{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size:30rpx;
+    color:#313131;
+    z-index: 1;
+}
+.review{
+    margin-left:30rpx;
+}
+.icon-quanping{
+    margin: 0 30rpx 0 30rpx;
+    color:#7f7f7f;
+    font-size:40rpx;
+}
+
+
+
+
+/* 全屏 */
+.fullVideo{
+    width: 100vw;
+    height: 100vh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    color: #fff;
+    font-size: 36rpx;
+}
+.fullTopBottomCom{
+    font-size: 36rpx;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    z-index: 1;
+}
+
+.FullActiveTop{
+    animation:fullReveallTop .3s linear forwards;
+}
+.FullActiveBottom{
+    animation:fullReveallBottom .3s linear forwards;
+}
+.FullActivesTop{
+    animation:fulllHideTop .3s linear forwards;
+}
+.FullActivesBottom{
+    animation:fulllHideBottom .3s linear forwards;
+}
+
+.bottomHeight{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1;
+}
+.fullTopRight{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.fullTopLeft{
+    display: flex;
+    align-items: center;
+}
+.fullTopLeft .icon-fanhui {
+    margin-right: 30rpx;
+    font-size: 50rpx;
+}
+.fullTopRight .iconfont{
+    font-size: 60rpx;
+}
+.fullTopRight .topItemInterval{
+    margin-right: 60rpx;
+    display: flex;
+    color: #fff;
+    align-items: center;
+}
+.fullTopRight .topItemRed{
+    color: #ff3938;
+}
+
+.fullBottom{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+}
+.sliderItemCom{
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.sliderItemCom .slider {
+    margin: 15rpx 15rpx;
+    flex: 1;
+}
+.Resolution{
+    margin-left: 50rpx;
+}
+/* 点赞 */
+.IconPraise{
+    position: absolute;
+    font-size: 200rpx;
+    color: #f54d4d;
+    transform-origin:bottom left;
+}
+.doubleCon{
+    position: absolute;
+}
+.IconAction{
+    animation:Praise .5s linear forwards;
+}
+
+.full-play{
+    font-size: 200rpx;
+    color: #ffffff;
+    opacity: .8;
+    z-index: 2;
+}
+.redClickActive{
+    color: #f54d4d;
+}
+
+/* 全屏动画 */
+@keyframes fullReveallBottom {
+    0% {
+        transform: translateY(0px);
+      }
+      100% {
+        transform: translateY(-100%);
+    }
+}
+@keyframes fullReveallTop {
+    0% {
+        transform: translateY(0px);
+      }
+      100% {
+        transform: translateY(100%);
+    }
+}
+@keyframes fulllHideBottom {
+    0% {
+        transform: translateY(-100px);
+      }
+      100% {
+        transform: translateY(0);
+    }
+}
+@keyframes fulllHideTop {
+    0% {
+        transform: translateY(100%);
+      }
+      100% {
+        transform: translateY(0);
+    }
+}
+
+/* 点赞动画 */
+@keyframes Praise {
+    0% {
+        transform: rotate(0);
+    }
+    30% {
+        transform: rotate(-40deg);
+    }
+    60% {
+        transform: rotate(8deg);
+    }
+    80% {
+        transform: rotate(-8deg);
+    }
+    100% {
+        transform: rotate(0);
+    }
+}
+.rotateA{
+    animation:rotates .5s linear forwards;
+}
+.rotateB{
+    animation:rotateS .5s linear forwards;
+}
+@keyframes rotates {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(180deg);
+    }
+}
+@keyframes rotateS {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(-180deg);
+    }
+}

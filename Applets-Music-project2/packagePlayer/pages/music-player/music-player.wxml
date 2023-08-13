@@ -1,0 +1,116 @@
+<!--pages/music-player/music-player.wxml-->
+<wxs src="../../../utils/format.wxs" module="fmt"></wxs>
+
+<!-- 1.背景展示 -->
+<image class="bg-image" wx:if="{{currentSong.al.picUrl}}" src="{{currentSong.al.picUrl}}" mode="aspectFill"></image>
+<view class="bg-cover"></view>
+
+<!-- 2.自定义导航栏 -->
+<nav-bar bind:leftclick="onNavBackTap">
+    <view class="tabs" slot="center">
+        <view class="tabsCon">
+            <block wx:for="{{pageTitles}}" wx:key="*this">
+                <view 
+                    class="item {{currentPage === index ? 'active':''}}" 
+                    bindtap="onNavTabItemTap"
+                    data-index="{{index}}"
+                >
+                    {{item}}
+                </view>
+                <view class="divider" wx:if="{{index !== pageTitles.length - 1}}">|</view>
+            </block>
+        </view>
+    </view>
+</nav-bar>
+
+<!-- 3.具体内容 -->
+<swiper 
+    bindchange="onSwiperChange"
+    style="height: {{contentHeight}}px;"
+    current="{{currentPage}}"
+    wx:if="{{currentSong.name}}"
+>
+    <swiper-item class="music">
+        <view class="album">
+            <image class="image" src="{{currentSong.al.picUrl}}" mode="widthFix"></image>
+        </view>
+        <view class="info">
+            <view class="name">{{currentSong.name}}</view>
+            <view class="singer">{{currentSong.ar[0].name}}</view>
+        </view>
+        <view class="lyric">
+            {{currentLyricText}}
+        </view>
+        <view class="proress">
+            <slider 
+                class="slider" 
+                block-size="12" 
+                value="{{sliderValue}}"
+                bindchange="onSliderChange"
+                bindchanging="onSliderChanging"
+            />
+            <view class="time">
+                <view class="current">{{fmt.formatTime(currentTime)}}</view>
+                <view class="duration">{{fmt.formatTime(durationTime)}}</view>
+            </view>
+        </view>
+        <view class="controls">
+            <text 
+                class="iconfont {{playModeName}}"
+                bindtap="onModeBtnTap"
+            ></text>
+            <text 
+                class="iconfont icon-shangyishou"
+                bindtap="onPrevBtnTap"
+            ></text>
+            <view 
+                class="stopconter"
+                bindtap="onPlayOrPauseTap"    
+            >
+                <text 
+                    class="iconfont play {{isPlaying ? 'icon-24gf-pause2' : 'icon-24gf-play'}}"
+                ></text>
+            </view>
+            <text 
+                class="iconfont icon-xiayishou"
+                bindtap="onNextBtnTap"
+            ></text>
+            <text 
+                class="iconfont list icon-24gf-playlistMusic4"
+                bindtap="showPopup"
+            ></text>
+        </view>
+        <view class="menuListCont">
+            <menu-list bind:onchaShow="onchaShowFn" playSongIndex="{{playSongIndex}}" playSongList="{{playSongList}}" playModeIndex="{{playModeIndex}}" show="{{show}}"/>
+        </view>
+    </swiper-item>
+    <swiper-item>
+        <scroll-view 
+            class="lyric-list" 
+            scroll-y
+            scroll-top="{{lyricScrolltop}}"
+            scroll-with-animation
+        >
+            <!-- <block wx:for="{{newline}}" wx:if="{{newline.length}}" wx:key="time">
+                <view 
+                    class="item lyrictext {{currentLyricIndex === index ? 'active':''}}"
+                    style="padding-top:{{index === 0 ? (contentHeight/2 - 66) : 0}}px; padding-bottom:{{index === lyricInfos.length -1 ? (contentHeight/2 +66):0}}px;"
+                >
+                   <block wx:for="{{item.lyricItem}}" wx:for-item ="iten" wx:key="time">
+                        <text>{{iten}}</text>
+                   </block>
+                </view>
+            </block> -->
+            <view class="listcontent">
+                <block wx:for="{{lyricInfos}}" wx:if="{{lyricInfos.length}}" wx:key="time">
+                    <view 
+                        class="item lyrictext {{currentLyricIndex === index ? 'active':''}}"
+                        style="padding-top:{{index === 0 ? (contentHeight/2 - 66) : 0}}px; padding-bottom:{{index === lyricInfos.length -1 ? (contentHeight/2 +66):0}}px;"
+                    >
+                        <text>{{item.text}}</text>
+                    </view>
+                </block>
+            </view>
+        </scroll-view>
+    </swiper-item>
+</swiper>

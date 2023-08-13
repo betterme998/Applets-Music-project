@@ -1,0 +1,67 @@
+  // 对搜索进行匹配
+  function containFn(keyworld,values) {
+    var lastkey = keyworld.slice(values.length,keyworld.length)
+    var frontkey = keyworld.slice(0,values.length)
+    var keyworldArray = []
+    if (values.toLowerCase() === frontkey.toLowerCase()) {
+        keyworldArray[0] = {
+            keyworld:frontkey,
+            active:true
+        }
+        keyworldArray[1] = {
+            keyworld:lastkey
+        }
+    }else {
+        keyworldArray[0] = {
+            keyworld:keyworld
+        }
+    }
+    return keyworldArray
+  }
+  function indexAdd(index) {
+      return index+1
+  }
+  function keyWordFn(key,keyWord) {
+    if (key&&keyWord) {
+        var key = key + ''
+        var arr = key.split(keyWord);
+        var textArr = [];
+        arr.forEach(function(item,index){
+            var objText = {
+                text:item,
+                active:false
+            }
+            var objKey = {
+                text:keyWord,
+                active:true
+            }
+            if (index+1 !== arr.length) {
+                textArr.push(objText)
+                textArr.push(objKey)
+            }else{
+                textArr.push(objText)
+            }
+        })
+        var newArr = textArr.filter(function(item){
+            if (item.text !== '') {
+                return true
+            }
+        })
+        return newArr
+    }else{
+        var textArr = [];
+        var objText = {
+            text:key,
+            active:false
+        }
+        textArr.push(objText)
+        return textArr
+    }
+  }
+
+  
+  module.exports = {
+    containFn:containFn,
+    indexAdd:indexAdd,
+    keyWordFn:keyWordFn
+  }

@@ -1,0 +1,35 @@
+<!--components/nav-bar/nav-bar.wxml-->
+<!-- 自定义导航 -->
+<view class="nav-bar" style="background-color: {{bgColor[3] ? bgColor[3]:''}}">
+    <view class="status" style="height: {{statusHeight}}px;"></view>
+    <view class="nav">
+        <view class="left" bindtap="onLeftClick">
+            <view class="slot">
+                <slot name="left"></slot>
+            </view>
+            <view class="default">
+                <!-- <image class="icon" src="/assets/images/icons/arrow-left.png"></image> -->
+                <van-icon class="icon" name="arrow-left" />
+            </view>
+        </view>
+        <view class="center">
+            <view class="slot">
+                <slot name="center"></slot>
+            </view>
+            <view class="default">
+                {{title}}
+            </view>
+        </view>
+        <view class="right">
+            <view class="slot">
+                <slot name="right"></slot>
+            </view>
+            <view class="default">
+                <view class="rightDefault">
+                    
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+

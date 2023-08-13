@@ -1,0 +1,6 @@
+{
+    "component": true,
+    "usingComponents": {
+        "single-Item":"/components/single-Item/single-Item"
+    }
+}

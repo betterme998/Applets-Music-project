@@ -1,0 +1,178 @@
+<!--pages/user-Message/user-message.wxml-->
+<!-- 1.自定义导航栏 -->
+<view class="navCon">
+    <nav-bar bind:leftclick="onNavBackTap">
+        <view class="tabs" slot="left">
+            <text class="iconfont {{activescroll ? 'icon-cuowuguanbiquxiao':'icon-fanhui'}} "></text>
+        </view>
+        <view class="tabs" slot="center">
+            
+        </view>
+    </nav-bar>
+</view>
+<scroll-view
+    scroll-y="{{scrollY}}" 
+    enable-passive 
+    enhanced
+    style="height: 100vh;"
+    bindscroll="bindscroll"
+    bindscrolltoupper="bindscrolltoupper"
+>
+    <view class="bodyCom" 
+    bind:touchmove="bindtouchmove"
+    
+    >
+        <!-- 1.背景展示 -->
+        <view class="bg-con">
+            <image class="bg-image" wx:if="{{mvlist.backgroundUrl}}" src="{{mvlist.backgroundUrl}}" mode="aspectFill"></image>
+            <image class="bg-image" wx:if="{{mvlist.picUrl}}" src="{{mvlist.picUrl}}" mode="aspectFill"></image>
+            <view class="bg-cover">
+                <image class="bg-cover-image" wx:if="{{mvlist.backgroundUrl}}" src="{{mvlist.backgroundUrl}}" mode="aspectFill"></image>
+                <image class="bg-cover-image" wx:if="{{mvlist.picUrl}}" src="{{mvlist.picUrl}}" mode="aspectFill"></image>
+                <view class="bg-cover-top"></view>
+                <view class="minImage">
+                    <view class="leftTime">
+                        <view class="textCom" wx:if="{{mvlist.backgroundUrl || mvlist.picUrl}}">
+                            <view class="textitem">
+                                <text class="numText">20</text>
+                            </view>
+                            <view class="textitem lastItem">
+                                <text class="numText">7月</text>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="imgCom">
+                        <image class="min-bg-image" wx:if="{{mvlist.backgroundUrl}}" src="{{mvlist.backgroundUrl}}" mode="aspectFill"/>
+                        <image class="min-bg-image" wx:if="{{mvlist.img1v1Url}}" src="{{mvlist.img1v1Url}}" mode="aspectFill"/>
+                    </view>
+                    
+                </view>
+            </view>
+
+        </view>
+        <scroll-view 
+            scroll-y="true" 
+            enable-passive 
+            enhanced
+            bounces
+            refresher-enabled="{{enableds}}"
+            refresher-triggered="{{triggered}}"
+            bindrefresherrefresh="bindrefresherrefresh"
+            bindrefresherrestore="bindrefresherrestore"
+            refresher-default-style="none"
+            class="{{activescroll ? 'scrollCom':''}} {{comeInfo ? 'scrollAom':''}}"
+            style="margin-top:{{imageHeight}}px; width: 100vw; height: {{userHeight}}px;"
+        >
+        <view class="userMaxCom">
+            <view
+                class="topimage"
+                style="width: 100vw; height: {{minHeight}}px;opacity: 0;"
+            ></view>
+            <view class="userInfo" style="width: 100vw; height: 100vh;">
+                <view class="addCom" style="width: 100vw; height: 100vh;">
+                    <view class="imageCom" style="margin-top:-{{minHeight}}px">
+                        <image style="width:{{minHeight}}px;height: {{minHeight}}px; z-index: 2; border-radius: 50%;" wx:if="{{mvlist.avatarUrl}}" src="{{mvlist.avatarUrl}}" mode="aspectFill"></image>
+                        <image style="width:{{minHeight}}px;height: {{minHeight}}px; z-index: 2; border-radius: 50%;" wx:if="{{mvlist.img1v1Url}}" src="{{mvlist.img1v1Url}}" mode="aspectFill"></image>
+                        <text class="shatImage">TA的照片</text>
+                        <view class="imageBom">
+                            <view style="height: 40rpx;"></view>
+                            <view class="nameCom">
+                                <text wx:if="{{mvlist.nickname}}" class="titleName">{{mvlist.nickname}}</text>
+                                <text wx:if="{{mvlist.name}}" class="titleName">{{mvlist.name}}</text>
+                                <image class="nameImage" wx:if="{{mvlist.avatarDetail.identityIconUrl}}" src="{{mvlist.avatarDetail.identityIconUrl}}" mode="aspectFill"/>
+                            </view>
+                            <view class="infonum">
+                                <text wx:if="{{mvlist.follows}}">{{mvlist.follows}}关注</text>
+                                <text wx:if="{{mvlist.follows}}" class="numl">|</text>
+                                <text wx:if="{{mvlist.followeds}}">{{mvlist.followeds}}粉丝</text>
+                                <text wx:if="{{mvlist.followeds}}" class="numl">|</text>
+                                <text wx:if="{{mvlist.followeds}}">Lv.8</text>
+                                <text wx:if="{{mvlist.alia[0]}}">{{mvlist.alia[0]}}</text>
+                            </view>
+                            <view class="mapinfo">
+                                <view wx:if="{{mvlist.gender}}" class="mapitem">
+                                    <text wx:if="{{mvlist.gender}}" class="iconfont {{mvlist.gender === 1 ? 'icon-sex_man':'icon-sex_woman'}} {{mvlist.gender === 1 ? 'manActive':'womanActive'}}"></text>
+                                </view>
+                                <view wx:if="{{provinceKey !== '' }}" class="mapitem mapcentre">
+                                    <text>{{provinceKey}} {{cityKey}}</text>
+                                </view>
+                                <view class="mapitem">
+                                    <text>村龄5年</text></view>
+                                </view>
+                            <view class="btnitem">
+                                <view class="btnactive btnred">
+                                    <text>+关注</text>
+                                </view>
+                                <view class="btnactive btnconve">
+                                    <text>聊天</text>
+                                </view>
+                                <view class="btnactive btnright">
+                                    <text class="iconfont icon-zhankai"></text>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="tabscom">
+                            <van-tabs active="{{ active }}" bind:change="onChange">
+                                <van-tab title="主页">
+                                    <view class="tabItem">
+                                        <text class="tabtitle">音乐品味</text>
+                                        <view class="tableft">
+                                            <view class="tabledtitem">
+                                                <view class="tabitemtop">
+                                                    <text>TA的喜欢</text>
+                                                    <text class="topbomnum">1484首</text>
+                                                </view>
+                                                <view class="tabitembom">
+                                                    <text class="iconfont icon-aixin"></text>
+                                                    <text>喜欢的音乐</text>
+                                                </view>
+                                            </view>
+                                            <view class="tabledtitem tabledcon">
+                                                <view class="tabitemtop">
+                                                    <text>累计听歌</text>
+                                                    <text class="topbomnum">3123首</text>
+                                                </view>
+                                                <view class="tabitembom">
+                                                    <text class="iconfont icon-a-zhengzaizhibozhengzaibofang"></text>
+                                                    <text>听歌排行</text>
+                                                </view>
+                                            </view>
+                                            <view class="tabledtitem tabledlast">
+                                                <view class="tabitemtop">
+                                                    <text>本周关键词</text>
+                                                    <text class="topbomnum">属于你的音乐档案</text>
+                                                </view>
+                                                <view class="tabitembom">
+                                                    <text class="iconfont icon-tushu"></text>
+                                                    <text>黑胶时光机</text>
+                                                </view>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </van-tab>
+                                <van-tab title="动态">
+                                    <view class="tabItem">
+                                    <text>321</text>
+                                    </view>
+                                </van-tab>
+                            </van-tabs>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        </scroll-view>
+    </view>
+</scroll-view>
+
+
+<!-- 7.播放工具栏 -->
+<play-toolbar 
+        tabbarHeight="{{tabbarHeight}}"
+        currentSong="{{currentSong}}"
+        isPlaying="{{isPlaying}}"
+        playModeIndex="{{playModeIndex}}"
+        playSongIndex="{{playSongIndex}}"
+        playSongList="{{playSongList}}"
+    >
+</play-toolbar>

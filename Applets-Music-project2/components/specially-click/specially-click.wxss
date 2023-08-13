@@ -1,0 +1,43 @@
+/* components/speciallyClick/spec-click-click.wxss */
+.container{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+.text {
+    position: absolute;
+    background: rgb(158, 157, 157);
+    transform: translate(-50%,-50%);
+    pointer-events: none;
+    border-radius: 50%;
+    animation: animate .4s linear;
+}
+.text.active{
+    border-radius: 50%;
+    animation: animateActive .4s linear;
+}
+@keyframes animate {
+    0% {
+        width: 0rpx;
+        height: 0rpx;
+        opacity: .5;
+    }
+    100% {
+        width: 1000rpx;
+        height: 1000rpx;
+        opacity: 0;
+    }
+}
+@keyframes animateActive {
+    0% {
+        width: 70%;
+        height: 100%;
+        opacity: .5;
+    }
+    100% {
+        width: 1000rpx;
+        height: 1000rpx;
+        opacity: 0;
+    }
+}

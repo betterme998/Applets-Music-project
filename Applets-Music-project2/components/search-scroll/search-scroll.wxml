@@ -1,0 +1,24 @@
+<!--components/search-scroll/search-scroll.wxml-->
+<!-- 搜索tab -->
+<view class="tabsCon">
+    <van-tabs
+        active="{{ active }}"
+        animated
+        swipeable
+        title-active-color="#353535"
+        line-height="16rpx"
+        class="van-tabsCon"
+        wrap-class = "wrap-class-tab"
+        swipe-threshold = "6"
+        bind:change="vanTabClick"
+    >
+        <block wx:for="{{tabsValue}}" wx:key="name">
+            <van-tab title="{{item.tabTitle}}">
+                <scroll-view class="listC" scroll-y bindscroll="videoEvent" bindscrolltolower="bindscrolltolower" data-name="{{item.name}}" style="height: {{resultHeight}}px;" enable-passive>
+                    <slot name="{{item.name}}"></slot>
+                </scroll-view>
+            </van-tab>
+        </block>
+    </van-tabs>
+</view>
+

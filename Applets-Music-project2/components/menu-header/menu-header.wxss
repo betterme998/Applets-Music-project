@@ -1,0 +1,141 @@
+/* components/menu-header/menu-header.wxss */
+@import "/assets/font/iconfont.wxss";
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 450rpx;
+    color: #fff;
+    padding: 0 40rpx;
+    overflow-x:hidden;
+}
+.bg-canvas{
+    position: absolute;
+    z-index: -10;
+    top: -800px;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+}
+
+.album {
+    position: relative;
+    display: flex;
+    margin-top: 25rpx;
+}
+.imageCon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 220rpx;
+    height: 220rpx;
+    border-radius: 16rpx;
+}
+.imageView{
+    position: absolute;
+}
+.imageViewItem{
+    position: relative;
+    display: flex;
+}
+.image {
+    width: 220rpx;
+    height: 220rpx;
+    border-radius: 16rpx;
+}
+.imageitem{
+    width: 180rpx;
+    height: 180rpx;
+    border-radius: 16rpx;
+    box-shadow:
+    0px -25rpx 0px 8rpx rgba(255, 255, 255, 0.4)
+    ;
+}
+.imageText{
+    position: absolute;
+    right: 8rpx;
+    top: 8rpx;
+    font-size: 24rpx;
+}
+.imageText .icon-24gf-play{
+    font-size: 24rpx;
+    margin-right: 5rpx;
+}
+.album .info {
+    height: 220rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex:1;
+    margin-left: 30rpx;
+}
+.title{
+    font-size: 30rpx;
+}
+.album .anthor {
+    display: flex;
+    align-items: center;
+}
+.album .anthor .avatar {
+    width: 60rpx;
+    height: 60rpx;
+    border-radius: 50%;
+}
+
+.album .anthor .nickname{
+    font-size: 26rpx;
+    margin-left: 18rpx;
+}
+.expertTags{
+    display: flex;
+    font-size: 22rpx;
+}
+.icon-jinru{
+    font-size: 22rpx;
+}
+.itemTag{
+    padding: 1rpx 8rpx;
+    margin-right: 14rpx;
+    border-radius: 8rpx;
+    background-color: rgba(255, 255, 255, .6);
+}
+
+.desc {
+    white-space: nowrap;
+    font-size: 24rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 30rpx;
+}
+.operation {
+    display: flex;
+    justify-content: space-between;
+    margin:10rpx 0 30rpx 0;
+}
+
+.operation .item {
+    font-size: 26rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200rpx;
+    height: 40rpx;
+    padding: 18rpx 0;
+    /* height: 100rpx; */
+    border-radius: 50rpx;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+.operation .item:last-child{
+    background: linear-gradient(to right,#ff245a,#ff383f);
+}
+.operation .item .iconfont {
+    font-size: 40rpx;
+    margin-right: 10rpx;
+}
+.operation .item .icon-tiaoguofenxiang {
+    font-size: 45rpx;
+}
+
+.operation .item .text {
+    font-size: 26rpx;
+}

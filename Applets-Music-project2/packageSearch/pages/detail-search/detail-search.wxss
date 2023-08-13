@@ -1,0 +1,105 @@
+/* pages/detail-search/detail-search.wxss */
+@import "../../../assets/font/iconfont.wxss";
+page {
+    /* 修改搜索框背景变量 */
+    --search-background-color:#fff;
+    /* 搜索框padding变量 */
+    --search-padding:0;
+    box-sizing: border-box;
+    background-color: #f8f9fd;
+}
+::-webkit-scrollbar{
+    display: none;
+}
+.navCont{
+    background-color: #f8f9fd;
+    position: fixed;
+    z-index: 1; 
+    top: 0;
+    left: 0;
+    right: 0;
+}
+.van-search{
+    padding: 0 0;
+}
+.icon-fanhui{
+    color: #313332;
+    font-size: 40rpx;
+}
+.searcHomeCon,.homecontent{
+    padding: 0 24rpx;
+    background-color: #f8f9fd;
+}
+
+.homecontent{
+    margin-bottom: 24rpx;
+}
+.icon-shuaxin{
+    font-size: 48rpx;
+}
+
+.swiperConts{
+    background-color: #fff;
+    margin: 0 12rpx;
+    border-radius: 12rpx;
+    box-shadow:0px 0px 10rpx rgba(0, 0, 0, 0.05);
+}
+.swipers .swiperItem:first-child .swiperConts{
+    margin-left: 24rpx;
+}
+.swipers .swiperItem:last-child .swiperConts{
+    margin-right: 24rpx;
+}
+
+.swipersView{
+    padding-bottom: 24rpx;
+    background-color:#f8f9fd;
+}
+
+
+.rightCon {
+    height: 100%;
+}
+
+.resultCon .van-tabs__line{
+    background: linear-gradient(to right, rgba(255,67,65,.8) , rgba(244,122,125,.8));
+    bottom: 23rpx;
+}
+
+.slotScroll{
+    margin: 24rpx;
+}
+.videoCon{
+    position: relative;
+}
+.guessLove{
+    margin-bottom: 24rpx;
+}
+.LoveTopText{
+    color: #828282;
+    font-size: 28rpx;
+    padding: 12rpx 0;
+}
+.songText,.videoText{
+    color: #333333;
+    font-weight: 700;
+    font-size: 34rpx;
+    padding-bottom: 18rpx;
+}
+.lsftIcon{
+    margin: 24rpx;
+}
+.guessLove .guessLast:last-child{
+    border-bottom: 2rpx solid #f4f4f4;
+}
+.iddleItem,.videoItem{
+    margin-bottom: 20rpx;
+}
+
+
+.van-icon{
+    margin: 12rpx 12rpx;
+}
+
+
+

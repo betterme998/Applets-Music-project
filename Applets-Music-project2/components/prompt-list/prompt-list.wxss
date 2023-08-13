@@ -1,0 +1,44 @@
+/* components/prompt-list/prompt-list.wxss */
+@import "/assets/font/iconfont.wxss";
+.listCont {
+    width: 100%;
+    background-color: #f8f9fd;
+}
+.list{
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.listItem{
+    width: 100%;
+    display: flex;
+    flex: 1;
+    align-items: center;
+    color: #35363a;
+    font-size: 30rpx;
+    padding: 30rpx 0;
+    border-bottom: 2rpx solid #f3f3f3;
+}
+.clickSpe{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+.icon-sousuo{
+    padding: 0 20rpx 0 35rpx;
+    color: #98999d;
+}
+.itemText{
+    flex: 1;
+    height: 100%;
+    
+}
+.active{
+    color: #95969a;
+}
+
+.nolist{
+    color: #577db3;
+    font-size: 30rpx;
+    padding: 35rpx 0 0 35rpx;
+}

@@ -1,0 +1,4 @@
+<!--components/speciallyClick/spec-click-click.wxml-->
+<view class="container" bindtap="onclickCartoon">
+    <text wx:if="{{show}}" class="text {{deepen ? 'active' : ''}}" style="left:{{leftx}}px; top:{{topy}}px"></text>
+</view>

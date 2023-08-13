@@ -1,0 +1,42 @@
+<!--components/search-result-item/search-result-item.wxml-->
+<view class="itemCon">
+    <view class="itemTop">
+        <view class="slot">
+            <slot name="top"></slot>
+        </view>
+        <view class="default">
+            <text class="title">{{title}}</text>
+            <view class="rightIcon">
+                <text class="iconfont icon-24gf-play"></text>
+                <text class="text" bindtap="onAllPlay">播放全部</text>
+            </view>
+        </view>
+    </view>
+    <view class="itemmIddle">
+        <view class="slot">
+            <slot name="Iddle"></slot>
+        </view>
+        <view class="default defaultIddle">
+            <block wx:for="{{singleList}}" wx:key="id">
+                <single-Item
+                    singleValue="{{item}}"
+                    data-index="{{index}}"
+                    class="single-Item"
+                    keyWorld="{{keyWorld}}"
+                    bindtap="onSingleItem"
+                />
+            </block>
+        </view>
+    </view>
+    <view class="itemBottom">
+        <view class="slot">
+            <slot name="Bottom"></slot>
+        </view>
+        <view class="default BottomCon" bindtap="onViewMore">
+            <text>查看更多</text>
+            <text class="keyWorld">{{keyWorld}}</text>
+            <text>{{title}}</text>
+            <text class="iconfont icon-jinru"></text>
+        </view>
+    </view>
+</view>
