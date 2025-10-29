@@ -25,7 +25,14 @@ class HYRequest {
     return this.request({ ...options, method:"get" })
   }
   post(options) {
-    return this.request({ ...options, method:"post" })
+    let { url } = options
+    const timestamp = Date.now()
+    if (url.indexOf('?')===-1) {
+      url += `?timestamp=${timestamp}`
+    } else {
+      url += `&timestamp=${timestamp}`
+    }
+    return this.request({ ...options, url, method:"post" })
   }
 }
 class MapRequest {
